@@ -6,6 +6,18 @@ Skills follow the [Agent Skills](https://agentskills.io/) format.
 
 ## Available Skills
 
+### a11y
+
+Write accessible HTML and CSS following WCAG 2.2 AA standards. Vibe code responsibly and accessibly with semantic HTML, lightweight CSS, and vanilla JavaScript.
+
+Use when:
+
+- Building web components
+- Writing HTML markup
+- Creating forms
+- Adding ARIA attributes
+- Reviewing code for accessibility
+
 ### tiny-css
 
 Write minimal, efficient CSS by leveraging browser defaults and modern CSS features. Stop resetting everything and let the browser do the work.
