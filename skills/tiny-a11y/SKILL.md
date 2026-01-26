@@ -23,6 +23,7 @@ Write as little code as possible. Use native HTML elements that are already acce
 - Use [WCAG 2.2 Understanding](https://www.w3.org/WAI/WCAG22/Understanding/) for accessibility guidance
 - Use [WAI-ARIA 1.2](https://www.w3.org/TR/wai-aria-1.2/) for ARIA attributes
 - Use [APG Gherkin](https://github.com/AFixt/apg-gherkin) for component test cases
+- Use [Design Tokens](https://designtokens.fyi/) for design systems terminology
 
 ---
 
@@ -183,6 +184,95 @@ When native elements aren't enough, follow these APG patterns:
 ---
 
 ## CSS Guidelines
+
+### Use OKLCH for Colors
+
+OKLCH provides a wider color gamut and perceptually uniform lightness.
+
+```css
+:root {
+  --color-primary: oklch(50% 0.2 260);
+  --color-surface: oklch(98% 0 0);
+}
+```
+
+### Use Relative Units
+
+Use `rem`, `em`, `%`, `vw`, `vh` instead of `px`, except for borders.
+
+```css
+/* Don't do this */
+.card {
+  padding: 16px;
+  font-size: 14px;
+}
+
+/* Do this */
+.card {
+  padding: 1rem;
+  font-size: 0.875rem;
+}
+```
+
+### Use Logical Properties
+
+Support all languages and writing directions.
+
+```css
+/* Don't do this */
+.card {
+  margin-left: 1rem;
+  padding-top: 2rem;
+  width: 20rem;
+}
+
+/* Do this */
+.card {
+  margin-inline-start: 1rem;
+  padding-block-start: 2rem;
+  inline-size: 20rem;
+}
+```
+
+### Use Cascade Layers
+
+Organize CSS in this order: `@layer config, resets, components, utilities`.
+
+```css
+@layer config, resets, components, utilities;
+
+@layer config {
+  :root {
+    --color-primary: oklch(50% 0.2 260);
+  }
+}
+
+@layer resets {
+  /* CSS resets */
+}
+
+@layer components {
+  .c-button {
+    /* component styles */
+  }
+}
+
+@layer utilities {
+  .u-visually-hidden {
+    /* utility styles */
+  }
+}
+```
+
+### Use Class Prefixes
+
+- `c-` for component classes
+- `u-` for utility classes
+- `js-` for JavaScript selectors
+
+```html
+<div class="c-card js-accordion">...</div>
+```
 
 ### Use ARIA Attributes as Styling Hooks
 
