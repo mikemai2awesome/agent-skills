@@ -78,7 +78,7 @@ Use `accent-color` to change the color of checkboxes, radio buttons, range slide
 Make SVG icons inherit the current text color automatically.
 
 ```css
-svg {
+:where(svg) {
   fill: currentColor;
 }
 ```
@@ -89,7 +89,7 @@ Ensure buttons remain visible in Windows High Contrast Mode by adding explicit b
 
 ```css
 @media (forced-colors: active) {
-  button {
+  :where(button) {
     border: 1px solid;
   }
 }
@@ -124,16 +124,11 @@ Enable distinct characters for uppercase I, lowercase l, and slashed zero in San
 Prevent widows and improve line breaks.
 
 ```css
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+:where(h1, h2, h3, h4, h5, h6) {
   text-wrap: balance;
 }
 
-p {
+:where(p) {
   text-wrap: pretty;
 }
 ```
@@ -167,10 +162,7 @@ Write CSS that works across all languages and writing directions. Use logical pr
 Ensure images, videos, and iframes scale proportionally.
 
 ```css
-img,
-svg,
-video,
-iframe {
+:where(img, svg, video, iframe) {
   max-inline-size: 100%;
   block-size: auto;
 }
@@ -181,10 +173,7 @@ iframe {
 Provide a baseline hover affordance for all clickable elements.
 
 ```css
-input:is([type="checkbox"], [type="radio"]),
-select,
-label,
-button {
+:where(input:is([type="checkbox"], [type="radio"]), select, label, button) {
   cursor: pointer;
 }
 ```
@@ -288,40 +277,29 @@ Here's a complete minimal base that incorporates all guidelines:
   outline-offset: 2px;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+:where(h1, h2, h3, h4, h5, h6) {
   text-wrap: balance;
 }
 
-p {
+:where(p) {
   text-wrap: pretty;
 }
 
-img,
-svg,
-video,
-iframe {
+:where(img, svg, video, iframe) {
   max-inline-size: 100%;
   block-size: auto;
 }
 
-svg {
+:where(svg) {
   fill: currentColor;
 }
 
-input:is([type="checkbox"], [type="radio"]),
-select,
-label,
-button {
+:where(input:is([type="checkbox"], [type="radio"]), select, label, button) {
   cursor: pointer;
 }
 
 @media (forced-colors: active) {
-  button {
+  :where(button) {
     border: 1px solid;
   }
 }
