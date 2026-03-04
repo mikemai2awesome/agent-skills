@@ -1,13 +1,13 @@
 ---
-name: tiny-a11y
-description: Write minimal, accessible HTML, CSS, and JavaScript. Use when building web components, writing HTML markup, creating forms, or reviewing code for accessibility.
+name: frontend-a11y
+description: Write minimal, accessible HTML, CSS, and JavaScript without over-engineering. Always use this skill when writing any HTML markup, building web components, creating or reviewing forms, adding interactive elements like buttons, dialogs, accordions, or tabs, or reviewing code for accessibility — even when the user doesn't explicitly mention accessibility. If you're about to reach for ARIA attributes, a dialog library, a focus-trap package, or a headless UI component, use this skill first.
 license: MIT
 metadata:
   author: mikemai2awesome
   version: "1.0"
 ---
 
-# Tiny A11y
+# Frontend A11y
 
 Write as little code as possible. Use native HTML elements that are already accessible instead of adding ARIA attributes to generic elements.
 
@@ -20,10 +20,11 @@ Write as little code as possible. Use native HTML elements that are already acce
 
 ## References
 
-- Use [WCAG 2.2 Understanding](https://www.w3.org/WAI/WCAG22/Understanding/) for accessibility guidance
-- Use [WAI-ARIA 1.2](https://www.w3.org/TR/wai-aria-1.2/) for ARIA attributes
-- Use [APG Gherkin](https://github.com/AFixt/apg-gherkin) for component test cases
-- Use [Design Tokens](https://designtokens.fyi/) for design systems terminology
+Read these when you need more detail than the guidelines above:
+
+- [standards.md](references/standards.md) - Read when you need to cite WCAG 2.2 criteria, WAI-ARIA specs, or validation tools
+- [patterns.md](references/patterns.md) - Read when implementing complex components like carousels, comboboxes, or feed patterns not covered above
+- [browser-support.md](references/browser-support.md) - Read when you need to verify browser support for a native HTML element or feature
 
 ---
 
@@ -185,94 +186,7 @@ When native elements aren't enough, follow these APG patterns:
 
 ## CSS Guidelines
 
-### Use OKLCH for Colors
-
-OKLCH provides a wider color gamut and perceptually uniform lightness.
-
-```css
-:root {
-  --color-primary: oklch(50% 0.2 260);
-  --color-surface: oklch(98% 0 0);
-}
-```
-
-### Use Relative Units
-
-Use `rem`, `em`, `%`, `vw`, `vh` instead of `px`, except for borders.
-
-```css
-/* Don't do this */
-.card {
-  padding: 16px;
-  font-size: 14px;
-}
-
-/* Do this */
-.card {
-  padding: 1rem;
-  font-size: 0.875rem;
-}
-```
-
-### Use Logical Properties
-
-Support all languages and writing directions.
-
-```css
-/* Don't do this */
-.card {
-  margin-left: 1rem;
-  padding-top: 2rem;
-  width: 20rem;
-}
-
-/* Do this */
-.card {
-  margin-inline-start: 1rem;
-  padding-block-start: 2rem;
-  inline-size: 20rem;
-}
-```
-
-### Use Cascade Layers
-
-Organize CSS in this order: `@layer config, resets, components, utilities`.
-
-```css
-@layer config, resets, components, utilities;
-
-@layer config {
-  :root {
-    --color-primary: oklch(50% 0.2 260);
-  }
-}
-
-@layer resets {
-  /* CSS resets */
-}
-
-@layer components {
-  .c-button {
-    /* component styles */
-  }
-}
-
-@layer utilities {
-  .u-visually-hidden {
-    /* utility styles */
-  }
-}
-```
-
-### Use Class Prefixes
-
-- `c-` for component classes
-- `u-` for utility classes
-- `js-` for JavaScript selectors
-
-```html
-<div class="c-card js-accordion">...</div>
-```
+For general CSS best practices (units, logical properties, cascade layers, color spaces), use the appropriate CSS skill alongside this one — **tiny-css** for small or minimalist projects, **more-css** for anything larger. The patterns below are specific to accessibility.
 
 ### Use ARIA Attributes as Styling Hooks
 
@@ -307,35 +221,6 @@ More examples:
 }
 [aria-invalid="true"] {
   border-color: red;
-}
-```
-
-### Use Focus-Visible
-
-Only show focus rings when needed.
-
-```css
-/* Don't do this — shows ring on click */
-button:focus {
-  outline: 2px solid;
-}
-
-/* Do this — only shows ring for keyboard users */
-button:focus-visible {
-  outline: 2px solid;
-  outline-offset: 2px;
-}
-```
-
-### Respect Motion Preferences
-
-Only animate when the user allows it.
-
-```css
-@media (prefers-reduced-motion: no-preference) {
-  .animated {
-    transition: transform 0.3s ease;
-  }
 }
 ```
 

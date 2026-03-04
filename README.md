@@ -6,27 +6,50 @@ Skills follow the [Agent Skills](https://agentskills.io/) format.
 
 ## Available Skills
 
-### tiny-a11y
+### frontend-a11y
 
-Write minimal, accessible HTML, CSS, and JavaScript. Stop bloating the codebase and let the browser do the work.
+Write minimal, accessible HTML, CSS, and JavaScript without over-engineering. Uses native browser elements instead of ARIA-hacking generic divs, component libraries, or focus-trap packages.
 
 Use when:
 
-- Building web components
-- Writing HTML markup
-- Creating forms
+- Writing any HTML markup
+- Building web components or interactive elements (buttons, dialogs, accordions, tabs)
+- Creating or reviewing forms
 - Reviewing code for accessibility
+
+Pair with **tiny-css** or **more-css** for CSS guidance.
 
 ### tiny-css
 
-Write minimal, efficient CSS by leveraging browser defaults and modern CSS features. Stop resetting everything and let the browser do the work.
+Write minimal, efficient CSS for small or minimalist projects by trusting the browser instead of fighting it. For anything beyond a personal site or prototype, use **more-css** instead.
 
 Use when:
 
-- Writing CSS stylesheets
-- Creating base styles or resets
-- Setting up a new project's CSS architecture
+- Working on a personal site, prototype, or simple landing page
+- Setting up base styles without a build system
 - Reviewing CSS for unnecessary declarations
+
+### more-css
+
+The default CSS skill for real projects. Write scalable CSS using design tokens (`@layer config`), cascade layers, BEM naming, and preprocessors.
+
+Use when:
+
+- Working on any multi-component or team project
+- Setting up a design token system and `config/` layer
+- Organizing CSS across many components with `@layer config, resets, components, utilities, overrides`
+- Using Sass or PostCSS
+
+### format-storybook
+
+Structure and organize Storybook files for scalability using battle-tested patterns. Covers story files, template files, controls, visual regression testing, and component documentation.
+
+Use when:
+
+- Creating or editing any Storybook story file
+- Writing template files with Lit
+- Organizing a component library
+- Setting up visual regression tests with Chromatic
 
 ## Installation
 

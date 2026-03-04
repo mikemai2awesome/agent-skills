@@ -1,6 +1,6 @@
 ---
 name: tiny-css
-description: Write minimal, efficient CSS by leveraging browser defaults and modern CSS features. Use when writing CSS, creating stylesheets, setting up base styles, or reviewing CSS for unnecessary declarations.
+description: Write minimal, efficient CSS for small or minimalist projects by trusting the browser instead of fighting it. Only use this skill for personal sites, prototypes, simple landing pages, or projects intentionally kept lean — if the project has multiple developers, a component library, a design token system, or more than a handful of CSS files, use more-css instead. If you're about to write a CSS reset, declare a base font-size on :root, set default colors on body, use px for spacing, or reach for physical margin/padding properties, this skill will stop you.
 license: MIT
 metadata:
   author: mikemai2awesome
@@ -9,7 +9,7 @@ metadata:
 
 # Tiny CSS
 
-Write as little CSS as possible. Leverage browser defaults and modern CSS features instead of overriding everything.
+For small, minimalist projects — personal sites, prototypes, simple landing pages. Write as little CSS as possible and let the browser do the rest. If the project is growing beyond a handful of files or needs a token system, naming conventions, or preprocessors, use **more-css** instead.
 
 ## Core Principles
 
@@ -213,52 +213,13 @@ Apply smooth scrolling only when the user hasn't requested reduced motion.
 }
 ```
 
-### Use ARIA Attributes as Styling Hooks
+## References
 
-Style components based on their accessibility state rather than creating modifier classes.
+Read when you need more detail than the guidelines above:
 
-```css
-/* Don't do this */
-.accordion-header--collapsed {
-  /* collapsed styles */
-}
-.accordion-header--expanded {
-  /* expanded styles */
-}
+- [modern-css.md](references/modern-css.md) - Read when you need specifics on modern CSS features, browser support for user preference queries, advanced typography options, or CSS tooling recommendations
 
-/* Do this */
-[aria-expanded="false"] {
-  /* collapsed styles */
-}
-[aria-expanded="true"] {
-  /* expanded styles */
-}
-```
-
-More examples:
-
-```css
-/* Navigation states */
-[aria-current="page"] {
-  font-weight: bold;
-}
-
-/* Disabled states */
-[aria-disabled="true"] {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Selected states */
-[aria-selected="true"] {
-  background-color: highlight;
-}
-
-/* Invalid form fields */
-[aria-invalid="true"] {
-  border-color: red;
-}
-```
+---
 
 ## Minimal Base Stylesheet
 
