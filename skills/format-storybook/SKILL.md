@@ -63,7 +63,7 @@ Group controls into logical categories for easy navigation:
 argTypes: {
   size: {
     control: "select",
-    options: ["small", "medium", "large"],
+    options: ["sm", "md", "lg"],
     description: "The size of the button",
     table: { category: "Variant" }
   },
@@ -83,7 +83,7 @@ Always provide sensible defaults so the primary story renders in a useful state:
 
 ```javascript
 args: {
-  size: "medium",
+  size: "md",
   isDisabled: false,
   label: "Click me"
 }
@@ -147,7 +147,7 @@ export const Template = (args, context) => {
     testId,
     customClasses = [],
     customStyles = {},
-    size = "medium",
+    size = "md",
     isDisabled = false,
     label = "Button"
   } = args;
@@ -392,12 +392,12 @@ export default {
   argTypes: {
     size: {
       control: "select",
-      options: ["small", "medium", "large"],
+      options: ["sm", "md", "lg"],
       table: { category: "Variant" }
     }
   },
   args: {
-    size: "medium",
+    size: "md",
     label: "Click me"
   }
 };
@@ -412,7 +412,7 @@ import { html } from "lit";
 import { classMap } from "lit/directives/class-map.js";
 
 export const Template = (args) => {
-  const { rootClass = "button", size = "medium", label = "Button" } = args;
+  const { rootClass = "button", size = "md", label = "Button" } = args;
   
   return html`
     <button class=${classMap({

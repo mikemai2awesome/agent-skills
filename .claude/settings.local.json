@@ -4,7 +4,8 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(wc -l /Users/mikemai/Sites/agent-skills/skills/tiny-a11y/references/*.md /Users/mikemai/Sites/agent-skills/skills/tiny-css/references/*.md /Users/mikemai/Sites/agent-skills/skills/format-storybook/references/*.md)",
       "Bash(grep -n \"pattern\\\\|p-stack\\\\|p-grid\\\\|p-\\\\`\\\\|\\\\.p-\" /Users/mikemai/Sites/agent-skills/skills/more-css/SKILL.md)",
-      "Bash(wc -l /Users/mikemai/Sites/agent-skills/skills/*/SKILL.md)"
+      "Bash(wc -l /Users/mikemai/Sites/agent-skills/skills/*/SKILL.md)",
+      "WebFetch(domain:mikemai.net)"
     ]
   }
 }

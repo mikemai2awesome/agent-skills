@@ -68,30 +68,40 @@ Define all color tokens in OKLCH. It has a wider gamut than sRGB, perceptually u
 
 ```css
 /* Don't do this — hex values aren't perceptually predictable */
---color-brand-primary: #0066cc;
---color-brand-primary-hover: #0052a3; /* how much darker is this? */
+--color-bg-primary: #0066cc;
+--color-bg-primary-hover: #0052a3; /* how much darker is this? */
 
 /* Do this — lightness is explicit and adjustable */
---color-brand-primary: oklch(50% 0.2 260);
---color-brand-primary-hover: oklch(43% 0.2 260); /* clearly 7% darker */
+--color-bg-primary: oklch(50% 0.2 260);
+--color-bg-primary-hover: oklch(43% 0.2 260); /* clearly 7% darker */
 ```
 
 This also makes dark mode token overrides straightforward — flip lightness, keep chroma and hue.
 
 ### Naming Convention
 
-Use a `--[category]-[variant]-[modifier]` pattern:
+Use a `--[category]-[variant]-[modifier]` pattern. For color tokens, use `text`, `bg`, or `border` as the variant — no other color groupings:
 
 ```css
 @layer config {
   :root {
-    /* Color */
-    --color-brand-primary: oklch(50% 0.2 260);
-    --color-brand-primary-hover: oklch(45% 0.2 260);
-    --color-surface-default: oklch(98% 0 0);
-    --color-surface-subtle: oklch(95% 0 0);
-    --color-text-default: oklch(15% 0 0);
-    --color-text-muted: oklch(45% 0 0);
+    color-scheme: light dark;
+
+    /* Color — text */
+    --color-text-default: light-dark(oklch(15% 0 0), oklch(92% 0 0));
+    --color-text-muted: light-dark(oklch(45% 0 0), oklch(65% 0 0));
+    --color-text-on-primary: oklch(99% 0 0);
+    --color-text-primary: oklch(50% 0.2 260);
+
+    /* Color — bg */
+    --color-bg-default: light-dark(oklch(98% 0 0), oklch(15% 0 0));
+    --color-bg-subtle: light-dark(oklch(95% 0 0), oklch(20% 0 0));
+    --color-bg-primary: oklch(50% 0.2 260);
+    --color-bg-primary-hover: oklch(43% 0.2 260);
+
+    /* Color — border */
+    --color-border-default: light-dark(oklch(80% 0 0), oklch(35% 0 0));
+    --color-border-primary: oklch(50% 0.2 260);
 
     /* Spacing */
     --space-1: 0.25rem;
@@ -122,7 +132,6 @@ Use a `--[category]-[variant]-[modifier]` pattern:
     --border-radius-md: 0.5rem;
     --border-radius-lg: 0.75rem;
     --border-width: 1px;
-    --border-color-default: oklch(80% 0 0);
 
     /* Shadow */
     --shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.08);
@@ -141,25 +150,13 @@ Use a `--[category]-[variant]-[modifier]` pattern:
 
 ### Theming with Tokens
 
-Override tokens at a scope level — don't create parallel class systems:
+Define each theme-aware token once using `light-dark()` and let the browser switch automatically based on `color-scheme`. For user-togglable themes, just flip `color-scheme` — no token values need to be repeated:
 
 ```css
 @layer config {
-  /* Dark mode via system preference */
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --color-surface-default: oklch(15% 0 0);
-      --color-surface-subtle: oklch(20% 0 0);
-      --color-text-default: oklch(92% 0 0);
-      --color-text-muted: oklch(65% 0 0);
-    }
-  }
-
-  /* Dark mode via class (when user can toggle) */
-  [data-theme="dark"] {
-    --color-surface-default: oklch(15% 0 0);
-    --color-text-default: oklch(92% 0 0);
-  }
+  /* User-toggled theme — light-dark() reads color-scheme automatically */
+  [data-theme="light"] { color-scheme: light; }
+  [data-theme="dark"] { color-scheme: dark; }
 }
 ```
 
@@ -193,12 +190,9 @@ Use BEM (Block, Element, Modifier) for components — it's verbose but unambiguo
 
 ### Class Prefixes
 
-Prefix classes by role so their purpose is visible in HTML:
+Use the `c-` prefix for components, `u-` for utilities, and `js-` for JavaScript hooks (never styled). For namespacing conventions and the full naming system, see **frontend-conventions**.
 
-- `c-` — component (`.c-button`, `.c-card`)
-- `u-` — utility (`.u-visuallyhidden`, `.u-truncate`)
-- `js-` — JavaScript hook, never styled (`.js-dropdown-trigger`)
-- `is-` / `has-` — state (`.is-loading`, `.has-error`) — prefer ARIA attribute selectors where possible
+State classes use `is-` / `has-` (e.g. `.is-loading`, `.has-error`), but prefer ARIA attribute selectors where possible — see **frontend-a11y**.
 
 ```html
 <div class="c-card c-card--featured js-expandable">
@@ -232,7 +226,7 @@ Each component file should follow a consistent internal structure:
     line-height: var(--line-height-tight);
 
     /* Visual */
-    background-color: var(--color-brand-primary);
+    background-color: var(--color-bg-primary);
     color: var(--color-text-on-primary);
     border: var(--border-width) solid transparent;
     border-radius: var(--border-radius-md);
@@ -244,11 +238,11 @@ Each component file should follow a consistent internal structure:
 
   /* 2. States */
   .c-button:hover {
-    background-color: var(--color-brand-primary-hover);
+    background-color: var(--color-bg-primary-hover);
   }
 
   .c-button:focus-visible {
-    outline: 2px solid var(--color-brand-primary);
+    outline: 2px solid var(--color-border-primary);
     outline-offset: 2px;
   }
 
@@ -261,8 +255,8 @@ Each component file should follow a consistent internal structure:
   /* 3. Modifiers */
   .c-button--ghost {
     background-color: transparent;
-    border-color: var(--color-brand-primary);
-    color: var(--color-brand-primary);
+    border-color: var(--color-border-primary);
+    color: var(--color-text-primary);
   }
 
   .c-button--sm {
@@ -283,7 +277,7 @@ Use `:focus-visible` (not `:focus`) for keyboard-only focus rings, and always re
 
 ```css
 .c-button:focus-visible {
-  outline: 2px solid var(--color-brand-primary);
+  outline: 2px solid var(--color-border-primary);
   outline-offset: 2px;
 }
 ```
@@ -334,7 +328,7 @@ $color-primary: #0066cc;
 
 // Do this — CSS custom properties work with theming and dark mode
 :root {
-  --color-brand-primary: oklch(50% 0.2 260);
+  --color-bg-primary: oklch(50% 0.2 260);
 }
 ```
 
@@ -349,8 +343,7 @@ $color-primary: #0066cc;
 | One-off helper          | `.u-` class in `@layer utilities`                        |
 | JS needs a hook         | `.js-` class, never styled                               |
 | Component state         | ARIA attribute selector, then `.is-`/`.has-`             |
-| Theming                 | Override tokens at `[data-theme]` scope                  |
-| Dark mode               | Override tokens in `@media (prefers-color-scheme: dark)` |
+| Theming / dark mode     | `light-dark()` in tokens; `color-scheme` to toggle       |
 
 ## References
 

@@ -6,6 +6,17 @@ Skills follow the [Agent Skills](https://agentskills.io/) format.
 
 ## Available Skills
 
+### frontend-conventions
+
+Establish and enforce consistent coding standards across HTML, CSS, and JavaScript — formatting, naming cases, class prefixes, acceptable abbreviations, modifier APIs (sizes, shades, hierarchy, breakpoints), and CSS property order.
+
+Use when:
+
+- Naming a new class, variable, component, or file
+- Setting up a new project's coding conventions
+- Choosing a prefix for a new CSS category
+- Reviewing code for naming or formatting consistency
+
 ### frontend-a11y
 
 Write minimal, accessible HTML, CSS, and JavaScript without over-engineering. Uses native browser elements instead of ARIA-hacking generic divs, component libraries, or focus-trap packages.
