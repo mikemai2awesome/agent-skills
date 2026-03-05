@@ -18,14 +18,6 @@ Write as little code as possible. Use native HTML elements that are already acce
 3. **Less is more** — Every ARIA attribute you don't write is one less thing to break
 4. **Native first** — Use `<dialog>`, `<details>`, `<button>` before reaching for JavaScript
 
-## References
-
-Read these when you need more detail than the guidelines above:
-
-- [standards.md](references/standards.md) - Read when you need to cite WCAG 2.2 criteria, WAI-ARIA specs, or validation tools
-- [patterns.md](references/patterns.md) - Read when implementing complex components like carousels, comboboxes, or feed patterns not covered above
-- [browser-support.md](references/browser-support.md) - Read when you need to verify browser support for a native HTML element or feature
-
 ---
 
 ## HTML Guidelines
@@ -311,3 +303,11 @@ Audit it before shipping:
 4. Check the library's GitHub issues for open accessibility bugs
 
 If it fails any of these, write the component natively instead.
+
+## References
+
+Read these when you need more detail than the guidelines above:
+
+- [standards.md](references/standards.md) - Read when you need to cite WCAG 2.2 criteria, WAI-ARIA specs, or validation tools
+- [patterns.md](references/patterns.md) - Read when implementing complex components like carousels, comboboxes, or feed patterns not covered above
+- [browser-support.md](references/browser-support.md) - Read when you need to verify browser support for a native HTML element or feature
