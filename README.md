@@ -1,8 +1,8 @@
 # Agent Skills
 
-A collection of skills for AI coding agents. Skills are packaged instructions that extend agent capabilities.
+A collection of skills for AI coding agents. Skills are packaged instructions that extend agent capabilities. Skills follow the [Agent Skills](https://code.claude.com/docs/en/skills) format.
 
-Skills follow the [Agent Skills](https://agentskills.io/) format.
+All skills here reflect the way Mike Mai codes.
 
 ## Available Skills
 
