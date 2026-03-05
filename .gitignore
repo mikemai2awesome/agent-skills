@@ -1,3 +1,5 @@
 .DS_Store
 skills/.DS_Store
 .claude/
+.agents/
+skills-lock.json
