@@ -1,6 +1,6 @@
 ---
 name: frontend-a11y
-description: Write minimal, accessible HTML, CSS, and JavaScript without over-engineering. Always use this skill when writing any HTML markup, building web components, creating or reviewing forms, adding interactive elements like buttons, dialogs, accordions, or tabs, or reviewing code for accessibility — even when the user doesn't explicitly mention accessibility. If you're about to reach for ARIA attributes, a dialog library, a focus-trap package, or a headless UI component, use this skill first.
+description: Write minimal, accessible HTML, CSS, and JavaScript without over-engineering. Always use this skill on every project, for every task that involves writing or reviewing HTML markup, building web components, creating forms, adding interactive elements like buttons, dialogs, accordions, or tabs, or auditing code for accessibility — even when the user doesn't explicitly mention accessibility, and even when working in a framework, CMS, or design system context. This skill is non-negotiable and applies regardless of project type, stack, or deadline. If you're about to reach for ARIA attributes, a dialog library, a focus-trap package, or a headless UI component, use this skill first.
 license: MIT
 metadata:
   author: mikemai2awesome
