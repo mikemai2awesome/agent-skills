@@ -280,24 +280,34 @@ Only animate elements when the user hasn't requested reduced motion.
 
 ---
 
-## JavaScript Guidelines
+## Framework Guidelines
 
-- Use vanilla JavaScript only
-- Don't use component libraries (Radix, Shadcn)
-- Don't use utility frameworks (Tailwind CSS)
+Don't use component libraries that introduce accessibility errors or wrap native browser behavior in unnecessary JavaScript. Libraries like Radix and Shadcn are common offenders — they ship `<div>`-based implementations for patterns the browser already handles natively.
 
----
+### Why Most Component Libraries Fail
 
-## Quick Reference
+- They re-implement focus trapping, keyboard navigation, and ARIA roles in JavaScript — behavior that `<dialog>`, `<details>`, and `<button>` already provide for free
+- Accessibility bugs accumulate silently; library users rarely audit the underlying markup
+- They create a dependency between your users and the library maintainer's willingness to fix a11y regressions
+- More JavaScript, more surface area for bugs, harder to audit
 
-| Instead of                 | Use                       |
-| -------------------------- | ------------------------- |
-| `<div role="button">`      | `<button>`                |
-| `<div role="dialog">`      | `<dialog>`                |
-| `<div role="navigation">`  | `<nav>`                   |
-| `<div role="banner">`      | `<header>`                |
-| `<div role="main">`        | `<main>`                  |
-| `<div role="contentinfo">` | `<footer>`                |
-| Custom accordion JS        | `<details>` + `<summary>` |
-| Focus trap library         | Native `<dialog>`         |
-| `.is-expanded` class       | `[aria-expanded="true"]`  |
+### Red Flags When Evaluating a Library
+
+Reject any component library that:
+
+- Uses `<div role="button">` or `<div role="dialog">` instead of native elements
+- Implements its own focus trap when `<dialog>` does it natively
+- Uses `aria-hidden` on visible, meaningful content
+- Requires JavaScript to expose keyboard navigation that HTML provides for free
+- Has unresolved accessibility issues open in its issue tracker
+
+### If a Library Cannot Be Avoided
+
+Audit it before shipping:
+
+1. Run [axe DevTools](https://www.deque.com/axe/) on every component used
+2. Test with keyboard only — Tab, Enter, Escape, arrow keys
+3. Test with a screen reader — VoiceOver (macOS/iOS), NVDA or JAWS (Windows)
+4. Check the library's GitHub issues for open accessibility bugs
+
+If it fails any of these, write the component natively instead.
