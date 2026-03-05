@@ -1,6 +1,6 @@
 ---
 name: format-storybook
-description: Structure and organize Storybook files for scalability using battle-tested patterns. Always use this skill when creating or editing any Storybook story file, writing template files, organizing a component library, setting up visual regression tests with Chromatic, or when the user asks anything about Storybook — even casual questions about file structure, controls, args, or how to document a component.
+description: Structure and organize Storybook files for scalability using battle-tested patterns. Based on "A Storybook format that scales with you" by Cassondra Roberts. Always use this skill when creating or editing any Storybook story file, writing template files, organizing a component library, setting up visual regression tests with Chromatic, or when the user asks anything about Storybook — even casual questions about file structure, controls, args, or how to document a component.
 license: MIT
 metadata:
   author: mikemai2awesome
@@ -8,6 +8,8 @@ metadata:
 ---
 
 # Format Storybook
+
+> Based on "[A Storybook format that scales with you](https://allons-y.llc/posts/2025-10-31/)" by Cassondra Roberts.
 
 This skill provides patterns and conventions for building maintainable Storybook implementations that scale with your component library.
 
