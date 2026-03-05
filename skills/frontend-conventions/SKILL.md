@@ -180,25 +180,30 @@ Write CSS properties in this order within every rule. Grouping by concern (displ
 
   /* Position */
   position;
-  top;
-  right;
-  bottom;
-  left;
+  inset;
+  inset-block;
+  inset-block-start;
+  inset-block-end;
+  inset-inline;
+  inset-inline-start;
+  inset-inline-end;
   float;
   clear;
   transform;
   z-index;
 
   /* Size */
-  width;
-  min-width;
-  max-width;
-  height;
-  min-height;
-  max-height;
+  inline-size;
+  min-inline-size;
+  max-inline-size;
+  block-size;
+  min-block-size;
+  max-block-size;
   overflow;
+  overflow-block;
+  overflow-inline;
 
-  /* Space — prefer logical properties (margin-inline, padding-block) */
+  /* Space */
   margin;
   margin-block;
   margin-block-start;
