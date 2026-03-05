@@ -1,0 +1,55 @@
+{
+  "skill_name": "more-css",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Define color design tokens for a project with light and dark mode support.",
+      "expected_output": "Uses @layer config, OKLCH colors, light-dark() for theme-sensitive tokens, and strict text-/bg-/border- naming.",
+      "files": [],
+      "expectations": [
+        "Defines tokens inside @layer config",
+        "Uses OKLCH for all color values",
+        "Uses light-dark() for tokens that differ between light and dark mode",
+        "Names color tokens with text-, bg-, or border- prefix only — no brand-, surface-, or palette- names",
+        "Sets color-scheme: light dark on :root",
+        "Does not use @media (prefers-color-scheme) to define token overrides"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Build a button component in CSS.",
+      "expected_output": "Uses @layer components, c- prefix, BEM naming, and only token references — no hardcoded values.",
+      "files": [],
+      "expectations": [
+        "Places styles inside @layer components",
+        "Uses c- prefix on the component class (e.g. .c-button)",
+        "References only CSS custom properties — no hardcoded colors, sizes, or font values",
+        "Uses :focus-visible (not :focus) for focus ring styles",
+        "Uses logical properties for padding (padding-block, padding-inline)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Set up user-toggleable light and dark themes.",
+      "expected_output": "Uses light-dark() in config tokens and flips color-scheme via [data-theme] attribute — no repeated token values.",
+      "files": [],
+      "expectations": [
+        "Does not repeat token values for dark mode",
+        "Uses [data-theme='dark'] { color-scheme: dark } to trigger dark mode",
+        "Uses [data-theme='light'] { color-scheme: light } for light mode override",
+        "Does not use @media (prefers-color-scheme) as a manual theme override mechanism"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Declare the CSS layer order for a new project.",
+      "expected_output": "Declares all layers upfront in the correct order: config, resets, components, utilities, overrides.",
+      "files": [],
+      "expectations": [
+        "Uses @layer to declare all layers at the top of the main CSS file",
+        "Includes config, resets, components, utilities, and overrides in that order",
+        "Does not use Tailwind, Bootstrap, or any CSS framework"
+      ]
+    }
+  ]
+}

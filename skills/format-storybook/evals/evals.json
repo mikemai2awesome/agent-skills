@@ -1,0 +1,56 @@
+{
+  "skill_name": "format-storybook",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a Storybook story file for a Button component with size and disabled state controls.",
+      "expected_output": "Default export with argTypes using table.category grouping, args with sensible defaults including size: 'md', and named stories using Template.bind({}).",
+      "files": [],
+      "expectations": [
+        "Default export includes title, component, argTypes, and args",
+        "size control uses options ['sm', 'md', 'lg'] — not ['small', 'medium', 'large']",
+        "Default args include size: 'md' (not 'medium' or 'default')",
+        "Controls are categorized using table: { category: 'Variant' } or 'State'",
+        "Stories use Template.bind({}) pattern",
+        "Story names do not repeat the component name (e.g. 'Default' not 'Button Default')"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Create a template.js file for the Button component.",
+      "expected_output": "Exports a Template function using lit html, accepts standard args including rootClass and customClasses, uses classMap and ifDefined directives.",
+      "files": [],
+      "expectations": [
+        "Exports a named Template function",
+        "Accepts rootClass, id, testId, customClasses, customStyles as standard args",
+        "Uses classMap for conditional classes",
+        "Uses ifDefined for optional attributes like id and data-testid",
+        "Does not hardcode class names — uses rootClass as the base"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Set up a visual regression test file for Chromatic.",
+      "expected_output": "Creates a component.test.js that groups states into a grid, tags stories with !autodocs and !dev to hide them from the sidebar.",
+      "files": [],
+      "expectations": [
+        "Imports Template from template.js",
+        "Sets chromatic: { disableSnapshot: false } in parameters",
+        "Tags VRT stories with ['!autodocs', '!dev']",
+        "Does not duplicate markup from the template"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "A nested Dropdown component needs to render a Button inside it. How should the template compose this?",
+      "expected_output": "Imports Button's Template from its stories/template.js and calls it inside the Dropdown template — does not copy the button markup.",
+      "files": [],
+      "expectations": [
+        "Imports Template from the Button's template.js file using an alias (e.g. @design-system/button/stories/template.js)",
+        "Calls the imported Button Template function inside the Dropdown template",
+        "Does not duplicate button HTML markup",
+        "Uses path alias import — not a relative path like ../../../button/stories/template.js"
+      ]
+    }
+  ]
+}

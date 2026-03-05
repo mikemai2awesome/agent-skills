@@ -1,0 +1,50 @@
+{
+  "skill_name": "frontend-conventions",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Name the CSS classes for a new card component with a header element and a featured variant.",
+      "expected_output": "Uses c- prefix, BEM structure, and dash-case throughout.",
+      "files": [],
+      "expectations": [
+        "Block class uses c- prefix: e.g. c-card",
+        "Element class uses BEM double underscore: e.g. c-card__header",
+        "Modifier class uses BEM double dash: e.g. c-card--featured",
+        "All names are dash-case"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Name a JavaScript variable for the current user's display name and a JavaScript class for a form validator.",
+      "expected_output": "Variable uses camelCase, class uses PascalCase.",
+      "files": [],
+      "expectations": [
+        "Variable name is camelCase (e.g. displayName or currentUserDisplayName)",
+        "Class name is PascalCase (e.g. FormValidator)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Add a size modifier to a heading component that applies only from the md breakpoint and up.",
+      "expected_output": "Uses the 2xl size abbreviation and @from-md responsive suffix.",
+      "files": [],
+      "expectations": [
+        "Uses abbreviated size from the scale: 2xs, xs, sm, md, lg, xl, 2xl",
+        "Uses @from-md suffix (not min-md, from-medium, or other patterns)",
+        "Does not use spelled-out sizes like 'large', 'xxlarge', or 'xlarge'"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Name a CSS custom property for the primary background color scoped to a card component in the mmn project.",
+      "expected_output": "Uses --c-mmn-card-bg-primary following the scoped naming pattern.",
+      "files": [],
+      "expectations": [
+        "Uses --dash-case for the custom property",
+        "Includes the c- prefix for component scope",
+        "Includes the mmn namespace",
+        "Uses bg- for background color (not brand-, surface-, or color-)"
+      ]
+    }
+  ]
+}

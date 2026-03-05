@@ -1,0 +1,50 @@
+{
+  "skill_name": "tiny-css",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Set up a base stylesheet for a small personal site.",
+      "expected_output": "Uses system-ui font, color-scheme, and minimal defaults — no font-size reset on :root or body.",
+      "files": [],
+      "expectations": [
+        "Does not set font-size on :root, html, or body",
+        "Sets color-scheme: light dark on :root",
+        "Uses font-family: system-ui",
+        "Does not declare color or background-color on body"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Make images and videos responsive so they never overflow their container.",
+      "expected_output": "Uses max-inline-size: 100% and block-size: auto on img, svg, video, and iframe.",
+      "files": [],
+      "expectations": [
+        "Uses max-inline-size instead of max-width",
+        "Uses block-size: auto instead of height: auto",
+        "Targets img, svg, video, iframe"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Add smooth scrolling to the page.",
+      "expected_output": "Wraps scroll-behavior: smooth in a prefers-reduced-motion: no-preference media query.",
+      "files": [],
+      "expectations": [
+        "Uses @media (prefers-reduced-motion: no-preference)",
+        "Sets scroll-behavior: smooth inside that media query",
+        "Does not apply scroll-behavior: smooth unconditionally"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Add a hover pointer cursor to buttons, checkboxes, and select elements.",
+      "expected_output": "Uses a single :where() rule targeting interactive elements.",
+      "files": [],
+      "expectations": [
+        "Uses :where() to avoid specificity side effects",
+        "Targets button, input[type='checkbox'], input[type='radio'], select, and label",
+        "Sets cursor: pointer"
+      ]
+    }
+  ]
+}

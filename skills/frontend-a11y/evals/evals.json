@@ -1,0 +1,42 @@
+{
+  "skill_name": "frontend-a11y",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create an accordion component that shows and hides content when a header is clicked.",
+      "expected_output": "Uses native <details> and <summary> elements with no JavaScript.",
+      "files": [],
+      "expectations": [
+        "Uses <details> and <summary> elements",
+        "Does not use aria-expanded or aria-controls",
+        "Does not add any JavaScript for toggle behavior",
+        "Does not use a div with role='button'"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Add a modal dialog to the page that opens when a button is clicked and can be closed with Escape.",
+      "expected_output": "Uses native <dialog> element with showModal(), no focus-trap library.",
+      "files": [],
+      "expectations": [
+        "Uses <dialog> element",
+        "Uses showModal() to open the dialog",
+        "Does not import or reference a focus-trap library",
+        "Does not use <div role='dialog'>",
+        "Does not manually implement Escape key handling — notes it is built-in"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Review this markup and fix any accessibility issues: <div role='button' tabindex='0' onclick='handleClick()'>Submit</div>",
+      "expected_output": "Replaces the div with a native <button> element and explains why.",
+      "files": [],
+      "expectations": [
+        "Replaces <div role='button'> with <button>",
+        "Removes the tabindex attribute as no longer needed",
+        "Explains that native button has built-in keyboard support and ARIA semantics",
+        "Does not keep the div and add more ARIA attributes to it"
+      ]
+    }
+  ]
+}

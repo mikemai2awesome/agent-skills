@@ -116,10 +116,10 @@ Use a `--[category]-[variant]-[modifier]` pattern. For color tokens, use `text`,
     --space-16: 4rem;
 
     /* Typography */
-    --font-family-base: system-ui, sans-serif;
-    --font-family-mono: ui-monospace, monospace;
+    --font-family: system-ui, sans-serif;
+    --font-family-code: ui-monospace, monospace;
     --font-size-sm: 0.875rem;
-    --font-size-base: 1rem;
+    --font-size-md: 1rem;
     --font-size-lg: 1.125rem;
     --font-size-xl: 1.25rem;
     --font-size-2xl: 1.5rem;
@@ -202,7 +202,7 @@ State classes use `is-` / `has-` (e.g. `.is-loading`, `.has-error`), but prefer 
 
 ```html
 <div class="c-card c-card--featured js-expandable">
-  <header class="c-card__header">...</header>
+  <div class="c-card__header">...</div>
 </div>
 ```
 
@@ -226,8 +226,8 @@ Each component file should follow a consistent internal structure:
     padding-inline: var(--space-4);
 
     /* Typography */
-    font-family: var(--font-family-base);
-    font-size: var(--font-size-base);
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-tight);
 
