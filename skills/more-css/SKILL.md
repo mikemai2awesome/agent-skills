@@ -13,6 +13,8 @@ The default CSS skill for real projects. Use this whenever the project isn't exp
 
 Write CSS that scales across components, themes, teams, and time by making intentional decisions about structure, tokens, and tooling — rather than trusting browser defaults and hoping for the best.
 
+> **No frameworks.** Do not use TailwindCSS, UnoCSS, Bootstrap, or any other CSS framework. Write vanilla CSS only. If a utility layer is needed, build it — don't import it.
+
 ## Core Principles
 
 1. **Tokens first** — Define values once as custom properties; reference everywhere
