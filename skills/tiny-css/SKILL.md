@@ -9,7 +9,7 @@ metadata:
 
 # Tiny CSS
 
-For small, minimalist projects — personal sites, prototypes, simple landing pages. Write as little CSS as possible and let the browser do the rest. If the project is growing beyond a handful of files or needs a token system, naming conventions, or preprocessors, use **more-css** instead.
+For small, minimalist projects — personal sites, prototypes, simple landing pages. Write as little CSS as possible and let the browser do the rest. If the project is growing beyond a handful of files or needs a token system or naming conventions, use **more-css** instead.
 
 ## Core Principles
 
@@ -37,6 +37,31 @@ body {
 }
 
 /* Do nothing — the browser already handles this */
+```
+
+### Use System Font with Better Glyphs
+
+Enable distinct characters for uppercase I, lowercase l, and slashed zero in San Francisco font.
+
+```css
+:root {
+  font-family: system-ui;
+  font-feature-settings: "ss06";
+}
+```
+
+### Improve Text Wrapping
+
+Prevent widows and improve line breaks.
+
+```css
+:where(h1, h2, h3, h4, h5, h6) {
+  text-wrap: balance;
+}
+
+:where(p) {
+  text-wrap: pretty;
+}
 ```
 
 ### Don't Declare Default Colors
@@ -83,56 +108,6 @@ Make SVG icons inherit the current text color automatically.
 }
 ```
 
-### Support Forced Colors Mode
-
-Ensure buttons remain visible in Windows High Contrast Mode by adding explicit borders.
-
-```css
-@media (forced-colors: active) {
-  :where(button) {
-    border: 1px solid;
-  }
-}
-```
-
-### Handle Reduced Transparency
-
-Only apply translucent or glassy effects when the user hasn't requested reduced transparency.
-
-```css
-@media (prefers-reduced-transparency: no-preference) {
-  .glass-panel {
-    background: oklch(100% 0 0 / 0.8);
-    backdrop-filter: blur(1rem);
-  }
-}
-```
-
-### Use System Font with Better Glyphs
-
-Enable distinct characters for uppercase I, lowercase l, and slashed zero in San Francisco font.
-
-```css
-:root {
-  font-family: system-ui;
-  font-feature-settings: "ss06";
-}
-```
-
-### Improve Text Wrapping
-
-Prevent widows and improve line breaks.
-
-```css
-:where(h1, h2, h3, h4, h5, h6) {
-  text-wrap: balance;
-}
-
-:where(p) {
-  text-wrap: pretty;
-}
-```
-
 ### Use Logical Properties
 
 Write CSS that works across all languages and writing directions. Use logical properties instead of physical ones.
@@ -145,7 +120,7 @@ Write CSS that works across all languages and writing directions. Use logical pr
   padding-top: 2rem;
   padding-bottom: 2rem;
   width: 20rem;
-  height: auto;
+  min-height: 20rem;
 }
 
 /* Do this */
@@ -153,7 +128,7 @@ Write CSS that works across all languages and writing directions. Use logical pr
   margin-inline: 1rem;
   padding-block: 2rem;
   inline-size: 20rem;
-  block-size: auto;
+  min-block-size: 20rem;
 }
 ```
 
@@ -178,25 +153,14 @@ Provide a baseline hover affordance for all clickable elements.
 }
 ```
 
-### Create Consistent Focus Outlines
+### Support Forced Colors Mode
 
-Ensure all interactive elements have visible, high-contrast focus indicators.
-
-```css
-*:focus-visible {
-  outline: 2px solid;
-  outline-offset: 2px;
-}
-```
-
-### Respect Reduced Motion Preferences
-
-Only animate elements when the user hasn't requested reduced motion.
+Ensure buttons remain visible in Windows High Contrast Mode by adding explicit borders.
 
 ```css
-@media (prefers-reduced-motion: no-preference) {
-  .animated-element {
-    transition: transform 0.3s ease;
+@media (forced-colors: active) {
+  :where(button) {
+    border: 1px solid;
   }
 }
 ```
@@ -213,12 +177,6 @@ Apply smooth scrolling only when the user hasn't requested reduced motion.
 }
 ```
 
-## References
-
-Read when you need more detail than the guidelines above:
-
-- [modern-css.md](references/modern-css.md) - Read when you need specifics on modern CSS features, browser support for user preference queries, advanced typography options, or CSS tooling recommendations
-
 ---
 
 ## Minimal Base Stylesheet
@@ -231,11 +189,6 @@ Here's a complete minimal base that incorporates all guidelines:
   accent-color: #0066cc;
   font-family: system-ui;
   font-feature-settings: "ss06";
-}
-
-*:focus-visible {
-  outline: 2px solid;
-  outline-offset: 2px;
 }
 
 :where(h1, h2, h3, h4, h5, h6) {

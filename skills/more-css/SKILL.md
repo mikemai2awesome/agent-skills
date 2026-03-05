@@ -157,8 +157,12 @@ Define each theme-aware token once using `light-dark()` and let the browser swit
 ```css
 @layer config {
   /* User-toggled theme — light-dark() reads color-scheme automatically */
-  [data-theme="light"] { color-scheme: light; }
-  [data-theme="dark"] { color-scheme: dark; }
+  [data-theme="light"] {
+    color-scheme: light;
+  }
+  [data-theme="dark"] {
+    color-scheme: dark;
+  }
 }
 ```
 
@@ -271,16 +275,21 @@ Each component file should follow a consistent internal structure:
 
 ### Only token references inside components
 
-Components reference tokens — they never hardcode values. If you find yourself writing a hex color or a raw `px` value inside a component, define a token for it first.
+Components reference tokens — they never hardcode values. If you find yourself writing a raw color or a raw value inside a component, define a token for it first.
 
 ### Focus styles
 
 Use `:focus-visible` (not `:focus`) for keyboard-only focus rings, and always reference tokens for the outline color so it stays on-brand and themeable:
 
 ```css
+/* Don't do this */
+.c-button:focus {
+  /* Outline styles */
+}
+
+/* Do this */
 .c-button:focus-visible {
-  outline: 2px solid var(--color-border-primary);
-  outline-offset: 2px;
+  /* Outline styles */
 }
 ```
 
@@ -288,17 +297,18 @@ Use `:focus-visible` (not `:focus`) for keyboard-only focus rings, and always re
 
 ## Quick Reference
 
-| Situation               | Pattern                                                  |
-| ----------------------- | -------------------------------------------------------- |
-| Defining a color value  | Token in `@layer config`                                 |
-| Building a UI component | `.c-` class in `@layer components`                       |
-| One-off helper          | `.u-` class in `@layer utilities`                        |
-| JS needs a hook         | `.js-` class, never styled                               |
-| Component state         | ARIA attribute selector, then `.is-`/`.has-`             |
-| Theming / dark mode     | `light-dark()` in tokens; `color-scheme` to toggle       |
+| Situation               | Pattern                                            |
+| ----------------------- | -------------------------------------------------- |
+| Defining a color value  | Token in `@layer config`                           |
+| Building a UI component | `.c-` class in `@layer components`                 |
+| One-off helper          | `.u-` class in `@layer utilities`                  |
+| JS needs a hook         | `.js-` class, never styled                         |
+| Component state         | ARIA attribute selector, then `.is-`/`.has-`       |
+| Theming / dark mode     | `light-dark()` in tokens; `color-scheme` to toggle |
 
 ## References
 
 Read these when you need more detail than the guidelines above:
 
 - [architecture.md](references/architecture.md) - Read when designing the full CSS architecture for a large project, including token systems, file structure, and layer strategies
+- [modern-css.md](references/modern-css.md) - Read when you need specifics on modern CSS features, browser support for user preference queries, advanced typography options, or CSS tooling recommendations

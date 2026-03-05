@@ -6,6 +6,26 @@ All skills here reflect the way Mike Mai codes.
 
 ## Available Skills
 
+### tiny-css
+
+Write minimal, efficient CSS for small or minimalist projects by trusting the browser instead of fighting it. For anything beyond a personal site or prototype, use **more-css** instead.
+
+Use when:
+
+- Working on a personal site, prototype, or simple landing page
+- Setting up base styles without a build system
+- Reviewing CSS for unnecessary declarations
+
+### more-css
+
+The default CSS skill for real projects. Write scalable vanilla CSS using design tokens (`@layer config`), cascade layers, BEM naming, `light-dark()` for theming, and OKLCH colors. No frameworks, no Sass.
+
+Use when:
+
+- Working on any multi-component or team project
+- Setting up a design token system or theming
+- Organizing CSS across many components with `@layer config, resets, components, utilities, overrides`
+
 ### frontend-conventions
 
 Establish and enforce consistent coding standards across HTML, CSS, and JavaScript — formatting, naming cases, class prefixes, acceptable abbreviations, modifier APIs (sizes, shades, hierarchy, breakpoints), and CSS property order.
@@ -29,26 +49,6 @@ Use when:
 - Reviewing code for accessibility
 
 Pair with **tiny-css** or **more-css** for CSS guidance.
-
-### tiny-css
-
-Write minimal, efficient CSS for small or minimalist projects by trusting the browser instead of fighting it. For anything beyond a personal site or prototype, use **more-css** instead.
-
-Use when:
-
-- Working on a personal site, prototype, or simple landing page
-- Setting up base styles without a build system
-- Reviewing CSS for unnecessary declarations
-
-### more-css
-
-The default CSS skill for real projects. Write scalable vanilla CSS using design tokens (`@layer config`), cascade layers, BEM naming, `light-dark()` for theming, and OKLCH colors. No frameworks, no Sass.
-
-Use when:
-
-- Working on any multi-component or team project
-- Setting up a design token system or theming
-- Organizing CSS across many components with `@layer config, resets, components, utilities, overrides`
 
 ### format-storybook
 

@@ -242,6 +242,42 @@ Use CSS instead so screen readers don't spell out letters.
 }
 ```
 
+### Create Consistent Focus Outlines
+
+Ensure all interactive elements have visible, high-contrast focus indicators.
+
+```css
+*:focus-visible {
+  outline: 2px solid;
+  outline-offset: 2px;
+}
+```
+
+### Handle Reduced Transparency
+
+Only apply translucent or glassy effects when the user hasn't requested reduced transparency.
+
+```css
+@media (prefers-reduced-transparency: no-preference) {
+  .glass-panel {
+    background: oklch(100% 0 0 / 0.8);
+    backdrop-filter: blur(1rem);
+  }
+}
+```
+
+### Respect Reduced Motion Preferences
+
+Only animate elements when the user hasn't requested reduced motion.
+
+```css
+@media (prefers-reduced-motion: no-preference) {
+  .animated-element {
+    transition: transform 0.3s ease;
+  }
+}
+```
+
 ---
 
 ## JavaScript Guidelines

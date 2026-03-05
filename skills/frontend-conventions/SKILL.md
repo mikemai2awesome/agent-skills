@@ -31,7 +31,6 @@ For HTML semantics and accessibility rules, use **frontend-a11y**. For CSS archi
 | --------- | ----------- |
 | `.html`   | `"double"`  |
 | `.css`    | `'single'`  |
-| `.scss`   | `'single'`  |
 | `.js`     | `'single'`  |
 | `.json`   | `"double"`  |
 | `.yml`    | none in general; `'single'` when forcing a string or using special characters; `"double"` when parsing escape codes |
@@ -42,7 +41,6 @@ For HTML semantics and accessibility rules, use **frontend-a11y**. For CSS archi
 | ------------------------------ | ---------------------------------------------- |
 | HTML attributes and values     | `dash-case`                                    |
 | CSS custom property            | `--dash-case`                                  |
-| SCSS var / function / mixin    | public: `dash-case` · private: `_dash-case`    |
 | JavaScript variable / function | `camelCase`                                    |
 | JavaScript class               | `PascalCase`                                   |
 | File names                     | `dash-case.extension`                          |
@@ -73,7 +71,7 @@ When working within a named project or library, prefix everything with a project
 Examples:
 ```css
 /* Global token */
-var(--mmn-color-magenta)
+var(--mmn-color-bg-primary)
 
 /* Scoped to a component */
 var(--c-mmn-card-border-radius)
@@ -163,9 +161,6 @@ Write CSS properties in this order within every rule. Grouping by concern (displ
 
 ```css
 .selector {
-  @extend;
-  @include;
-
   content;
 
   /* Display */
