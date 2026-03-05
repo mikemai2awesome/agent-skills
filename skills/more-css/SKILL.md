@@ -20,7 +20,7 @@ Write CSS that scales across components, themes, teams, and time by making inten
 1. **Tokens first** — Define values once as custom properties; reference everywhere
 2. **Layer everything** — Use `@layer` to make specificity predictable and override-safe
 3. **Name with intent** — Naming conventions exist to communicate, not to decorate
-4. **Tooling serves you** — Preprocessors reduce repetition; don't use them to paper over bad architecture
+4. **Tooling serves you** — Use a bundler to split files and handle imports; never let tooling substitute for clear CSS architecture
 5. **Composition over inheritance** — Build components from tokens and utilities, not from each other
 
 ## Architecture
@@ -286,56 +286,6 @@ Use `:focus-visible` (not `:focus`) for keyboard-only focus rings, and always re
 
 ---
 
-## Preprocessor Usage (Sass / PostCSS)
-
-Use preprocessors for reducing repetition — not for hiding complexity.
-
-### Good uses of Sass
-
-```scss
-// Generating a spacing scale without repetition
-$space-scale: (
-  1: 0.25rem,
-  2: 0.5rem,
-  3: 0.75rem,
-  4: 1rem,
-  6: 1.5rem,
-  8: 2rem,
-);
-
-@layer config {
-  :root {
-    @each $key, $value in $space-scale {
-      --space-#{$key}: #{$value};
-    }
-  }
-}
-
-// Partials for organization (maps to file structure above)
-@forward "config/color";
-@forward "config/spacing";
-@forward "config/typography";
-```
-
-### Avoid
-
-- Sass nesting deeper than 2 levels (hides structure, creates specificity problems)
-- `@extend` (unpredictable output, prefer composition)
-- Mixins that duplicate what CSS custom properties can do
-- Sass variables for design tokens — use CSS custom properties so they're available at runtime for theming
-
-```scss
-// Don't do this — Sass variables can't be overridden at runtime
-$color-primary: #0066cc;
-
-// Do this — CSS custom properties work with theming and dark mode
-:root {
-  --color-bg-primary: oklch(50% 0.2 260);
-}
-```
-
----
-
 ## Quick Reference
 
 | Situation               | Pattern                                                  |
@@ -352,4 +302,3 @@ $color-primary: #0066cc;
 Read these when you need more detail than the guidelines above:
 
 - [architecture.md](references/architecture.md) - Read when designing the full CSS architecture for a large project, including token systems, file structure, and layer strategies
-- [preprocessors.md](references/preprocessors.md) - Read when configuring Sass, PostCSS, or other build tooling for a CSS pipeline

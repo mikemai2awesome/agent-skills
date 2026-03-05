@@ -42,18 +42,17 @@ Use when:
 
 ### more-css
 
-The default CSS skill for real projects. Write scalable CSS using design tokens (`@layer config`), cascade layers, BEM naming, and preprocessors.
+The default CSS skill for real projects. Write scalable vanilla CSS using design tokens (`@layer config`), cascade layers, BEM naming, `light-dark()` for theming, and OKLCH colors. No frameworks, no Sass.
 
 Use when:
 
 - Working on any multi-component or team project
-- Setting up a design token system and `config/` layer
+- Setting up a design token system or theming
 - Organizing CSS across many components with `@layer config, resets, components, utilities, overrides`
-- Using Sass or PostCSS
 
 ### format-storybook
 
-Structure and organize Storybook files for scalability using battle-tested patterns. Covers story files, template files, controls, visual regression testing, and component documentation.
+Structure and organize Storybook files for scalability using battle-tested patterns from Cassondra Roberts. Covers story files, template files, controls, visual regression testing, and component documentation.
 
 Use when:
 
