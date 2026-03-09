@@ -19,7 +19,9 @@ npx skills add mikemai2awesome/agent-skills
 These three reference each other and work best together:
 
 ```shell
-npx skills add mikemai2awesome/agent-skills --skill more-css --skill frontend-conventions --skill frontend-a11y
+npx skills add mikemai2awesome/agent-skills --skill more-css
+npx skills add mikemai2awesome/agent-skills --skill frontend-conventions
+npx skills add mikemai2awesome/agent-skills --skill frontend-a11y
 ```
 
 ### Small or Personal Projects
@@ -27,7 +29,8 @@ npx skills add mikemai2awesome/agent-skills --skill more-css --skill frontend-co
 These two make up a super minimal setup:
 
 ```shell
-npx skills add mikemai2awesome/agent-skills --skill tiny-css --skill frontend-a11y
+npx skills add mikemai2awesome/agent-skills --skill tiny-css
+npx skills add mikemai2awesome/agent-skills --skill frontend-a11y
 ```
 
 ### Standalone
