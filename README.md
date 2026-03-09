@@ -63,9 +63,37 @@ Use when:
 
 ## Installation
 
+Install all skills at once:
+
 ```shell
 npx skills add mikemai2awesome/agent-skills
 ```
+
+Or install individually:
+
+```shell
+npx skills add mikemai2awesome/agent-skills --skill tiny-css
+npx skills add mikemai2awesome/agent-skills --skill more-css
+npx skills add mikemai2awesome/agent-skills --skill frontend-conventions
+npx skills add mikemai2awesome/agent-skills --skill frontend-a11y
+npx skills add mikemai2awesome/agent-skills --skill format-storybook
+```
+
+### Recommended combinations
+
+**For real projects** — these three reference each other and work best together:
+
+```shell
+npx skills add mikemai2awesome/agent-skills --skill more-css --skill frontend-conventions --skill frontend-a11y
+```
+
+**For small or personal projects** — a lighter pair:
+
+```shell
+npx skills add mikemai2awesome/agent-skills --skill tiny-css --skill frontend-a11y
+```
+
+**`format-storybook`** is standalone and can be added to either combination.
 
 ## Usage
 
