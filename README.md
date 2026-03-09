@@ -4,6 +4,44 @@ A collection of skills for AI coding agents. Skills are packaged instructions th
 
 All skills here reflect the way Mike Mai codes.
 
+## Installation
+
+### YOLO
+
+Install all skills at once so you code exactly like Mike:
+
+```shell
+npx skills add mikemai2awesome/agent-skills
+```
+
+### Real Projects
+
+These three reference each other and work best together:
+
+```shell
+npx skills add mikemai2awesome/agent-skills --skill more-css --skill frontend-conventions --skill frontend-a11y
+```
+
+### Small or Personal Projects
+
+These two make up a super minimal setup:
+
+```shell
+npx skills add mikemai2awesome/agent-skills --skill tiny-css --skill frontend-a11y
+```
+
+### Standalone
+
+**`format-storybook`** is standalone and can be added if your project involves Storybook:
+
+```shell
+npx skills add mikemai2awesome/agent-skills --skill format-storybook
+```
+
+## Usage
+
+Skills are automatically available once installed. The agent will use them when relevant tasks are detected.
+
 ## Available Skills
 
 ### tiny-css
@@ -60,44 +98,6 @@ Use when:
 - Writing template files with Lit
 - Organizing a component library
 - Setting up visual regression tests with Chromatic
-
-## Installation
-
-Install all skills at once:
-
-```shell
-npx skills add mikemai2awesome/agent-skills
-```
-
-Or install individually:
-
-```shell
-npx skills add mikemai2awesome/agent-skills --skill tiny-css
-npx skills add mikemai2awesome/agent-skills --skill more-css
-npx skills add mikemai2awesome/agent-skills --skill frontend-conventions
-npx skills add mikemai2awesome/agent-skills --skill frontend-a11y
-npx skills add mikemai2awesome/agent-skills --skill format-storybook
-```
-
-### Recommended combinations
-
-**For real projects** — these three reference each other and work best together:
-
-```shell
-npx skills add mikemai2awesome/agent-skills --skill more-css --skill frontend-conventions --skill frontend-a11y
-```
-
-**For small or personal projects** — a lighter pair:
-
-```shell
-npx skills add mikemai2awesome/agent-skills --skill tiny-css --skill frontend-a11y
-```
-
-**`format-storybook`** is standalone and can be added to either combination.
-
-## Usage
-
-Skills are automatically available once installed. The agent will use them when relevant tasks are detected.
 
 ## License
 
