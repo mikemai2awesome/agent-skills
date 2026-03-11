@@ -33,6 +33,17 @@ npx skills add mikemai2awesome/agent-skills --skill tiny-css
 npx skills add mikemai2awesome/agent-skills --skill frontend-a11y
 ```
 
+### 2010s Aesthetic
+
+`frontend-design-2010s` works in tandem with the real projects trio — install all four together:
+
+```shell
+npx skills add mikemai2awesome/agent-skills --skill more-css
+npx skills add mikemai2awesome/agent-skills --skill frontend-conventions
+npx skills add mikemai2awesome/agent-skills --skill frontend-a11y
+npx skills add mikemai2awesome/agent-skills --skill frontend-design-2010s
+```
+
 ### Standalone
 
 **`format-storybook`** is standalone and can be added if your project involves Storybook:
@@ -89,7 +100,19 @@ Use when:
 - Creating or reviewing forms
 - Reviewing code for accessibility
 
-Pair with **tiny-css** or **more-css** for CSS guidance.
+Pair with **tiny-css** or **more-css** for CSS guidance, and **frontend-conventions** for naming.
+
+### frontend-design-2010s
+
+Recreate the authentic early-2010s corporate/SaaS web aesthetic — gradient headers, glossy CTA buttons, skeuomorphic icons, horizontal band layouts, and drop shadows. Produces fluid, complete pages that feel genuinely built in 2011, not like a modern design mimicking it.
+
+Use when:
+
+- Building a page or component with a 2010s, Web 2.0, or retro corporate web aesthetic
+- Recreating the look of classic SaaS landing pages from circa 2010–2014
+- Wanting that polished-but-chunky era of web design before flat design took over
+
+Requires **more-css**, **frontend-a11y**, and **frontend-conventions**.
 
 ### format-storybook
 

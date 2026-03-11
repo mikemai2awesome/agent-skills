@@ -1,0 +1,23 @@
+{
+  "skill_name": "frontend-design-2010s",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Build a landing page for a project management SaaS called TaskFlow. Give it that classic 2010s web design look — you know, like the polished corporate sites from around 2011. Full page with header, hero, features, and footer.",
+      "expected_output": "A complete HTML page with authentic 2010s aesthetic: dark gradient header, bold uppercase condensed headings in an accent color, glossy CTA buttons with a top-half shine, alternating white/light-gray section bands, drop shadows on cards and nav, skeuomorphic-style feature icons, fluid layout with generous side padding.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I'm building a retro-style website for my email marketing tool, MailBlast. Can you create a pricing page with three plans: Basic ($19/mo), Business ($49/mo), and Agency ($99/mo)? Make it feel like a proper Web 2.0 site from back in the day.",
+      "expected_output": "Full pricing page with 2010s Web 2.0 aesthetic: gradient header with nav, bold accent-colored section heading, pricing cards with drop shadows and borders, glossy CTA buttons on each plan, dark footer. Brand palette derived from the product context, not defaulting to generic colors.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Create a landing page for a mobile analytics platform called PulseMetrics. I want it to look like those sharp, professional SaaS sites from around 2012 — with the horizontal section layout, chunky buttons, that whole vibe. Include a hero with a product mockup, a 3-column features strip, and a footer.",
+      "expected_output": "Complete landing page with 2010s SaaS aesthetic: dark gradient header, hero section with bold uppercase headline and product mockup placeholder on the right, 3-column feature strip on light gray background with skeuomorphic icons, glossy CTA buttons, dark footer with multi-column nav. All depth and chrome intact — gradients, shadows, gloss.",
+      "files": []
+    }
+  ]
+}
