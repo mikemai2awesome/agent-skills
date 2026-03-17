@@ -30,28 +30,6 @@
         "Form submit button uses <button type='submit'>",
         "No title attribute on interactive elements",
         "Text-transform CSS used for any uppercase visual text, not literal uppercase HTML"
-      ],
-      "guidepup_assertions": [
-        {
-          "type": "skip_link",
-          "description": "Tab once from page start; spoken text contains 'skip' or 'jump'"
-        },
-        {
-          "type": "landmark_navigation",
-          "description": "Landmarks list includes banner, navigation, main, contentinfo"
-        },
-        {
-          "type": "heading_order",
-          "description": "No skipped heading levels; first heading identifies the page"
-        },
-        {
-          "type": "interactive_reachable",
-          "description": "Every focusable element announces a role"
-        },
-        {
-          "type": "form_labels",
-          "description": "Focusing each input announces its visible label"
-        }
       ]
     },
     {
@@ -83,28 +61,6 @@
         "Images have meaningful alt text or empty alt if decorative",
         "No title attribute misused as a tooltip",
         "Link text is descriptive, not 'click here' or 'read more'"
-      ],
-      "guidepup_assertions": [
-        {
-          "type": "heading_order",
-          "description": "Navigate all headings; levels increment correctly; first heading is article title"
-        },
-        {
-          "type": "landmark_navigation",
-          "description": "Landmarks list includes banner, main, complementary (aside), contentinfo"
-        },
-        {
-          "type": "interactive_reachable",
-          "description": "All links announce descriptive text, not just 'link'"
-        },
-        {
-          "type": "skip_link",
-          "description": "Tab once from page start; spoken text contains 'skip' or 'jump'"
-        },
-        {
-          "type": "form_labels",
-          "description": "No form elements present without labels (if any subscription form included)"
-        }
       ]
     },
     {
@@ -136,28 +92,6 @@
         "<html> has a lang attribute",
         "<title> is present and descriptive",
         "No aria-haspopup on navigation items"
-      ],
-      "guidepup_assertions": [
-        {
-          "type": "skip_link",
-          "description": "Tab once from page start; spoken text contains 'skip' or 'jump'"
-        },
-        {
-          "type": "landmark_navigation",
-          "description": "Landmarks list includes banner, navigation, main, contentinfo"
-        },
-        {
-          "type": "heading_order",
-          "description": "Heading levels are logical; no skipped levels"
-        },
-        {
-          "type": "interactive_reachable",
-          "description": "Tab elements and dialog trigger announce role='button' or role='tab'"
-        },
-        {
-          "type": "form_labels",
-          "description": "Any filter or search inputs inside the dashboard have associated labels"
-        }
       ]
     },
     {
@@ -189,28 +123,6 @@
         "<title> includes product name",
         "Add to cart button uses native <button> element",
         "No title attribute misused as tooltip on interactive elements"
-      ],
-      "guidepup_assertions": [
-        {
-          "type": "landmark_navigation",
-          "description": "Landmarks list shows navigation label (e.g. 'Main Navigation')"
-        },
-        {
-          "type": "heading_order",
-          "description": "Product name is h1; section headings follow logical hierarchy"
-        },
-        {
-          "type": "interactive_reachable",
-          "description": "Radio buttons announce group name from legend and option label"
-        },
-        {
-          "type": "form_labels",
-          "description": "Quantity input announces its label when focused"
-        },
-        {
-          "type": "skip_link",
-          "description": "Tab once from page start; spoken text identifies skip destination"
-        }
       ]
     },
     {
@@ -242,28 +154,6 @@
         "<title> is present and descriptive",
         "No redundant ARIA landmark roles",
         "Form is wrapped in a <main> landmark"
-      ],
-      "guidepup_assertions": [
-        {
-          "type": "form_labels",
-          "description": "Focusing each input announces its visible label text"
-        },
-        {
-          "type": "interactive_reachable",
-          "description": "Password toggle button announces its current action (show/hide)"
-        },
-        {
-          "type": "landmark_navigation",
-          "description": "Page has a main landmark containing the form"
-        },
-        {
-          "type": "heading_order",
-          "description": "Page has an h1 identifying the signup context"
-        },
-        {
-          "type": "skip_link",
-          "description": "Tab once from page start; spoken text contains 'skip' or 'jump'"
-        }
       ]
     },
     {
@@ -296,28 +186,31 @@
         "<html> has a lang attribute",
         "<title> is present and descriptive",
         "No redundant ARIA landmark roles"
+      ]
+    }
+    ,{
+      "id": 7,
+      "use_case": "fix-inaccessible-markup",
+      "prompt": "Here's a navigation and search form from an existing site. Fix all the accessibility issues you can find — don't rebuild it from scratch, just fix what's broken.\n\n```html\n<div class=\"nav\">\n  <div class=\"logo\">Acme</div>\n  <div class=\"menu\">\n    <div onclick=\"toggleMenu()\" class=\"menu-toggle\">Menu</div>\n    <ul id=\"nav-links\" style=\"display:none\">\n      <li><a href=\"/\">Home</a></li>\n      <li><a href=\"/about\">About</a></li>\n      <li>\n        <a href=\"#\" onclick=\"toggleDropdown()\">Products</a>\n        <ul class=\"dropdown\">\n          <li><a href=\"/widgets\">Widgets</a></li>\n          <li><a href=\"/gadgets\">Gadgets</a></li>\n        </ul>\n      </li>\n    </ul>\n  </div>\n</div>\n<div class=\"search\">\n  <input type=\"text\" placeholder=\"Search...\" />\n  <div onclick=\"submitSearch()\" class=\"search-btn\">GO</div>\n</div>\n```",
+      "expected_output": "Navigation wrapped in <nav>. Menu toggle converted from div to <button> with aria-expanded and aria-controls. Dropdown trigger uses <button> with aria-expanded. Search input has an associated <label>. Search button converted from div to <button type='submit'> inside a <form>. No div role='button' anywhere. Placeholder not used as a label substitute.",
+      "files": [],
+      "a11y_patterns": [
+        "nav-element",
+        "div-to-button",
+        "aria-expanded",
+        "form-labels",
+        "no-div-role-button"
       ],
-      "guidepup_assertions": [
-        {
-          "type": "skip_link",
-          "description": "Tab once from page start; spoken text contains 'skip' or 'jump'"
-        },
-        {
-          "type": "landmark_navigation",
-          "description": "Landmarks list includes banner, navigation, main, contentinfo"
-        },
-        {
-          "type": "heading_order",
-          "description": "h1 identifies page purpose; h2s follow without skipping"
-        },
-        {
-          "type": "interactive_reachable",
-          "description": "Switch button announces role='switch' and current state (on/off)"
-        },
-        {
-          "type": "form_labels",
-          "description": "Lead capture form inputs inside dialog have associated labels"
-        }
+      "expectations": [
+        "Navigation is wrapped in a <nav> element",
+        "Menu toggle is converted from <div> to <button> with aria-expanded",
+        "aria-expanded on the menu toggle reflects open/closed state",
+        "Dropdown trigger is converted from <a> to <button> with aria-expanded",
+        "Dropdown does not use role='menu' or role='menuitem'",
+        "Search input has an associated <label> — not just a placeholder",
+        "Search button is converted from <div> to a native <button> element",
+        "No <div> or <a> is used as a button anywhere in the output",
+        "Placeholder is not relied on as the sole label for the search input"
       ]
     }
   ]
