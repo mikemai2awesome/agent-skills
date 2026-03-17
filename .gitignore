@@ -3,3 +3,6 @@ skills/.DS_Store
 .claude/
 .agents/
 skills-lock.json
+node_modules/
+evals/
+frontend-a11y-workspace/
