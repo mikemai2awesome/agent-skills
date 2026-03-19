@@ -246,11 +246,20 @@ Safe defaults that clear 4.5:1 without any calculation:
 
 ```css
 /* Dark text on light backgrounds */
-body { color: #404040; background: #f4f4f4; }        /* ~9.43:1 */
-.muted { color: #636363; background: #f4f4f4; }       /* ~5.46:1 */
+body {
+  color: #404040;
+  background: #f4f4f4;
+} /* ~9.43:1 */
+.muted {
+  color: #636363;
+  background: #f4f4f4;
+} /* ~5.46:1 */
 
 /* Light text on dark backgrounds */
-.dark { color: #c9d4de; background: #040014; }       /* ~13.75:1 */
+.dark {
+  color: #c9d4de;
+  background: #040014;
+} /* ~13.75:1 */
 
 /* Avoid these common low-contrast mistakes */
 /* color: #767676 on white = exactly 4.5:1 — pass, but use sparingly */
@@ -292,34 +301,6 @@ Only animate elements when the user hasn't requested reduced motion.
     transition: transform 0.3s ease;
   }
 }
-```
-
-Never animate text content from `opacity: 0` with `animation-fill-mode: both` or `forwards`. Screen readers access the DOM immediately — they will announce text that is visually invisible to sighted users, creating a confusing disconnect where content is read aloud before it appears. If the animation doesn't execute (slow network, CSS not yet parsed, browser quirk), the text stays permanently invisible.
-
-Use progressive enhancement instead: content is visible by default, and JavaScript opts elements into the animation only once it is confirmed to be running:
-
-```html
-<!-- Content is readable with no JS, no CSS, no animation -->
-<h1 class="hero-heading">Welcome</h1>
-```
-
-```css
-/* Animation only applies when JS has confirmed it's working */
-@media (prefers-reduced-motion: no-preference) {
-  .js-ready .hero-heading {
-    animation: fade-up 0.6s ease;
-  }
-}
-
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(1rem); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-```
-
-```js
-// JS adds the class — until then, content remains fully visible
-document.documentElement.classList.add('js-ready');
 ```
 
 ---
