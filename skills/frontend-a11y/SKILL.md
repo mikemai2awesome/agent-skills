@@ -303,6 +303,60 @@ Only animate elements when the user hasn't requested reduced motion.
 }
 ```
 
+### Fade In Content Safely
+
+Never use `opacity: 0` alone to hide content before a fade-in animation. Screen readers ignore opacity — an element at `opacity: 0` is still in the accessibility tree and will be announced before sighted users can see it.
+
+A safe fade-in layers two protections:
+
+1. **JS-ready gating** so content stays visible by default if JavaScript fails to load
+2. **IntersectionObserver** so the animation triggers when the element enters the viewport — including when a screen reader's virtual cursor scrolls to it
+
+```html
+<h1 class="fade-in">Welcome</h1>
+```
+
+```css
+@media (prefers-reduced-motion: no-preference) {
+  .js-ready .fade-in {
+    opacity: 0;
+  }
+
+  .fade-in.is-visible {
+    animation: fade-in 0.6s ease forwards;
+  }
+}
+
+@keyframes fade-in {
+  to {
+    opacity: 1;
+  }
+}
+```
+
+```js
+document.documentElement.classList.add("js-ready");
+
+const observer = new IntersectionObserver((entries) => {
+  for (const entry of entries) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("is-visible");
+      observer.unobserve(entry.target);
+    }
+  }
+});
+
+for (const el of document.querySelectorAll(".fade-in")) {
+  observer.observe(el);
+}
+```
+
+This works because:
+
+- Without JavaScript, the `js-ready` class is never added — content stays fully visible and accessible
+- When a screen reader's virtual cursor reaches the element, the browser scrolls it into view, firing the IntersectionObserver and triggering the fade-in before the content is announced
+- Users who prefer reduced motion never get the hidden state applied — content is visible immediately
+
 ---
 
 ## Framework Guidelines
