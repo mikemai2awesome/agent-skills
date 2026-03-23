@@ -1,10 +1,6 @@
 ---
 name: frontend-conventions
 description: Define and enforce consistent coding standards across HTML, CSS, and JavaScript. Always use this skill when naming a new class, variable, component, or file; setting up a new project's conventions; choosing a class prefix for a new CSS category; deciding on modifier API names (sizes, shades, hierarchy, breakpoints); or reviewing code for formatting and naming consistency. If you're about to invent a prefix, abbreviation, or modifier name without checking the conventions first, use this skill.
-license: MIT
-metadata:
-  author: mikemai2awesome
-  version: "1.0"
 ---
 
 # Frontend Conventions

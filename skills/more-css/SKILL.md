@@ -1,10 +1,6 @@
 ---
 name: more-css
 description: Write scalable, well-architected CSS using design tokens, cascade layers, and modern organization patterns. Use this skill as the default for any real project — if it has more than a handful of CSS files, multiple components, a team, a design system, or any kind of token or theming setup, this is the right skill. Only defer to tiny-css when the project is explicitly small or minimalist (personal sites, prototypes, simple landing pages).
-license: MIT
-metadata:
-  author: mikemai2awesome
-  version: "1.0"
 ---
 
 # More CSS
