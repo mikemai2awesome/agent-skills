@@ -160,16 +160,6 @@ A single `role="alert"` is all you need.
 <div role="alert">Your changes have been saved.</div>
 ```
 
-### Other Patterns
-
-When native elements aren't enough, follow these APG patterns:
-
-- [Feed Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/feed/examples/feed/) for infinite scroll
-- [Combobox with Autocomplete](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-autocomplete-both/) for custom selects
-- [Switch Button Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/switch/examples/switch-button/) for toggles
-- [Manual Tabs Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/examples/tabs-manual/) for tabs
-- [WAI Carousel Tutorial](https://www.w3.org/WAI/tutorials/carousels/) for carousels
-
 ---
 
 ## CSS Guidelines
@@ -355,42 +345,9 @@ This works because:
 
 ---
 
-## Framework Guidelines
-
-Don't use component libraries that introduce accessibility errors or wrap native browser behavior in unnecessary JavaScript. Libraries like Radix and Shadcn are common offenders — they ship `<div>`-based implementations for patterns the browser already handles natively.
-
-### Why Most Component Libraries Fail
-
-- They re-implement focus trapping, keyboard navigation, and ARIA roles in JavaScript — behavior that `<dialog>`, `<details>`, and `<button>` already provide for free
-- Accessibility bugs accumulate silently; library users rarely audit the underlying markup
-- They create a dependency between your users and the library maintainer's willingness to fix a11y regressions
-- More JavaScript, more surface area for bugs, harder to audit
-
-### Red Flags When Evaluating a Library
-
-Reject any component library that:
-
-- Uses `<div role="button">` or `<div role="dialog">` instead of native elements
-- Implements its own focus trap when `<dialog>` does it natively
-- Uses `aria-hidden` on visible, meaningful content
-- Requires JavaScript to expose keyboard navigation that HTML provides for free
-- Has unresolved accessibility issues open in its issue tracker
-
-### If a Library Cannot Be Avoided
-
-Audit it before shipping:
-
-1. Run [axe DevTools](https://www.deque.com/axe/) on every component used
-2. Test with keyboard only — Tab, Enter, Escape, arrow keys
-3. Test with a screen reader — VoiceOver (macOS/iOS), NVDA or JAWS (Windows)
-4. Check the library's GitHub issues for open accessibility bugs
-
-If it fails any of these, write the component natively instead.
-
 ## References
 
 Read these when you need more detail than the guidelines above:
 
 - [standards.md](references/standards.md) - Read when you need to cite WCAG 2.2 criteria, WAI-ARIA specs, or validation tools
 - [patterns.md](references/patterns.md) - Read when implementing complex components like carousels, comboboxes, or feed patterns not covered above
-- [browser-support.md](references/browser-support.md) - Read when you need to verify browser support for a native HTML element or feature
