@@ -70,7 +70,7 @@ Use when:
 
 ### more-css
 
-The default CSS skill for real projects. Write scalable vanilla CSS using design tokens (`@layer config`), cascade layers, BEM naming, `light-dark()` for theming, and OKLCH colors. No frameworks, no Sass.
+The default CSS skill for real projects. Write scalable vanilla CSS using design tokens (`@layer config`), cascade layers, BEM naming, `light-dark()` for theming, OKLCH colors, and relative units (`rem`, `cqi`, `clamp()`). No frameworks, no Sass.
 
 Use when:
 
@@ -112,7 +112,7 @@ Use when:
 - Recreating the look of classic SaaS landing pages from circa 2010–2014
 - Wanting that polished-but-chunky era of web design before flat design took over
 
-Requires **more-css**, **frontend-a11y**, and **frontend-conventions**.
+Work well with **more-css**, **frontend-a11y**, and **frontend-conventions**.
 
 ### format-storybook
 
