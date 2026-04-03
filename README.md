@@ -1,3 +1,5 @@
+<img width="1280" height="672" alt="the phrase 'agent skills' set in the typeface Big Caslon. black text on crimson red background." src="https://github.com/user-attachments/assets/9881727c-8178-4701-b346-6f67f0a95ba0" />
+
 # Agent Skills
 
 A collection of skills for AI coding agents. Skills are packaged instructions that extend agent capabilities. Skills follow the [Agent Skills](https://code.claude.com/docs/en/skills) format.
