@@ -6,6 +6,8 @@ All skills here reflect the way Mike Mai codes.
 
 ## Installation
 
+Note: `npx skills` is a convevnient way to install but if you want to install specifically for Claude Code, drop the files into the `.claude/skills` folder.
+
 ### YOLO
 
 Install all skills at once so you code exactly like Mike:
@@ -33,7 +35,7 @@ npx skills add mikemai2awesome/agent-skills --skill tiny-css
 npx skills add mikemai2awesome/agent-skills --skill frontend-a11y
 ```
 
-### 2010s Aesthetic
+### Back In Time
 
 `frontend-design-2010s` works in tandem with the real projects trio — install all four together:
 
@@ -44,7 +46,7 @@ npx skills add mikemai2awesome/agent-skills --skill frontend-a11y
 npx skills add mikemai2awesome/agent-skills --skill frontend-design-2010s
 ```
 
-### Standalone
+### Well-Structured Docs
 
 `format-storybook` is standalone and can be added if your project involves Storybook:
 
@@ -54,7 +56,7 @@ npx skills add mikemai2awesome/agent-skills --skill format-storybook
 
 ## Usage
 
-Skills are automatically available once installed. The agent will use them when relevant tasks are detected or triggered mannually through /slash command.
+Skills are automatically available once installed. The agent will use them when relevant tasks are detected. They are also triggered mannually through `/` command.
 
 ## Available Skills
 
