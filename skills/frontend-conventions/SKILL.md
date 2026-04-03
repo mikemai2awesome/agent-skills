@@ -7,8 +7,6 @@ description: Define and enforce consistent coding standards across HTML, CSS, an
 
 A shared system of rules for naming, formatting, and structuring code across HTML, CSS, and JavaScript. Consistency here is what makes a codebase feel like it was written by one person, regardless of team size.
 
-For HTML semantics and accessibility rules, use **frontend-a11y**. For CSS architecture and component structure, use **more-css** or **tiny-css**.
-
 ## Code Formatting
 
 ### General
@@ -45,7 +43,7 @@ For HTML semantics and accessibility rules, use **frontend-a11y**. For CSS archi
 
 ## Naming Prefixes
 
-All CSS classes are prefixed by category so their purpose is immediately visible in HTML. For CSS architecture and usage in stylesheets, see **more-css**.
+All CSS classes are prefixed by category so their purpose is immediately visible in HTML.
 
 | Category        | Prefix |
 | --------------- | ------ |

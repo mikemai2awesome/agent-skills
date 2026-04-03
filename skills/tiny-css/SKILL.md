@@ -1,11 +1,11 @@
 ---
 name: tiny-css
-description: Write minimal, efficient CSS for small or minimalist projects by trusting the browser instead of fighting it. Only use this skill for personal sites, prototypes, simple landing pages, or projects intentionally kept lean — if the project has multiple developers, a component library, a design token system, or more than a handful of CSS files, use more-css instead. If you're about to write a CSS reset, declare a base font-size on :root, set default colors on body, use px for spacing, or reach for physical margin/padding properties, this skill will stop you.
+description: Write minimal, efficient CSS for small or minimalist projects by trusting the browser instead of fighting it. Only use this skill for personal sites, prototypes, simple landing pages, or projects intentionally kept lean — if the project has multiple developers, a component library, a design token system, or more than a handful of CSS files, a more comprehensive CSS approach is needed. If you're about to write a CSS reset, declare a base font-size on :root, set default colors on body, use px for spacing, or reach for physical margin/padding properties, this skill will stop you.
 ---
 
 # Tiny CSS
 
-For small, minimalist projects — personal sites, prototypes, simple landing pages. Write as little CSS as possible and let the browser do the rest. If the project is growing beyond a handful of files or needs a token system or naming conventions, use **more-css** instead.
+For small, minimalist projects — personal sites, prototypes, simple landing pages. Write as little CSS as possible and let the browser do the rest.
 
 ## Core Principles
 

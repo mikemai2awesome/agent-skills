@@ -164,7 +164,7 @@ A single `role="alert"` is all you need.
 
 ## CSS Guidelines
 
-For general CSS best practices (units, logical properties, cascade layers, color spaces), use the appropriate CSS skill alongside this one — **tiny-css** for small or minimalist projects, **more-css** for anything larger. The patterns below are specific to accessibility.
+The patterns below are specific to accessibility.
 
 ### Use ARIA Attributes as Styling Hooks
 

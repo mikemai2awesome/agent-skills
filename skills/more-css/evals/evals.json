@@ -68,6 +68,34 @@
         "Fixes :focus to :focus-visible",
         "padding is replaced with logical properties (padding-block, padding-inline)"
       ]
+    },
+    {
+      "id": 6,
+      "prompt": "Build a feature card grid for a SaaS marketing site. Cards should automatically wrap into as many columns as fit without any media queries — each card should be at least 20 characters wide. Inside each card, the heading should scale fluidly with the card's width, clamped between 1rem and 2rem. Use design tokens and proper layers.",
+      "expected_output": "Grid uses repeat(auto-fit, minmax(20ch, 1fr)) — no breakpoints. Heading uses clamp() with a cqi ideal value and rem minimum. Parent card establishes container-type: inline-size. All values come from tokens or are intrinsic (ch, cqi, fr). No px except border-width.",
+      "files": [],
+      "assertions": [
+        "Grid uses repeat(auto-fit, minmax()) — no @media breakpoints for column count",
+        "The minmax minimum uses ch units (e.g. 20ch) — not px",
+        "Card heading uses clamp() for fluid font sizing",
+        "The ideal value inside clamp() uses cqi (not vw or em)",
+        "The minimum value inside clamp() uses rem — not px",
+        "The card establishes container-type: inline-size so cqi works",
+        "No hardcoded px values except on border-width or outline-width"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "I have a list of tag chips that should wrap naturally. Each chip should try to be at least 10 characters wide but grow to fill available space, and they should wrap to new rows independently rather than all breaking at once. Use a flex layout.",
+      "expected_output": "Uses display: flex with flex-wrap: wrap on the container. Each chip uses flex: 1 1 10ch — not a fixed width or min-width hack. No media queries. ch unit for the flex-basis minimum.",
+      "files": [],
+      "assertions": [
+        "Container uses display: flex and flex-wrap: wrap",
+        "Chip items use flex shorthand (flex: 1 1 <value>) — not flex-grow/flex-shrink/flex-basis separately",
+        "The flex-basis value uses ch units (e.g. 10ch) — not px",
+        "No media queries are used to control wrapping",
+        "No fixed width or min-width used instead of flex shorthand"
+      ]
     }
   ]
 }
