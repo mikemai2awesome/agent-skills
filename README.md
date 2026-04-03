@@ -16,7 +16,7 @@ npx skills add mikemai2awesome/agent-skills
 
 ### Real Projects
 
-These three reference each other and work best together:
+These three compliment each other and work best together:
 
 ```shell
 npx skills add mikemai2awesome/agent-skills --skill more-css
@@ -100,8 +100,6 @@ Use when:
 - Creating or reviewing forms
 - Reviewing code for accessibility
 
-Pair with **tiny-css** or **more-css** for CSS guidance, and **frontend-conventions** for naming.
-
 ### frontend-design-2010s
 
 Recreate the authentic early-2010s corporate/SaaS web aesthetic — gradient headers, glossy CTA buttons, skeuomorphic icons, horizontal band layouts, and drop shadows. Produces fluid, complete pages that feel genuinely built in 2011, not like a modern design mimicking it.
@@ -111,8 +109,6 @@ Use when:
 - Building a page or component with a 2010s, Web 2.0, or retro corporate web aesthetic
 - Recreating the look of classic SaaS landing pages from circa 2010–2014
 - Wanting that polished-but-chunky era of web design before flat design took over
-
-Work well with **more-css**, **frontend-a11y**, and **frontend-conventions**.
 
 ### format-storybook
 
