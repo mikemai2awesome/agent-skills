@@ -46,7 +46,7 @@ npx skills add mikemai2awesome/agent-skills --skill frontend-design-2010s
 
 ### Standalone
 
-**`format-storybook`** is standalone and can be added if your project involves Storybook:
+`format-storybook` is standalone and can be added if your project involves Storybook:
 
 ```shell
 npx skills add mikemai2awesome/agent-skills --skill format-storybook
@@ -54,72 +54,20 @@ npx skills add mikemai2awesome/agent-skills --skill format-storybook
 
 ## Usage
 
-Skills are automatically available once installed. The agent will use them when relevant tasks are detected.
+Skills are automatically available once installed. The agent will use them when relevant tasks are detected or triggered mannually through /slash command.
 
 ## Available Skills
 
-### tiny-css
+- **tiny-css:** Write minimal, efficient CSS for small or minimalist projects by trusting the browser instead of fighting it.
+- **more-css:** The default CSS skill for real projects. Write scalable vanilla CSS using design tokens (`@layer config`), cascade layers, BEM naming, `light-dark()` for theming, OKLCH colors, and relative units (`rem`, `cqi`, `clamp()`). No frameworks, no Sass.
+- **frontend-conventions:** Establish and enforce consistent coding standards across HTML, CSS, and JavaScript — formatting, naming cases, class prefixes, acceptable abbreviations, modifier APIs (sizes, shades, hierarchy, breakpoints), and CSS property order.
+- **frontend-a11y:** Write minimal, accessible HTML, CSS, and JavaScript without over-engineering. Uses native browser elements instead of ARIA-hacking generic divs, component libraries, or focus-trap packages.
+- **frontend-design-2010s:** Recreate the authentic early-2010s corporate/SaaS web aesthetic — gradient headers, glossy CTA buttons, skeuomorphic icons, horizontal band layouts, and drop shadows. Produces fluid, complete pages that feel genuinely built in 2011, not like a modern design mimicking it.
+- **format-storybook:** Structure and organize Storybook files for scalability using battle-tested patterns from Cassondra Roberts. Covers story files, template files, controls, visual regression testing, and component documentation.
 
-Write minimal, efficient CSS for small or minimalist projects by trusting the browser instead of fighting it. For anything beyond a personal site or prototype, use **more-css** instead.
+## Accessibility
 
-Use when:
-
-- Working on a personal site, prototype, or simple landing page
-- Setting up base styles without a build system
-- Reviewing CSS for unnecessary declarations
-
-### more-css
-
-The default CSS skill for real projects. Write scalable vanilla CSS using design tokens (`@layer config`), cascade layers, BEM naming, `light-dark()` for theming, OKLCH colors, and relative units (`rem`, `cqi`, `clamp()`). No frameworks, no Sass.
-
-Use when:
-
-- Working on any multi-component or team project
-- Setting up a design token system or theming
-- Organizing CSS across many components with `@layer config, resets, components, utilities, overrides`
-
-### frontend-conventions
-
-Establish and enforce consistent coding standards across HTML, CSS, and JavaScript — formatting, naming cases, class prefixes, acceptable abbreviations, modifier APIs (sizes, shades, hierarchy, breakpoints), and CSS property order.
-
-Use when:
-
-- Naming a new class, variable, component, or file
-- Setting up a new project's coding conventions
-- Choosing a prefix for a new CSS category
-- Reviewing code for naming or formatting consistency
-
-### frontend-a11y
-
-Write minimal, accessible HTML, CSS, and JavaScript without over-engineering. Uses native browser elements instead of ARIA-hacking generic divs, component libraries, or focus-trap packages.
-
-Use when:
-
-- Writing any HTML markup
-- Building web components or interactive elements (buttons, dialogs, accordions, tabs)
-- Creating or reviewing forms
-- Reviewing code for accessibility
-
-### frontend-design-2010s
-
-Recreate the authentic early-2010s corporate/SaaS web aesthetic — gradient headers, glossy CTA buttons, skeuomorphic icons, horizontal band layouts, and drop shadows. Produces fluid, complete pages that feel genuinely built in 2011, not like a modern design mimicking it.
-
-Use when:
-
-- Building a page or component with a 2010s, Web 2.0, or retro corporate web aesthetic
-- Recreating the look of classic SaaS landing pages from circa 2010–2014
-- Wanting that polished-but-chunky era of web design before flat design took over
-
-### format-storybook
-
-Structure and organize Storybook files for scalability using battle-tested patterns from Cassondra Roberts. Covers story files, template files, controls, visual regression testing, and component documentation.
-
-Use when:
-
-- Creating or editing any Storybook story file
-- Writing template files with Lit
-- Organizing a component library
-- Setting up visual regression tests with Chromatic
+[Accessibility Commitment](ACCESSIBILITY.md)
 
 ## License
 
