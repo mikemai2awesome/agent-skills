@@ -3,7 +3,7 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Build a landing page for a project management SaaS called TaskFlow. Give it that classic 2010s web design look — you know, like the polished corporate sites from around 2011. Full page with header, hero, features, and footer.",
+      "prompt": "Build a landing page for a project management SaaS called MilestoneMania. Give it that classic 2010s web design look — you know, like the polished corporate sites from around 2011. Full page with header, hero, features, and footer.",
       "expected_output": "A complete HTML page with authentic 2010s aesthetic: dark gradient header, bold uppercase condensed headings, glossy CTA buttons with a top-half shine, alternating white/light-gray section bands, drop shadows on cards and nav, skeuomorphic-style feature icons, fluid layout with generous side padding.",
       "files": [],
       "expectations": [
@@ -19,7 +19,7 @@
     },
     {
       "id": 2,
-      "prompt": "I'm building a retro-style website for my email marketing tool, MailBlast. Can you create a pricing page with three plans: Basic ($19/mo), Business ($49/mo), and Agency ($99/mo)? Make it feel like a proper Web 2.0 site from back in the day.",
+      "prompt": "I'm building a retro-style website for my email marketing tool, SpamCannon. Can you create a pricing page with three plans: Basic ($19/mo), Business ($49/mo), and Agency ($99/mo)? Make it feel like a proper Web 2.0 site from back in the day.",
       "expected_output": "Full pricing page with 2010s Web 2.0 aesthetic: gradient header with nav, bold accent-colored section heading, pricing cards with drop shadows and borders, glossy CTA buttons on each plan, dark footer. Brand palette derived from the product context.",
       "files": [],
       "expectations": [
@@ -33,7 +33,7 @@
     },
     {
       "id": 3,
-      "prompt": "Can you make me a hero section for my personal finance app, BudgetWise? I want it to look like those old glossy sites from back when the iPhone first came out — shiny buttons, that whole thing. Just the hero, not the full page.",
+      "prompt": "Can you make me a hero section for my personal finance app, BrokeNoMore? I want it to look like those old glossy sites from back when the iPhone first came out — shiny buttons, that whole thing. Just the hero, not the full page.",
       "expected_output": "A standalone hero section (not a full page) with early-2010s aesthetic: dark gradient background or bold accent band, large bold headline, glossy CTA button, a product screenshot or device mockup placeholder. Scoped to the hero component only.",
       "files": [],
       "expectations": [
@@ -47,7 +47,7 @@
     },
     {
       "id": 4,
-      "prompt": "Build a website homepage for a boutique law firm called Hargrove & Associates. Should feel polished and professional — think early 2010s corporate web, the kind of site a proper firm would have had. Include a nav, a bold intro section, a services list, and a contact CTA at the bottom.",
+      "prompt": "Build a website homepage for a boutique law firm called Billable & Partners LLP. Should feel polished and professional — think early 2010s corporate web, the kind of site a proper firm would have had. Include a nav, a bold intro section, a services list, and a contact CTA at the bottom.",
       "expected_output": "A complete homepage with 2010s corporate aesthetic adapted for a non-tech brand: dark navy or charcoal gradient header, conservative but polished typography, services section with icon-heading-body triads, glossy contact CTA button, dark footer. Palette reflects a law firm — not SaaS-style teal or lime green.",
       "files": [],
       "expectations": [
@@ -62,7 +62,7 @@
     },
     {
       "id": 5,
-      "prompt": "Create a sign-up page for a cloud storage service called VaultDrive. The company uses a deep teal and orange color scheme. Make it look like a legit 2012-era SaaS.",
+      "prompt": "Create a sign-up page for a cloud storage service called DropBucket. The company uses a deep teal and orange color scheme. Make it look like a legit 2012-era SaaS.",
       "expected_output": "A sign-up page with 2010s SaaS aesthetic: gradient header in deep teal, a centered sign-up form that looks recessed/inset into the surface, orange glossy submit button, drop shadows throughout. The provided teal/orange palette is honored while maintaining all era-specific chrome.",
       "files": [],
       "expectations": [
