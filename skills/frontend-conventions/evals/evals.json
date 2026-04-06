@@ -6,7 +6,7 @@
       "prompt": "Build a simple card component in HTML and CSS. The card has a header image, a title, body text, and a footer with a CTA button. Include a 'featured' variant that highlights the card. Name everything correctly.",
       "expected_output": "HTML uses dash-case attributes. CSS uses c- prefix with BEM structure: c-card, c-card__header, c-card__title, c-card__body, c-card__footer, c-card--featured. All names are dash-case. Button uses c- prefix, not unstyled or utility-classed.",
       "files": [],
-      "assertions": [
+      "expectations": [
         "Block class uses c- prefix (e.g. c-card)",
         "Element classes use BEM double underscore (e.g. c-card__header, c-card__title)",
         "Modifier class uses BEM double dash (e.g. c-card--featured)",
@@ -20,7 +20,7 @@
       "prompt": "I'm adding JavaScript behavior to a modal component in the mmn design system. I need: a variable to track whether the modal is open, a function to close it, a class name to hook the JS behavior onto, and a custom data attribute to store the modal's ID.",
       "expected_output": "Variable uses camelCase (isModalOpen). Function uses camelCase (closeModal). JS hook class uses js- prefix (js-mmn-modal). Data attribute uses data-mmn-modal-id format.",
       "files": [],
-      "assertions": [
+      "expectations": [
         "Variable name is camelCase (e.g. isModalOpen or modalIsOpen)",
         "Function name is camelCase (e.g. closeModal)",
         "JS hook class uses the js- prefix (e.g. js-mmn-modal)",
@@ -33,7 +33,7 @@
       "prompt": "I need a CSS class that makes a grid utility full-width, but only from the lg breakpoint and up. What should the class be named, and write the CSS for it?",
       "expected_output": "Class uses u- prefix, @from-lg suffix (not min-lg, bp-lg, or from-large). The responsive suffix is appended directly to the class name.",
       "files": [],
-      "assertions": [
+      "expectations": [
         "Class uses u- prefix for a utility (e.g. u-mmn-full-width@from-lg)",
         "Uses @from-lg suffix — not min-lg, from-large, bp-lg, or any other pattern",
         "Does not use a spelled-out breakpoint name like 'from-large' or 'from-xlarge'",
@@ -45,7 +45,7 @@
       "prompt": "Define CSS custom properties for the primary button background color and border radius in the mmn project. Define one as a global design token and one scoped to the button component.",
       "expected_output": "Global token uses --mmn-color-bg-primary. Scoped component property uses --c-mmn-button-border-radius. Both are dash-case. The scoped one includes the c- prefix to signal component scope.",
       "files": [],
-      "assertions": [
+      "expectations": [
         "Global token follows --namespace-category-name pattern (e.g. --mmn-color-bg-primary)",
         "Scoped token follows --prefix-namespace-block-property pattern (e.g. --c-mmn-button-border-radius)",
         "Background is abbreviated as bg — not background, brand-, surface-, or color-",
@@ -58,7 +58,7 @@
       "prompt": "Here's a CSS rule I wrote — can you fix the property ordering to match the conventions?\n\n```css\n.c-card {\n  background-color: white;\n  font-size: 1rem;\n  border-radius: 8px;\n  display: flex;\n  z-index: 10;\n  padding: 1rem;\n  position: relative;\n  gap: 0.5rem;\n  color: #333;\n  box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n  flex-direction: column;\n  transition: box-shadow 0.2s;\n  align-items: flex-start;\n}\n```",
       "expected_output": "Properties reordered into the correct groups: display/flex properties first, then position, then size, then space (padding), then typography (font-size, color), then border (border-radius, box-shadow), then background, then advanced (transition). z-index comes after position.",
       "files": [],
-      "assertions": [
+      "expectations": [
         "display comes before flex-direction, align-items, and gap",
         "position and z-index come after the display/flex group",
         "padding comes after position properties",

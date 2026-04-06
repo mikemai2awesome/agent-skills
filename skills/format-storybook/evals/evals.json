@@ -6,7 +6,7 @@
       "prompt": "Create a Storybook story file for a Button component. The button has a size prop (sm, md, lg), a variant prop (primary, ghost), and a disabled state. Set up the controls with categories, sensible defaults, and three named stories.",
       "expected_output": "Default export with argTypes using table.category grouping, args with sensible defaults including size: 'md', and three named stories using Template.bind({}) — no component name repeated in story names.",
       "files": [],
-      "assertions": [
+      "expectations": [
         "Default export includes title, component, argTypes, and args",
         "size control uses options ['sm', 'md', 'lg'] — not spelled-out values like 'small', 'medium', 'large'",
         "Default args include size: 'md' (not 'medium' or 'default')",
@@ -22,7 +22,7 @@
       "prompt": "Create a template.js file for a Card component. The card has a title, optional body text, an optional image at the top, and a featured modifier that adds a highlighted border. Follow the standard template patterns.",
       "expected_output": "Exports a named Template function using lit html. Accepts rootClass, customClasses, customStyles, id, testId as standard args alongside card-specific props. Uses classMap for the featured modifier and ifDefined for optional attributes. Image is only rendered when provided.",
       "files": [],
-      "assertions": [
+      "expectations": [
         "Exports a named Template function",
         "Accepts rootClass, id, testId, customClasses, customStyles as standard arguments",
         "Uses classMap to conditionally apply the featured modifier class based on rootClass",
@@ -36,7 +36,7 @@
       "prompt": "Set up a visual regression test file for Chromatic for a Button component.",
       "expected_output": "A component.test.js that imports Template from ./template.js, enables Chromatic snapshots, hides stories from the sidebar with tags, and groups multiple button states into a single grid rather than one story per variant.",
       "files": [],
-      "assertions": [
+      "expectations": [
         "Imports Template from ./template.js",
         "Sets chromatic: { disableSnapshot: false } in parameters",
         "VRT stories are tagged with ['!autodocs', '!dev'] to hide them from the sidebar",
@@ -49,7 +49,7 @@
       "prompt": "Write the template.js for a Dropdown component. It renders a Button as its trigger and a panel as its content. Clicking the trigger should toggle the dropdown open/closed.",
       "expected_output": "Imports Button Template via a path alias (not a relative path). Calls the Button Template for the trigger. Uses context.updateArgs to toggle isOpen on click. Does not copy button HTML markup.",
       "files": [],
-      "assertions": [
+      "expectations": [
         "Imports Button Template from a path alias like @design-system/button/stories/template.js — not a relative path",
         "Calls the imported Button Template function rather than duplicating button HTML markup",
         "Uses context.updateArgs to toggle isOpen state when the trigger is clicked",
@@ -62,12 +62,9 @@
       "prompt": "I have a basic story file for a Tag component with just a Default story. Add stories for: a removable variant (showRemove: true), a disabled state, and small and large size variants.",
       "expected_output": "Four new named stories added using Template.bind({}), each with only the args needed to demonstrate the specific variant. Names are concise and don't repeat 'Tag'. The existing Default story and default export are untouched.",
       "files": [
-        {
-          "path": "tag.stories.js",
-          "content": "import { Template } from './template.js';\n\nexport default {\n  title: 'Components/Tag',\n  component: 'Tag',\n  argTypes: {\n    size: { control: 'select', options: ['sm', 'md', 'lg'], table: { category: 'Variant' } },\n    showRemove: { control: 'boolean', table: { category: 'Variant' } },\n    isDisabled: { control: 'boolean', table: { category: 'State' } },\n    label: { control: 'text', table: { category: 'Content' } }\n  },\n  args: {\n    size: 'md',\n    showRemove: false,\n    isDisabled: false,\n    label: 'Label'\n  }\n};\n\nexport const Default = Template.bind({});\nDefault.args = {};\n"
-        }
+        "evals/files/tag.stories.js"
       ],
-      "assertions": [
+      "expectations": [
         "Four new named stories are added using Template.bind({})",
         "Each story sets only the args that distinguish it from the default — not a full copy of all default args",
         "Story names are concise and do not include the word 'Tag' (e.g. 'Removable' not 'TagRemovable')",

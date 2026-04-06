@@ -6,7 +6,7 @@
       "prompt": "Define color design tokens for a project with light and dark mode support. Include tokens for default text, muted text, primary action color, default background, and a subtle background variant.",
       "expected_output": "Uses @layer config, OKLCH for all color values, light-dark() for theme-sensitive tokens, text-/bg- naming. Sets color-scheme: light dark. Does not use @media (prefers-color-scheme) for token overrides.",
       "files": [],
-      "assertions": [
+      "expectations": [
         "Defines tokens inside @layer config",
         "Uses OKLCH for all color values — no hex, rgb, or hsl",
         "Uses light-dark() for tokens that differ between light and dark modes",
@@ -20,7 +20,7 @@
       "prompt": "Build a button component in CSS. It has a primary filled style and a ghost (outlined) variant. It should have hover and focus states, a disabled state, and small and large size modifiers.",
       "expected_output": "Uses @layer components, c- prefix, BEM naming (c-button, c-button--ghost, c-button--sm, c-button--lg). References only CSS custom properties — no hardcoded values. Uses :focus-visible and logical padding properties.",
       "files": [],
-      "assertions": [
+      "expectations": [
         "Places all styles inside @layer components",
         "Uses c- prefix on the component class (e.g. .c-button)",
         "Variant classes use BEM double dash (e.g. .c-button--ghost, .c-button--sm)",
@@ -35,7 +35,7 @@
       "prompt": "Set up user-toggleable light and dark themes. The user can click a button to switch themes; the OS preference should be the initial default.",
       "expected_output": "Uses light-dark() in config tokens (already defined once). Flips color-scheme via [data-theme] attribute. No token values repeated for dark mode. @media (prefers-color-scheme) is only used for the initial OS default, not for token overrides.",
       "files": [],
-      "assertions": [
+      "expectations": [
         "Token values are not repeated for dark mode — light-dark() already handles both",
         "Uses [data-theme='dark'] { color-scheme: dark } to activate dark mode",
         "Uses [data-theme='light'] { color-scheme: light } to activate light mode",
@@ -47,7 +47,7 @@
       "prompt": "Build a responsive card grid: cards should display in a single column on small screens, two columns from the md breakpoint, and three columns from the lg breakpoint. Each card has an image, title, and description. Use tokens for spacing and a CSS Grid layout.",
       "expected_output": "Uses @layer components, CSS Grid with responsive column counts, token-based gap and padding. No hardcoded px values. Uses inline-size/block-size logical properties where applicable.",
       "files": [],
-      "assertions": [
+      "expectations": [
         "Uses CSS Grid (grid-template-columns) for the layout — not float or flexbox column tricks",
         "Single-column default, two-column at a mid breakpoint, three-column at a wider breakpoint",
         "Gap and padding reference CSS custom property tokens — no hardcoded pixel values",
@@ -60,7 +60,7 @@
       "prompt": "Here's some CSS I inherited. Can you refactor it to follow the project architecture — proper layers, OKLCH tokens, and no hardcoded values?\n\n```css\n.button {\n  display: inline-flex;\n  padding: 8px 16px;\n  background-color: #0066cc;\n  color: #ffffff;\n  border-radius: 4px;\n  font-size: 14px;\n  font-weight: 500;\n  border: none;\n  cursor: pointer;\n}\n\n.button:hover {\n  background-color: #0052a3;\n}\n\n.button:focus {\n  outline: 2px solid #0066cc;\n}\n```",
       "expected_output": "Extracts hardcoded hex values into OKLCH tokens in @layer config. Moves component styles into @layer components with c- prefix. Replaces px values with token references. Fixes :focus to :focus-visible. Replaces physical padding with logical properties.",
       "files": [],
-      "assertions": [
+      "expectations": [
         "Hex color values (#0066cc, #0052a3, #ffffff) are replaced with OKLCH tokens defined in @layer config",
         "Component styles are moved into @layer components",
         "Class renamed from .button to .c-button",
@@ -74,7 +74,7 @@
       "prompt": "Build a feature card grid for a SaaS marketing site. Cards should automatically wrap into as many columns as fit without any media queries — each card should be at least 20 characters wide. Inside each card, the heading should scale fluidly with the card's width, clamped between 1rem and 2rem. Use design tokens and proper layers.",
       "expected_output": "Grid uses repeat(auto-fit, minmax(20ch, 1fr)) — no breakpoints. Heading uses clamp() with a cqi ideal value and rem minimum. Parent card establishes container-type: inline-size. All values come from tokens or are intrinsic (ch, cqi, fr). No px except border-width.",
       "files": [],
-      "assertions": [
+      "expectations": [
         "Grid uses repeat(auto-fit, minmax()) — no @media breakpoints for column count",
         "The minmax minimum uses ch units (e.g. 20ch) — not px",
         "Card heading uses clamp() for fluid font sizing",
@@ -89,7 +89,7 @@
       "prompt": "I have a list of tag chips that should wrap naturally. Each chip should try to be at least 10 characters wide but grow to fill available space, and they should wrap to new rows independently rather than all breaking at once. Use a flex layout.",
       "expected_output": "Uses display: flex with flex-wrap: wrap on the container. Each chip uses flex: 1 1 10ch — not a fixed width or min-width hack. No media queries. ch unit for the flex-basis minimum.",
       "files": [],
-      "assertions": [
+      "expectations": [
         "Container uses display: flex and flex-wrap: wrap",
         "Chip items use flex shorthand (flex: 1 1 <value>) — not flex-grow/flex-shrink/flex-basis separately",
         "The flex-basis value uses ch units (e.g. 10ch) — not px",
