@@ -5,4 +5,4 @@ skills/.DS_Store
 skills-lock.json
 node_modules/
 evals/
-frontend-a11y-workspace/
+*-workspace/
