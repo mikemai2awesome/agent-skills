@@ -5,8 +5,6 @@ description: Create web interfaces with an authentic early-2010s aesthetic. Use 
 
 This skill guides the visual aesthetic of early-2010s web interfaces — the genuine design language of the era, not parody. Polished, professional, slightly heavy, and utterly confident in its gradients.
 
-**This skill is responsible for visual design only.** Use scalable vanilla CSS with design tokens (`@layer config`), cascade layers, and BEM naming. Use native HTML elements for accessibility — `<button>`, `<dialog>`, `<details>` — rather than ARIA-hacking divs. Use `dash-case` for HTML attributes, `--dash-case` for CSS custom properties, `camelCase` for JavaScript, and prefix component classes with `c-`, utilities with `u-`, JavaScript hooks with `js-`.
-
 The user provides a component, page, or layout to build. They may include context about the brand, product, or audience.
 
 ## Design Thinking
