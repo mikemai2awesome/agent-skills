@@ -1,0 +1,78 @@
+{
+  "skill_name": "brightcove-player",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I have a Brightcove in-page embed in my HTML. The video id is 4825279519001 and account is 1752604059001. I need to style the big play button so it's circular, centered on the video, and uses our brand blue (#2563EB). The button should have a subtle scale-up animation on hover. Also make the player responsive — it should fill its container width and maintain 16:9 aspect ratio. Give me the complete HTML page I need.",
+      "expected_output": "A complete HTML page with: (1) a wrapper div for the player, (2) responsive sizing via aspect-ratio and width:100%, (3) circular play button using border-radius:50%, centered with top:50%/left:50%/transform:translate(-50%,-50%), in brand blue, (4) hover scale transform, (5) CSS specificity technique (cascade layer + !important) to beat Brightcove's stylesheet, (6) design tokens defined on :root using --videojs-* prefix.",
+      "files": [],
+      "expectations": [
+        "The output uses a wrapper element (e.g. .c-player or similar) with aspect-ratio: 16/9 and width: 100% for responsive sizing",
+        "The big play button has equal width and height (same explicit value or same CSS variable) so border-radius: 50% produces a circle rather than an oval",
+        "The play button is centered using top:50%, left:50%, transform:translate(-50%,-50%) and margin:0",
+        "The play button background uses #2563EB or a CSS variable referencing it",
+        "The hover or focus transform includes both translate(-50%, -50%) and scale() together, so the button scales without losing its centering",
+        "CSS is placed inside an @layer block (unnamed or named) to beat Brightcove's injected stylesheet",
+        "!important is used on player override properties",
+        "The Brightcove player script src references account 1752604059001"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I've got a Brightcove player on my page (in-page embed, account 1752604059001, video 4825279519001, player id myPlayer). I need to add English captions from a file called subtitles-en.vtt. The captions should auto-show on load. Style the captions: white text, semi-transparent black background (around 70% opacity), font size a bit larger than default. Show me the JS code to add and style the captions.",
+      "expected_output": "JavaScript using videojs.getPlayer('myPlayer').ready() with player.one('loadeddata') to call addRemoteTextTrack(), then a setTimeout to loop through textTracks() and set mode='showing'. CSS targeting .vjs-text-track-cue for color:white and semi-transparent background. Mention of local dev caveat (file:// won't work, needs a server).",
+      "files": [],
+      "expectations": [
+        "Uses videojs.getPlayer('myPlayer').ready() or bc('myPlayer') to access the player",
+        "Uses addRemoteTextTrack() rather than a static <track> element inside <video-js> to load the caption",
+        "Calls addRemoteTextTrack() inside a loadeddata event listener rather than directly in the ready() callback",
+        "Defers setting track.mode until after the track has registered — via setTimeout, the track 'load' event, or a similar async mechanism",
+        "Sets track.mode = 'showing' by looping through textTracks()",
+        "Provides CSS targeting .vjs-text-track-cue for styling the caption text",
+        "Caption CSS sets color to white (or equivalent) and a semi-transparent dark background",
+        "Mentions or explains why <track> inside <video-js> doesn't reliably work with data-video-id (async load)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Working on a Brightcove player skin. I want the control bar to have a frosted glass / glassmorphism look — semi-transparent background with a subtle blur effect. Controls (buttons, progress bar fill) should use a purple accent color (#7C3AED). The control bar should be hidden before the user starts playback. Also add light and dark mode support using CSS system preferences. What's the CSS I need?",
+      "expected_output": "CSS with: (1) backdrop-filter:blur() on .vjs-control-bar for glassmorphism, (2) semi-transparent background-color, (3) purple accent (#7C3AED or variable) for .vjs-control/.vjs-button color and .vjs-play-progress, (4) :not(.vjs-has-started) .vjs-control-bar with opacity:0 and pointer-events:none to hide pre-play, (5) color-scheme: light dark with light-dark() function for token values, (6) @layer to handle specificity, (7) !important on all overrides.",
+      "files": [],
+      "expectations": [
+        "Applies backdrop-filter: blur() to .vjs-control-bar for the frosted glass effect",
+        "Includes -webkit-backdrop-filter alongside backdrop-filter for Safari support",
+        "Uses a semi-transparent background-color (rgba or oklch/color-mix with alpha) on the control bar",
+        "Sets the accent color for controls to purple (#7C3AED or a CSS variable with this value) and applies it to at least .vjs-play-progress or .vjs-button",
+        "Hides the control bar in pre-play state using :not(.vjs-has-started) .vjs-control-bar with opacity:0 and pointer-events:none",
+        "Uses color-scheme property and light-dark() CSS function (or @media prefers-color-scheme) for dark/light mode support",
+        "CSS overrides are placed inside an @layer block to beat Brightcove's specificity",
+        "All override properties use !important"
+      ]
+    }
+    ,
+    {
+      "id": 4,
+      "prompt": "I need a complete, production-ready Brightcove player skin for our brand. In-page embed, account 1752604059001, video 4825279519001, player id myPlayer. Full requirements:\n\nBrand: primary dark navy #0F172A, accent indigo #6366F1.\n\n- Responsive: fills its container, 16:9\n- Light/dark mode via CSS system preference — use the modern color-scheme + light-dark() approach, no JS\n- All colors as design tokens on :root with --videojs-* prefix\n- Play button: round, centered, indigo background, scale on hover without breaking centering\n- Control bar: semi-transparent frosted glass (backdrop-filter, Safari too), hidden before first play, indigo accent on buttons and progress, text-shadow reset on all controls\n- Progress bar track grows taller on hover, anchored to the bottom edge as it expands\n- Volume bar uses accent color\n- Time display (current + duration) visible when player is at least 24rem wide — use CSS container queries, not media queries; hide remaining-time when showing current+duration\n- Pre-play duration badge (bottom-right corner) injected via JS on loadedmetadata, fades out when play starts\n- Dock title/description overlay at the top with a gradient scrim fading to transparent\n- Popup menus (quality, CC): branded background, hover highlight, distinct selected-item style\n- Caption text: white, 70% opaque dark background\n\nGive me the complete self-contained HTML page.",
+      "expected_output": "A complete HTML page that addresses every requirement: wrapper+aspect-ratio, @layer+!important specificity strategy, --videojs-* design tokens, color-scheme+light-dark() theming, circular play button with correct centering and hover, frosted glass control bar with -webkit-backdrop-filter, :not(.vjs-has-started) pre-play hide, progress bar hover expansion anchored to bottom, container query for time display, JS duration badge on loadedmetadata + fade-out on play, .vjs-dock-text gradient scrim, popup menu and caption styling.",
+      "files": [],
+      "expectations": [
+        "Wrapper element with aspect-ratio: 16/9 and width: 100% for responsive sizing",
+        "All .vjs-* overrides placed inside an unnamed @layer block, with named layers declared first",
+        "!important used on all .vjs-* override properties",
+        "Design tokens defined on :root using --videojs-* prefix (at least play button, accent, and control bar colors)",
+        "color-scheme: light dark declared on :root and light-dark() function used for token values",
+        "Play button has equal width and height, border-radius: 50%, and is centered via top:50%/left:50%/transform:translate(-50%,-50%)/margin:0",
+        "Hover transform on the play button includes both translate(-50%, -50%) and scale() so it scales without losing its centering",
+        "-webkit-backdrop-filter is present alongside backdrop-filter on .vjs-control-bar",
+        "Control bar is hidden before first play using .video-js:not(.vjs-has-started) .vjs-control-bar with opacity:0 and pointer-events:none",
+        ".vjs-control-bar and its descendants have text-shadow reset to none",
+        "Progress bar hover expansion uses .vjs-progress-control:hover .vjs-progress-holder with a taller height, and .vjs-progress-control has align-items: flex-end to anchor the bar to the bottom edge",
+        "Time display (.vjs-time-control) is shown using a @container query (not @media) referencing the container declared on .video-js",
+        "Duration badge JS listens to loadedmetadata, creates a DOM element, and appends it via player.el().appendChild()",
+        "Duration badge JS listens to the play event and fades the badge out, removing it after a CSS transition",
+        ".vjs-dock-text uses a CSS gradient (linear-gradient) as its background rather than a flat color",
+        ".vjs-menu-content background and .vjs-menu li.vjs-selected styles are both present"
+      ]
+    }
+  ]
+}

@@ -56,6 +56,14 @@ npx skills add mikemai2awesome/agent-skills --skill frontend-design-2010s
 npx skills add mikemai2awesome/agent-skills --skill format-storybook
 ```
 
+### Brightcove Video Player
+
+`brightcove-player` is standalone for projects that use the Brightcove video player:
+
+```shell
+npx skills add mikemai2awesome/agent-skills --skill brightcove-player
+```
+
 ## Usage
 
 Skills are automatically available once installed. The agent will use them when relevant tasks are detected. They are also triggered mannually through `/` command.
@@ -68,6 +76,7 @@ Skills are automatically available once installed. The agent will use them when 
 - **frontend-a11y:** Write minimal, accessible HTML, CSS, and JavaScript without over-engineering. Uses native browser elements instead of ARIA-hacking generic divs, component libraries, or focus-trap packages.
 - **frontend-design-2010s:** Recreate the authentic early-2010s corporate/SaaS web aesthetic — gradient headers, glossy CTA buttons, skeuomorphic icons, horizontal band layouts, and drop shadows. Produces fluid, complete pages that feel genuinely built in 2011, not like a modern design mimicking it.
 - **format-storybook:** Structure and organize Storybook files for scalability using battle-tested patterns from Cassondra Roberts. Covers story files, template files, controls, visual regression testing, and component documentation.
+- **brightcove-player:** Style and fully customize the Brightcove video player UI — control bar, play button, progress bar, volume, captions, playlists, responsive sizing, and skins. Works with `.vjs-*` CSS classes, in-page and iframe embeds, and the `bc()` / `videojs` JavaScript APIs.
 
 ## Accessibility
 

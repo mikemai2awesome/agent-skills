@@ -5,4 +5,5 @@ skills/.DS_Store
 skills-lock.json
 node_modules/
 evals/
+!skills/**/evals/
 *-workspace/
