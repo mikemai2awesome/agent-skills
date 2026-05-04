@@ -14,7 +14,8 @@
         "The hover or focus transform includes both translate(-50%, -50%) and scale() together, so the button scales without losing its centering",
         "CSS is placed inside an @layer block (unnamed or named) to beat Brightcove's injected stylesheet",
         "!important is used on player override properties",
-        "The Brightcove player script src references account 1752604059001"
+        "The Brightcove player script src references account 1752604059001",
+        "skin=\"false\" is present as an attribute on the <video-js> element"
       ]
     },
     {
@@ -26,7 +27,7 @@
         "Uses videojs.getPlayer('myPlayer').ready() or bc('myPlayer') to access the player",
         "Uses addRemoteTextTrack() rather than a static <track> element inside <video-js> to load the caption",
         "Calls addRemoteTextTrack() inside a loadeddata event listener rather than directly in the ready() callback",
-        "Defers setting track.mode until after the track has registered — via setTimeout, the track 'load' event, or a similar async mechanism",
+        "Defers setting track.mode until after the track has registered — uses a captionsReady guard on the loadeddata event (not a bare setTimeout) so duplicate tracks aren't added on source changes",
         "Sets track.mode = 'showing' by looping through textTracks()",
         "Provides CSS targeting .vjs-text-track-cue for styling the caption text",
         "Caption CSS sets color to white (or equivalent) and a semi-transparent dark background",
@@ -71,7 +72,22 @@
         "Duration badge JS listens to loadedmetadata, creates a DOM element, and appends it via player.el().appendChild()",
         "Duration badge JS listens to the play event and fades the badge out, removing it after a CSS transition",
         ".vjs-dock-text uses a CSS gradient (linear-gradient) as its background rather than a flat color",
-        ".vjs-menu-content background and .vjs-menu li.vjs-selected styles are both present"
+        ".vjs-menu-content background and .vjs-menu li.vjs-selected styles are both present",
+        "skin=\"false\" is present as an attribute on the <video-js> element"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "I have a Brightcove in-page embed (account 1752604059001, video 4825279519001, player config default, HTML element id myPlayer). I want to style both the popup menus (quality selector, captions) and the right-click context menu so they match a dark branded look: background #1E1B4B, text white, a highlighted selected item using accent #6366F1. Give me a complete working HTML page.",
+      "expected_output": "A complete HTML page with CSS inside an @layer block targeting: (1) .vjs-menu-button-popup .vjs-menu .vjs-menu-content for popup menu background and text, (2) .vjs-menu li.vjs-menu-item:hover for item hover state, (3) .vjs-menu li.vjs-selected for the selected item accent color, (4) .vjs-contextmenu-ui-menu .vjs-menu-content for the right-click context menu — all using !important and the dark/accent colors specified.",
+      "files": [],
+      "expectations": [
+        "CSS overrides are placed inside an @layer block with !important on each property",
+        "skin=\"false\" is present as an attribute on the <video-js> element",
+        ".vjs-menu-button-popup .vjs-menu .vjs-menu-content (or .vjs-menu-content shorthand) is styled with the dark background #1E1B4B and white text",
+        ".vjs-menu li.vjs-menu-item:hover is styled with a distinct hover background",
+        ".vjs-menu li.vjs-selected (or .vjs-menu li.vjs-menu-item.vjs-selected) is styled with the accent color #6366F1",
+        ".vjs-contextmenu-ui-menu .vjs-menu-content is styled to match the popup menu (dark background, white text) — not left unstyled"
       ]
     }
   ]
