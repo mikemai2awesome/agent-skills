@@ -9,6 +9,55 @@ Brightcove players are built on Video.js. Every visual element is targetable via
 
 **Always use physical CSS properties** (`width`, `height`, `max-width`, `top`, `left`, etc.) — never logical properties (`inline-size`, `block-size`, `inset-inline-start`, etc.). Video.js itself uses physical properties throughout, and mixing logical properties into overrides creates inconsistency and can cause specificity surprises.
 
+## Player script URL and ID terminology
+
+Brightcove uses three distinct IDs that are easy to confuse:
+
+| Term                 | What it is                                                         | Example               |
+| -------------------- | ------------------------------------------------------------------ | --------------------- |
+| **Account ID**       | Numeric Brightcove account identifier                              | `1752604059001`       |
+| **Player config ID** | The player configuration created in Studio                         | `default` (or a UUID) |
+| **HTML element id**  | The `id` attribute on `<video-js>` — used by `videojs.getPlayer()` | `myPlayer`            |
+
+The CDN script URL is built from the **account ID** and **player config ID** — not the HTML element id:
+
+```
+https://players.brightcove.net/{account_id}/{player_config_id}_default/index.min.js
+```
+
+So if the account is `1752604059001` and the Studio player config is named `default`, the script URL is:
+
+```html
+<script src="https://players.brightcove.net/1752604059001/default_default/index.min.js"></script>
+```
+
+The `<video-js>` element's `id` attribute (`myPlayer`, `heroPlayer`, etc.) is separate — it's just a DOM handle for `videojs.getPlayer()`:
+
+```html
+<video-js
+  id="myPlayer"           <!-- HTML element id — what getPlayer() uses -->
+  data-account="1752604059001"
+  data-player="default"   <!-- Brightcove player config ID — used in the script URL -->
+  data-embed="default"
+  data-video-id="4825279519001"
+  class="video-js"
+  controls
+></video-js>
+```
+
+When a user says "player id myPlayer", they almost always mean the element id, not a Studio player config named `myPlayer`. If no Brightcove player config ID is specified, default to `data-player="default"` and the `default_default` script URL.
+
+**Demo / preview pages** — when producing a self-contained demo HTML file, always use these known-good values so the player actually loads:
+
+- Account: `1752604059001`
+- Player config: `default`
+- Video: `4825279519001`
+- Script: `https://players.brightcove.net/1752604059001/default_default/index.min.js`
+
+Never leave placeholder text like `ACCOUNT_ID` or `PLAYER_ID` in a demo file — it will produce a blank page with console errors.
+
+---
+
 ## Embed type — decide first
 
 | Embed type             | Where CSS lives                                    | JS access |
@@ -61,10 +110,13 @@ Wrap `<video-js>` in a container element rather than styling it from the page ro
     data-player="default"
     data-embed="default"
     class="video-js"
+    skin="false"
     controls
   ></video-js>
 </div>
 ```
+
+**Always add `skin="false"`** on the `<video-js>` element when doing a custom skin. It disables Brightcove's default skin stylesheet, giving you a clean baseline with far fewer specificity fights.
 
 ```css
 .c-player {
@@ -133,6 +185,20 @@ Use the `color-scheme` property and the `light-dark()` CSS function to switch to
 }
 ```
 
+**Always initialize `data-theme` from `prefers-color-scheme` on page load** so the explicit toggle starts in sync with the system preference — otherwise users on dark OS get a light flash before JS runs:
+
+```javascript
+function setTheme(value) {
+  document.documentElement.dataset.theme = value;
+  /* update any toggle buttons with aria-pressed here */
+}
+
+/* Read system preference and set immediately */
+setTheme(
+  window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
+);
+```
+
 ---
 
 ## Play button
@@ -149,6 +215,22 @@ Use the `color-scheme` property and the `light-dark()` CSS function to switch to
 | `#myPlayerID .vjs-big-play-button`                            | Player-specific override (highest specificity)               |
 
 Centering reliably: use `top: 50%; left: 50%; transform: translate(-50%, -50%)` and `margin: 0` — the default margin-based offset from Video.js doesn't account for custom button sizes.
+
+**Fluid sizing with `clamp()` and `vi` units** — use viewport-inline units so the button scales with the player width rather than staying fixed. Always do this instead of a static rem value:
+
+```css
+:root {
+  --videojs-big-btn: clamp(2rem, 8vi, 4.5rem);
+  --videojs-big-btn-icon-size: clamp(1rem, 6vi, 2rem);
+}
+
+.video-js .vjs-big-play-button {
+  width: var(--videojs-big-btn) !important;
+  height: var(--videojs-big-btn) !important;
+  font-size: var(--videojs-big-btn-icon-size) !important;
+  line-height: var(--videojs-big-btn) !important;
+}
+```
 
 Change accessible label text:
 
@@ -254,43 +336,9 @@ Container queries require `container: video / inline-size` on `.video-js` (set i
 
 ## Duration badge (pre-play overlay)
 
-A custom element injected into the player to show total duration before playback, then faded out on play. The class name (`c-player__duration`) is yours to define.
+A custom element injected into the player to show total duration before playback, then hidden on play. Scope it with `@container video (inline-size >= 24rem)` so it only appears when the player is wide enough. Use a `has-played` class on `.video-js` to hide it on play — cleaner than DOM removal and reusable for any pre-play overlays.
 
-| Selector                                  | Targets                                                              |
-| ----------------------------------------- | -------------------------------------------------------------------- |
-| `.video-js .c-player__duration`           | Badge container (position absolute, bottom-right, hidden by default) |
-| `@container video (inline-size >= 24rem)` | Show the badge only when the player is wide enough                   |
-
-```javascript
-videojs.getPlayer("myPlayer").ready(function () {
-  var player = this;
-
-  player.on("loadedmetadata", function () {
-    var d = player.duration();
-    if (!d) return;
-    var m = Math.floor(d / 60);
-    var s = String(Math.floor(d % 60)).padStart(2, "0");
-    var badge = document.createElement("div");
-    badge.className = "c-player__duration";
-    badge.textContent = m + ":" + s;
-    player.el().appendChild(badge);
-  });
-
-  player.on("play", function () {
-    var badge = player.el().querySelector(".c-player__duration");
-    if (!badge) return;
-    badge.style.opacity = "0";
-    badge.style.transition = "opacity 300ms ease";
-    badge.addEventListener(
-      "transitionend",
-      function () {
-        badge.remove();
-      },
-      { once: true },
-    );
-  });
-});
-```
+For the full CSS and JS implementation, see `references/snippets.md`.
 
 ---
 
@@ -323,72 +371,44 @@ The dock text appears at the top of the player. Use `.vjs-dock-text` (not `.vjs-
 
 ---
 
+## Context menu
+
+The right-click context menu is a separate menu from the popup menus above — it uses `.vjs-contextmenu-ui-menu`. Always theme it alongside the popup menus or it will look unstyled against your custom skin.
+
+| Selector                                     | Targets                      |
+| -------------------------------------------- | ---------------------------- |
+| `.vjs-contextmenu-ui-menu .vjs-menu-content` | Menu box (background, color) |
+
+```css
+@layer {
+  .c-player .vjs-contextmenu-ui-menu .vjs-menu-content {
+    color: var(--videojs-text) !important;
+    background-color: var(--videojs-menu-bg) !important;
+  }
+}
+```
+
+---
+
 ## Captions / subtitles
 
 ### Adding captions
 
-The CC button only appears when the player has at least one text track. When using `data-video-id`, the player loads its source asynchronously — a `<track>` element inside `<video-js>` is often ignored. Use `addRemoteTextTrack()` on the `loadeddata` event instead:
+The CC button only appears when the player has at least one text track. When using `data-video-id`, the player loads its source asynchronously — a `<track>` element inside `<video-js>` is often ignored. Use `addRemoteTextTrack()` on the `loadeddata` event instead.
 
-```javascript
-videojs.getPlayer("myPlayer").ready(function () {
-  var player = this;
-  player.one("loadeddata", function () {
-    player.addRemoteTextTrack(
-      {
-        kind: "captions",
-        src: "captions-en.vtt",
-        srclang: "en",
-        label: "English",
-      },
-      false,
-    );
-    setTimeout(function () {
-      var tracks = player.textTracks();
-      for (var i = 0; i < tracks.length; i++) {
-        if (tracks[i].kind === "captions" && tracks[i].label === "English") {
-          tracks[i].mode = "showing";
-          break;
-        }
-      }
-    }, 0);
-  });
-});
-```
+**Always use the `ensureTrack` pattern** — it handles source changes (multiple `loadeddata` firings) and deduplicates tracks so they aren't added twice. The pattern uses a `captionsReady` guard and calls `addRemoteTextTrack()` on `loadeddata`. For the full implementation (including multi-language support), see `references/captions.md`.
 
-> **Local dev caveat:** browsers block `.vtt` files loaded via `file://`. Serve from a local HTTP server (e.g. `node server.js`, `npx serve .`).
+> **Local dev caveat:** browsers block `.vtt` files loaded via `file://`. Serve from a local HTTP server (e.g. `npx serve .`).
 
 ### Styling caption text
 
-| Selector                            | Targets                                                                          |
-| ----------------------------------- | -------------------------------------------------------------------------------- |
-| `.video-js .vjs-text-track-display` | Outer caption container — avoid overriding `top`/`left`, player manages position |
-| `.video-js .vjs-text-track-cue`     | Individual caption line (font, color, background)                                |
-
-**Supported properties:** `font-family`, `font-size`, `font-weight`, `color`, `background`, `background-color`, `opacity`, `text-decoration`, `text-shadow`
-
-**Not supported:** `width`, `height`, `line-height`, `white-space`, `top`, `left`, `display`
-
-Safari caveat: native captions ignore WebVTT inline styles — device settings take over.
+For caption text selectors, supported/unsupported properties, and Safari caveats, see `references/captions.md`.
 
 ---
 
 ## Caption settings dialog
 
-The dialog uses `.vjs-text-track-settings` — **not** `.vjs-caption-settings`.
-
-| Selector                                                 | Targets                                                                               |
-| -------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| `.vjs-text-track-settings`                               | Dialog container (background, border, border-radius, font)                            |
-| `.vjs-text-track-settings legend`                        | Section headings (font, size, color, letter-spacing)                                  |
-| `.vjs-text-track-settings label`                         | Form labels                                                                           |
-| `.vjs-text-track-settings select`                        | Dropdown inputs — add `-webkit-appearance: none` on macOS or `font-family` is ignored |
-| `.vjs-text-track-settings .vjs-modal-dialog-content`     | Inner layout container (flex or grid)                                                 |
-| `.vjs-text-track-settings .vjs-track-settings-colors`    | Text / Text Background / Caption Area section                                         |
-| `.vjs-text-track-settings .vjs-track-settings-font`      | Font Size / Text Edge Style / Font Family section                                     |
-| `.vjs-text-track-settings .vjs-track-settings-controls`  | Button row                                                                            |
-| `.vjs-text-track-settings .vjs-done-button`              | Done button                                                                           |
-| `.vjs-text-track-settings .vjs-default-button`           | Reset button — **not** `.vjs-reset-button`                                            |
-| `.vjs-text-track-settings .vjs-control.vjs-close-button` | Close (×) button                                                                      |
+The dialog uses `.vjs-text-track-settings` — **not** `.vjs-caption-settings`. For the full selector table, see `references/captions.md`.
 
 ---
 
@@ -416,16 +436,7 @@ videojs.getPlayer("myPlayer").ready(function () {
 | `.video-js .vjs-fullscreen-control:hover`                        | Button hover state      |
 | `.video-js .vjs-fullscreen-control .vjs-icon-placeholder:before` | Button icon glyph       |
 
-Remove it on iOS (native fullscreen is handled by the browser):
-
-```javascript
-videojs.getPlayer("myPlayer").ready(function () {
-  if (videojs.browser.IS_IOS) {
-    var btn = document.querySelector(".vjs-fullscreen-control");
-    btn?.parentNode.removeChild(btn);
-  }
-});
-```
+To remove it on iOS (native fullscreen is handled by the browser), check `videojs.browser.IS_IOS` inside `.ready()` and remove the `.vjs-fullscreen-control` element from the DOM.
 
 ---
 
