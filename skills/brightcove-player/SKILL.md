@@ -36,8 +36,8 @@ The `<video-js>` element's `id` attribute (`myPlayer`, `heroPlayer`, etc.) is se
 ```html
 <video-js
   id="myPlayer" <!-- HTML element id — what getPlayer() uses -->
-  data-account="1752604059001" <!-- Brightcove player config ID — used in the script URL -->
-  data-player="default"
+  data-account="1752604059001" <!-- Brightcove account ID — used in the script URL -->
+  data-player="default" <!-- Brightcove player config ID — used in the script URL -->
   data-embed="default"
   data-video-id="4825279519001"
   class="video-js"
