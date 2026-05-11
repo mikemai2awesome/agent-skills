@@ -8,7 +8,7 @@ All skills here reflect the way Mike Mai codes.
 
 ## Installation
 
-Note: `npx skills` is a convevnient way to install but if you want to install specifically for Claude Code, drop the files into the `.claude/skills` folder.
+Note: `npx skills` is a convenient way to install but if you want to install specifically for Claude Code, drop the files into the `.claude/skills` folder.
 
 ### YOLO
 
@@ -56,7 +56,7 @@ npx skills add mikemai2awesome/agent-skills --skill frontend-design-2010s
 npx skills add mikemai2awesome/agent-skills --skill format-storybook
 ```
 
-### Brightcove Video Player
+### Branded Video Player
 
 `brightcove-player` is standalone for projects that use the Brightcove video player:
 
@@ -64,18 +64,27 @@ npx skills add mikemai2awesome/agent-skills --skill format-storybook
 npx skills add mikemai2awesome/agent-skills --skill brightcove-player
 ```
 
+### How Do You Like Them Apples
+
+`ios-a11y` is standalone for iOS projects using Swift, UIKit, or SwiftUI:
+
+```shell
+npx skills add mikemai2awesome/agent-skills --skill ios-a11y
+```
+
 ## Usage
 
-Skills are automatically available once installed. The agent will use them when relevant tasks are detected. They are also triggered mannually through `/` command.
+Skills are automatically available once installed. The agent will use them when relevant tasks are detected. They are also triggered manually through `/` command.
 
 ## Available Skills
 
 - **tiny-css:** Write minimal, efficient CSS for small or minimalist projects by trusting the browser instead of fighting it.
 - **more-css:** The default CSS skill for real projects. Write scalable vanilla CSS using design tokens (`@layer config`), cascade layers, BEM naming, `light-dark()` for theming, OKLCH colors, and relative units (`rem`, `cqi`, `clamp()`). No frameworks, no Sass.
+- **frontend-design-2010s:** Recreate the authentic early-2010s corporate/SaaS web aesthetic — gradient headers, glossy CTA buttons, skeuomorphic icons, horizontal band layouts, and drop shadows. Produces fluid, complete pages that feel genuinely built in 2011, not like a modern design mimicking it.
 - **frontend-conventions:** Establish and enforce consistent coding standards across HTML, CSS, and JavaScript — formatting, naming cases, class prefixes, acceptable abbreviations, modifier APIs (sizes, shades, hierarchy, breakpoints), and CSS property order.
 - **frontend-a11y:** Write minimal, accessible HTML, CSS, and JavaScript without over-engineering. Uses native browser elements instead of ARIA-hacking generic divs, component libraries, or focus-trap packages.
-- **frontend-design-2010s:** Recreate the authentic early-2010s corporate/SaaS web aesthetic — gradient headers, glossy CTA buttons, skeuomorphic icons, horizontal band layouts, and drop shadows. Produces fluid, complete pages that feel genuinely built in 2011, not like a modern design mimicking it.
 - **format-storybook:** Structure and organize Storybook files for scalability using battle-tested patterns from Cassondra Roberts. Covers story files, template files, controls, visual regression testing, and component documentation.
+- **ios-a11y:** Implement accessibility in iOS apps using Swift, UIKit, and SwiftUI — VoiceOver labels/hints/traits/actions, Dynamic Type, Reduce Motion, Dark Mode, focus management, custom rotors, Voice Control, Switch Control, and XCTest audits.
 - **brightcove-player:** Style and fully customize the Brightcove video player UI — control bar, play button, progress bar, volume, captions, playlists, responsive sizing, and skins. Works with `.vjs-*` CSS classes, in-page and iframe embeds, and the `bc()` / `videojs` JavaScript APIs.
 
 ## Accessibility
