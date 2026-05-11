@@ -144,6 +144,26 @@ titleLabel.isAccessibilityElement = false
 subtitleLabel.isAccessibilityElement = false
 ```
 
+Gotcha when combining: if a child `Button` is combined with `.combine`, its label won't transfer into the combined element. Either remove `.isButton` from the child first, or set `.accessibilityLabel` explicitly on the combined parent.
+
+### Grouping Controls
+
+Use `.contain` (not `.combine`) when you want a group label announced on entry but children to stay individually focusable — the right pattern for form sections, radio groups, and card regions.
+
+**SwiftUI:**
+```swift
+VStack {
+    Text("Shipping address")
+    TextField("Street", text: $street)
+    TextField("City", text: $city)
+}
+.accessibilityElement(children: .contain)
+.accessibilityLabel("Shipping address")
+// VoiceOver announces "Shipping address, group" on entry, then reads each field individually
+```
+
+Warning: adding `.accessibilityLabel` to a container *without* `.accessibilityElement(children: .contain)` silently overrides every child element's label — this breaks Voice Control's "Tap [name]" command.
+
 ### Custom Ordering
 
 When the default left-to-right, top-to-bottom focus order doesn't match the logical reading order, override it.
@@ -179,6 +199,15 @@ AccessibilityNotification.Announcement("Item added to cart").post()
 
 // All iOS versions
 UIAccessibility.post(notification: .announcement, argument: "Item added to cart")
+```
+
+When posting from a state change, add a short delay so VoiceOver doesn't skip the announcement:
+```swift
+.onChange(of: itemAdded) { _ in
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        AccessibilityNotification.Announcement("Item added to cart").post()
+    }
+}
 ```
 
 Wait until the current VoiceOver utterance finishes before posting — or use `UIAccessibility.post(notification: .announcement, argument:)` which queues automatically.
@@ -233,6 +262,34 @@ modalContainerView.accessibilityViewIsModal = true
 UIAccessibility.post(notification: .screenChanged, argument: modalContainerView)
 ```
 
+For custom SwiftUI overlays, also handle the escape gesture so VoiceOver users can close with a two-finger scrub:
+```swift
+VStack { /* modal content */ }
+    .accessibilityAddTraits(.isModal)
+    .accessibilityAction(.escape) { isPresented = false }
+```
+
+### Keyboard Dismiss Focus
+
+Text fields don't return VoiceOver focus after keyboard dismissal. Use `@AccessibilityFocusState` to send it back explicitly:
+
+```swift
+@AccessibilityFocusState private var fieldFocused: Bool
+
+TextField("Name", text: $name)
+    .accessibilityFocused($fieldFocused)
+    .toolbar {
+        ToolbarItem(placement: .keyboard) {
+            Button("Done") {
+                dismissKeyboard()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    fieldFocused = true
+                }
+            }
+        }
+    }
+```
+
 ---
 
 ## Custom Actions
@@ -259,6 +316,29 @@ cell.accessibilityCustomActions = [
         return true
     }
 ]
+```
+
+---
+
+## Magic Tap
+
+Magic Tap lets VoiceOver users double-tap with two fingers anywhere on screen to toggle the app's most important action — play/pause, answer/end a call, start/stop a recording. Define at most one per screen.
+
+**SwiftUI:**
+```swift
+ContentView()
+    .accessibilityAction(.magicTap) {
+        isPlaying.toggle()
+    }
+// Place on a top-level or root view
+```
+
+**UIKit:**
+```swift
+override func accessibilityPerformMagicTap() -> Bool {
+    isPlaying.toggle()
+    return true
+}
 ```
 
 ---
@@ -292,6 +372,34 @@ label.font = UIFont.systemFont(ofSize: 16) // won't scale
 
 Never set a fixed height on a view that contains text — use constraints that allow growth. Use `.numberOfLines = 0` on UILabel.
 
+### Large Content Viewer
+
+Elements that intentionally don't scale with Dynamic Type — tab bar icons, toolbar buttons — must support the Large Content Viewer. Users with the largest accessibility text sizes hold a finger on the element to see an enlarged version in the center of the screen.
+
+**SwiftUI:**
+```swift
+Button {
+    composeMessage()
+} label: {
+    Label("Compose", systemImage: "square.and.pencil")
+}
+.accessibilityShowsLargeContentViewer()
+
+// Custom content in the viewer:
+Image(systemName: "plus")
+    .accessibilityShowsLargeContentViewer {
+        Label("Add item", systemImage: "plus")
+    }
+```
+
+**UIKit:**
+```swift
+button.showsLargeContentViewer = true
+button.largeContentTitle = "Compose"
+button.largeContentImage = UIImage(systemName: "square.and.pencil")
+button.addInteraction(UILargeContentViewerInteraction())
+```
+
 ### Reduce Motion
 
 Users with vestibular disorders or attention differences may have Reduce Motion enabled. Check this preference before playing animations or transitions.
@@ -324,6 +432,26 @@ NotificationCenter.default.addObserver(
     name: UIAccessibility.reduceMotionStatusDidChangeNotification,
     object: nil
 )
+```
+
+### Reduce Transparency
+
+Users with visual or vestibular sensitivities may enable Reduce Transparency to remove frosted-glass blurs and low-opacity backgrounds. Replace translucent surfaces with opaque ones.
+
+**SwiftUI:**
+```swift
+@Environment(\.accessibilityReduceTransparency) var reduceTransparency
+
+RoundedRectangle(cornerRadius: 12)
+    .fill(Color.white.opacity(reduceTransparency ? 1.0 : 0.4))
+```
+
+**UIKit:**
+```swift
+if UIAccessibility.isReduceTransparencyEnabled {
+    blurView.isHidden = true
+    backgroundView.alpha = 1.0
+}
 ```
 
 ### Dark Mode
@@ -403,6 +531,40 @@ if UIAccessibility.isBoldTextEnabled {
 
 Using Dynamic Type text styles handles bold text automatically for standard labels.
 
+### Smart Invert
+
+Smart Invert reverses display colors but skips images, media, and standard controls. Photos, maps, and charts need to opt out explicitly — otherwise they look inverted.
+
+**SwiftUI:**
+```swift
+Image("productPhoto")
+    .accessibilityIgnoresInvertColors()
+```
+
+**UIKit:**
+```swift
+photoImageView.accessibilityIgnoresInvertColors = true
+```
+
+Detect the setting when you need to adapt other UI:
+```swift
+@Environment(\.accessibilityInvertColors) var invertColors  // SwiftUI
+UIAccessibility.isInvertColorsEnabled                       // UIKit
+```
+
+### Dim Flashing Lights
+
+iOS 17+ exposes a user preference to stop flashing animations. Respect it to avoid triggering seizures or migraines — and ideally avoid flashing content entirely.
+
+**SwiftUI:**
+```swift
+@Environment(\.accessibilityDimFlashingLights) var dimFlashingLights
+
+Circle()
+    .foregroundStyle(dimFlashingLights ? .gray : flashColor)
+    .animation(dimFlashingLights ? nil : flashAnimation, value: isFlashing)
+```
+
 ---
 
 ## Input Accessibility
@@ -430,6 +592,18 @@ emailTextField.placeholder = "Email address"
 emailTextField.accessibilityLabel = "Email address"
 emailTextField.keyboardType = .emailAddress
 emailTextField.textContentType = .emailAddress
+```
+
+### Voice Control Labels
+
+Voice Control users activate elements by speaking their visible label. When a label is ambiguous, too short, or not naturally speakable, use `accessibilityInputLabels` to provide alternatives. The first entry is what Voice Control displays with "Show Names".
+
+**SwiftUI:**
+```swift
+Button("→") { nextPage() }
+    .accessibilityLabel("Next page")   // VoiceOver reads this
+    .accessibilityInputLabels(["Next", "Next page", "Forward"])
+    // Voice Control: user can say "Tap Next" or "Tap Forward"
 ```
 
 ### Error Handling
@@ -590,12 +764,53 @@ NotificationCenter.default.addObserver(
 
 ## Testing
 
-- **VoiceOver**: Settings → Accessibility → VoiceOver. Navigate your app's core flows without looking at the screen. Every element should have a meaningful label and correct role.
+### Manual Testing
+
+- **VoiceOver**: Settings → Accessibility → VoiceOver. Navigate core flows without looking at the screen. Every element should have a meaningful label, correct role, and logical focus order.
 - **Accessibility Inspector**: Xcode → Open Developer Tool → Accessibility Inspector. Run audits to catch missing labels, small targets, and contrast issues.
-- **Dynamic Type**: Settings → Accessibility → Display & Text Size → Larger Text. Drag to the largest size and verify nothing is clipped or truncated.
+- **Dynamic Type**: Settings → Accessibility → Display & Text Size → Larger Text. Drag to the largest accessibility size; verify nothing clips or truncates.
 - **Reduce Motion**: Settings → Accessibility → Motion → Reduce Motion.
 - **Dark Mode**: Settings → Display & Brightness → Dark.
 - **Increased Contrast**: Settings → Accessibility → Display & Text Size → Increase Contrast.
+- **Reduce Transparency**: Settings → Accessibility → Display & Text Size → Reduce Transparency.
+- **Smart Invert**: Settings → Accessibility → Display & Text Size → Smart Invert. Verify photos and charts are excluded.
+- **Voice Control**: Settings → Accessibility → Voice Control. Use "Show Names" to verify every interactive element has a unique, speakable label.
+
+### Automated Testing with XCTest
+
+`performAccessibilityAudit()` (iOS 17+) catches missing labels, small tap targets, contrast failures, and text clipping in one call:
+
+```swift
+func testMyScreen() throws {
+    let app = XCUIApplication()
+    app.launch()
+    navigateToMyScreen(app)
+    try app.performAccessibilityAudit()
+    app.swipeUp()  // audit below-fold content too
+    try app.performAccessibilityAudit()
+}
+```
+
+Filter known false positives:
+```swift
+try app.performAccessibilityAudit { issue in
+    issue.auditType == .contrast  // suppress contrast false positives
+}
+```
+
+For what the audit misses (duplicate labels, redundant role words, heading traits), write manual assertions:
+```swift
+XCTAssertFalse(app.buttons["closeButton"].label.isEmpty)
+XCTAssertFalse(app.buttons["closeButton"].label.lowercased().contains("button"))
+XCTAssertNotEqual(app.buttons["edit1"].label, app.buttons["edit2"].label)
+```
+
+Use `.accessibilityIdentifier()` to give UI test targets stable IDs that VoiceOver never reads — don't use it as a substitute for `.accessibilityLabel`:
+```swift
+Button("✕") { dismiss() }
+    .accessibilityLabel("Close")              // VoiceOver reads this
+    .accessibilityIdentifier("closeButton")   // XCTest uses this
+```
 
 ---
 
@@ -603,7 +818,7 @@ NotificationCenter.default.addObserver(
 
 Read these when you need more depth:
 
-- [accessibility-apis.md](references/accessibility-apis.md) — Full reference for less common APIs: live regions, adjustable elements, drag-and-drop accessibility, accessibility language, focus indicators, accessibility notifications
+- [accessibility-apis.md](references/accessibility-apis.md) — Full reference for less common APIs: live regions, adjustable elements, drag-and-drop accessibility, accessibility language, focus indicators, accessibility notifications, `accessibilityRepresentation` for custom controls, custom VoiceOver Rotor, VoiceOver pronunciation modifiers, `accessibilityRespondsToUserInteraction`
 - [visual-adaptations.md](references/visual-adaptations.md) — Text spacing, text truncation prevention, frequent flash rules, reflow, localization, bold text in depth
 - [input-patterns.md](references/input-patterns.md) — Input gestures, motion input, cancellation, predictable behavior, timing adjustments, authentication, drag-and-drop alternatives
 - [assistive-features.md](references/assistive-features.md) — VoiceOver gestures reference, Switch Control setup, Voice Control commands, Keyboard Access shortcuts

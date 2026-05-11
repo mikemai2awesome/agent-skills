@@ -264,3 +264,94 @@ opt_in_rules:
 ```
 
 Also run **Xcode's Accessibility Inspector** (Xcode → Open Developer Tool → Accessibility Inspector) → Audit to scan for missing labels, small targets, and contrast failures.
+
+---
+
+## Accessibility Representation
+
+For custom controls that can't be made accessible through standard modifiers alone, use `.accessibilityRepresentation` to overlay a hidden native control that provides the correct accessibility behavior. VoiceOver interacts with the native control instead of the custom view.
+
+**SwiftUI:**
+```swift
+// Custom toggle that looks different from the native Toggle
+CustomToggleView(isOn: $isOn)
+    .accessibilityRepresentation {
+        Toggle("Dark mode", isOn: $isOn)
+    }
+// VoiceOver sees a native Toggle with all its built-in traits and behavior
+```
+
+This is particularly useful for custom sliders, steppers, and rating controls where you want precise visual control but need correct accessibility behavior without reimplementing it yourself.
+
+---
+
+## Custom VoiceOver Rotor
+
+Create a custom rotor entry so VoiceOver users can jump between specific elements using the rotor (two-finger rotate, then swipe up/down).
+
+**SwiftUI:**
+```swift
+// Let users navigate between error fields via the rotor
+var body: some View {
+    Form { /* fields */ }
+        .accessibilityRotor("Errors") {
+            ForEach(errorFields) { field in
+                AccessibilityRotorEntry(field.label, id: field.id)
+            }
+        }
+}
+```
+
+```swift
+// Navigate to specific text ranges within a Text view
+Text(articleContent)
+    .accessibilityRotor("Headings") {
+        ForEach(headingRanges) { heading in
+            AccessibilityRotorEntry(heading.title, textRange: heading.range)
+        }
+    }
+```
+
+Built-in rotor categories (use these before creating custom ones): `.headings`, `.links`, `.buttons`, `.images`, `.textFields`, `.tables`, `.lists`, `.landmarks`.
+
+---
+
+## VoiceOver Pronunciation
+
+Control how VoiceOver speaks specific text:
+
+**SwiftUI:**
+```swift
+// Speak every punctuation character (useful for code snippets)
+Text("print(\"Hello, world!\")")
+    .speechAlwaysIncludesPunctuation()
+
+// Spell out characters individually (useful for abbreviations or acronyms
+// that VoiceOver incorrectly merges into a word)
+Text("SKU")
+    .speechSpellsOutCharacters()
+
+// Adjust pitch for emphasis or spoken quotes
+var attributed = AttributedString("Warning: file will be deleted")
+attributed[attributed.range(of: "Warning")!].accessibilitySpeechAdjustedPitch = 0.7
+Text(attributed)
+```
+
+Note: `.accessibilityLanguage()` doesn't exist in SwiftUI. For per-view locale, use `.environment(\.locale, Locale(identifier: "fr-FR"))` to affect pronunciation for a sub-tree.
+
+---
+
+## accessibilityRespondsToUserInteraction
+
+Controls whether an element participates in the focus order for Switch Control, Voice Control, and Full Keyboard Access. Use sparingly — prefer making elements properly focusable or hidden rather than toggling this.
+
+**SwiftUI:**
+```swift
+// Make a custom non-interactive element respond to interaction
+decorativeButton
+    .accessibilityRespondsToUserInteraction(false)  // remove from focus order
+
+// Make a non-standard interactive element focusable
+customGestureView
+    .accessibilityRespondsToUserInteraction(true)
+```
