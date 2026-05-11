@@ -1,5 +1,50 @@
 # Input Patterns — Extended Reference
 
+## Keyboard Type and Content Type
+
+Correct keyboard and content types reduce typing effort and enable password managers and autofill.
+
+```swift
+// SwiftUI
+TextField("Phone", text: $phone)
+    .keyboardType(.phonePad)
+    .textContentType(.telephoneNumber)
+
+SecureField("Password", text: $password)
+    .textContentType(.password)
+
+TextField("Username", text: $username)
+    .textContentType(.username)
+    .autocapitalization(.none)
+
+// UIKit
+textField.keyboardType = .phonePad
+textField.textContentType = .telephoneNumber
+```
+
+---
+
+## Tap Target Size
+
+Interactive elements must be at least 44×44 points to be reliably tappable, especially for users with motor impairments.
+
+**SwiftUI:**
+```swift
+Button("Save") { save() }
+    .frame(minWidth: 44, minHeight: 44)
+    .contentShape(Rectangle())
+```
+
+**UIKit** — override `point(inside:with:)` to expand the hit area without changing visual size:
+```swift
+override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+    let expanded = bounds.insetBy(dx: -10, dy: -10)
+    return expanded.contains(point)
+}
+```
+
+---
+
 ## Input Gestures
 
 Functionality that requires a custom gesture (pinch, multi-finger swipe, long press) must also be available through a simpler interaction — a button, control, or accessibility custom action. This is essential for Switch Control and Voice Control users who can't perform complex gestures.

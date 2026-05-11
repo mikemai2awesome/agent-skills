@@ -258,6 +258,169 @@ override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollect
 
 ---
 
+## Large Content Viewer
+
+Elements that intentionally don't scale with Dynamic Type — tab bar icons, toolbar buttons — must support the Large Content Viewer. Users with the largest accessibility text sizes hold a finger on the element to see an enlarged version in the center of the screen.
+
+**SwiftUI:**
+```swift
+Button { composeMessage() } label: {
+    Label("Compose", systemImage: "square.and.pencil")
+}
+.accessibilityShowsLargeContentViewer()
+
+// Custom content in the viewer:
+Image(systemName: "plus")
+    .accessibilityShowsLargeContentViewer {
+        Label("Add item", systemImage: "plus")
+    }
+```
+
+**UIKit:**
+```swift
+button.showsLargeContentViewer = true
+button.largeContentTitle = "Compose"
+button.largeContentImage = UIImage(systemName: "square.and.pencil")
+button.addInteraction(UILargeContentViewerInteraction())
+```
+
+---
+
+## Reduce Transparency
+
+Users with visual or vestibular sensitivities may enable Reduce Transparency to remove frosted-glass blurs and low-opacity backgrounds. Replace translucent surfaces with opaque ones.
+
+**SwiftUI:**
+```swift
+@Environment(\.accessibilityReduceTransparency) var reduceTransparency
+
+RoundedRectangle(cornerRadius: 12)
+    .fill(Color.white.opacity(reduceTransparency ? 1.0 : 0.4))
+```
+
+**UIKit:**
+```swift
+if UIAccessibility.isReduceTransparencyEnabled {
+    blurView.isHidden = true
+    backgroundView.alpha = 1.0
+}
+```
+
+---
+
+## Smart Invert
+
+Smart Invert reverses display colors but skips images, media, and standard controls. Photos, maps, and charts need to opt out explicitly — otherwise they look inverted.
+
+**SwiftUI:**
+```swift
+Image("productPhoto")
+    .accessibilityIgnoresInvertColors()
+```
+
+**UIKit:**
+```swift
+photoImageView.accessibilityIgnoresInvertColors = true
+```
+
+Detect the setting when you need to adapt other UI:
+```swift
+@Environment(\.accessibilityInvertColors) var invertColors  // SwiftUI
+UIAccessibility.isInvertColorsEnabled                       // UIKit
+```
+
+---
+
+## Dim Flashing Lights
+
+iOS 17+ exposes a user preference to stop flashing animations. Respect it — and ideally avoid flashing content entirely.
+
+**SwiftUI:**
+```swift
+@Environment(\.accessibilityDimFlashingLights) var dimFlashingLights
+
+Circle()
+    .foregroundStyle(dimFlashingLights ? .gray : flashColor)
+    .animation(dimFlashingLights ? nil : flashAnimation, value: isFlashing)
+```
+
+---
+
+## Increased Contrast
+
+Some users need stronger contrast between UI elements and their backgrounds.
+
+**SwiftUI:**
+```swift
+@Environment(\.colorSchemeContrast) var colorContrast
+
+var borderColor: Color {
+    colorContrast == .increased ? .primary : .secondary
+}
+```
+
+**UIKit:**
+```swift
+if UIAccessibility.isDarkerSystemColorsEnabled {
+    button.layer.borderColor = UIColor.label.cgColor
+    button.layer.borderWidth = 2
+}
+```
+
+---
+
+## Bold Text
+
+Dynamic Type text styles (`UIFont.preferredFont(forTextStyle:)`) automatically return a bold variant when Bold Text is enabled. Custom fonts need explicit handling — see "Bold Text in Depth" below.
+
+**SwiftUI:**
+```swift
+@Environment(\.legibilityWeight) var legibilityWeight
+
+Text("Title")
+    .fontWeight(legibilityWeight == .bold ? .bold : .regular)
+```
+
+**UIKit:**
+```swift
+if UIAccessibility.isBoldTextEnabled {
+    label.font = UIFont.boldSystemFont(ofSize: label.font.pointSize)
+}
+```
+
+---
+
+## Dark Mode (Basic Patterns)
+
+Use semantic colors — they automatically adapt. Only read `colorScheme` when the semantic color API isn't enough (e.g., custom CoreGraphics drawing).
+
+**SwiftUI:**
+```swift
+Text("Hello").foregroundStyle(.primary)
+Rectangle().fill(Color(.systemBackground))
+
+// Custom adaptive color
+Color(uiColor: UIColor { traitCollection in
+    traitCollection.userInterfaceStyle == .dark
+        ? UIColor(hex: "#1C1C1E")
+        : UIColor(hex: "#F2F2F7")
+})
+```
+
+**UIKit:**
+```swift
+view.backgroundColor = .systemBackground
+label.textColor = .label
+
+let color = UIColor { traits in
+    traits.userInterfaceStyle == .dark
+        ? UIColor(red: 0.11, green: 0.11, blue: 0.12, alpha: 1)
+        : UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1)
+}
+```
+
+---
+
 ## Audio and Media Accessibility
 
 ### Audio Control

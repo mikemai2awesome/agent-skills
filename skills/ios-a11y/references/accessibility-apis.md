@@ -355,3 +355,54 @@ decorativeButton
 customGestureView
     .accessibilityRespondsToUserInteraction(true)
 ```
+
+---
+
+## Magic Tap
+
+Magic Tap lets VoiceOver users double-tap with two fingers anywhere on screen to toggle the app's most important action — play/pause, answer/end a call, start/stop a recording. Define at most one per screen.
+
+**SwiftUI:**
+```swift
+ContentView()
+    .accessibilityAction(.magicTap) {
+        isPlaying.toggle()
+    }
+// Place on a top-level or root view
+```
+
+**UIKit:**
+```swift
+override func accessibilityPerformMagicTap() -> Bool {
+    isPlaying.toggle()
+    return true
+}
+```
+
+---
+
+## Runtime Change Notifications
+
+Subscribe to accessibility setting changes to update your UI in real time:
+
+```swift
+NotificationCenter.default.addObserver(
+    forName: UIAccessibility.voiceOverStatusDidChangeNotification,
+    object: nil, queue: .main) { _ in ... }
+
+NotificationCenter.default.addObserver(
+    forName: UIAccessibility.reduceMotionStatusDidChangeNotification,
+    object: nil, queue: .main) { _ in ... }
+
+NotificationCenter.default.addObserver(
+    forName: UIAccessibility.boldTextStatusDidChangeNotification,
+    object: nil, queue: .main) { _ in ... }
+
+NotificationCenter.default.addObserver(
+    forName: UIContentSizeCategory.didChangeNotification,
+    object: nil, queue: .main) { _ in ... }
+
+NotificationCenter.default.addObserver(
+    forName: UIAccessibility.invertColorsStatusDidChangeNotification,
+    object: nil, queue: .main) { _ in ... }
+```
