@@ -1,15 +1,17 @@
 ---
 name: ios-a11y
-description: "Implement accessibility in iOS apps using Swift, UIKit, and SwiftUI. Use this skill whenever working on any iOS development task that involves: making UI elements accessible to VoiceOver or other assistive technologies, adding or reviewing accessibility labels/hints/traits/actions/values, supporting Dynamic Type or text scaling, respecting Reduce Motion or reduced transparency preferences, adapting to Dark Mode or increased contrast, building accessible forms and inputs, announcing dynamic content changes, managing focus programmatically, customizing accessibility focus order, supporting external keyboard navigation, or auditing iOS code for accessibility issues. Trigger even when the user only says \"SwiftUI\" or \"UIKit\" without mentioning \"accessibility\" explicitly — if they're building custom controls, modals, forms, lists, or animated views, this skill applies."
+description: 'Implement accessibility in iOS apps using Swift, UIKit, and SwiftUI. Use this skill whenever working on any iOS development task that involves: making UI elements accessible to VoiceOver or other assistive technologies, adding or reviewing accessibility labels/hints/traits/actions/values, supporting Dynamic Type or text scaling, respecting Reduce Motion or reduced transparency preferences, adapting to Dark Mode or increased contrast, building accessible forms and inputs, announcing dynamic content changes, managing focus programmatically, customizing accessibility focus order, supporting external keyboard navigation, or auditing iOS code for accessibility issues. Trigger even when the user only says "SwiftUI" or "UIKit" without mentioning "accessibility" explicitly — if they''re building custom controls, modals, forms, lists, or animated views, this skill applies.'
 ---
 
 # iOS Accessibility
+
+> Based on [Appt Docs](https://appt.org/en/docs) and [CVS SwiftUI Accessibility](https://github.com/cvs-health/ios-swiftui-accessibility-techniques).
 
 ## Core Principles
 
 1. **Semantic over custom** — Use standard UIKit/SwiftUI controls. They come with accessibility built in.
 2. **Label everything that matters** — Every interactive element and meaningful image needs an `accessibilityLabel`.
-3. **Expose the right role and state** — Use traits to communicate what an element *is* and what state it's in.
+3. **Expose the right role and state** — Use traits to communicate what an element _is_ and what state it's in.
 4. **Respect user preferences** — Dynamic Type, Reduce Motion, Dark Mode, Bold Text, and increased contrast are signals from the user, not optional polish.
 5. **Test with VoiceOver** — Turn it on and use your app without looking. If you can't complete the main flows, something needs fixing.
 
@@ -22,6 +24,7 @@ description: "Implement accessibility in iOS apps using Swift, UIKit, and SwiftU
 The label is what VoiceOver announces when the element is focused. The hint explains what happens when you activate it. Keep labels concise and hints optional — only add a hint when the outcome isn't obvious from the label.
 
 **SwiftUI:**
+
 ```swift
 Button("✕") { dismiss() }
     .accessibilityLabel("Close")
@@ -29,6 +32,7 @@ Button("✕") { dismiss() }
 ```
 
 **UIKit:**
+
 ```swift
 closeButton.accessibilityLabel = "Close"
 closeButton.accessibilityHint = "Dismisses this sheet"
@@ -36,12 +40,14 @@ closeButton.accessibilityHint = "Dismisses this sheet"
 
 Don't include the element's role in the label — VoiceOver announces it separately. So "Submit button" is wrong; just "Submit" is right.
 
-*For pronunciation overrides and controlling how VoiceOver speaks individual words, see [accessibility-apis.md](references/accessibility-apis.md).*
+_For pronunciation overrides and controlling how VoiceOver speaks individual words, see [accessibility-apis.md](references/accessibility-apis.md)._
+
 ### Traits (Role and State)
 
-Traits tell VoiceOver what an element *is* and how to interact with it. UIKit calls them `UIAccessibilityTraits`; SwiftUI uses `AccessibilityTraits`.
+Traits tell VoiceOver what an element _is_ and how to interact with it. UIKit calls them `UIAccessibilityTraits`; SwiftUI uses `AccessibilityTraits`.
 
 **SwiftUI:**
+
 ```swift
 Text("Recent Orders")
     .accessibilityAddTraits(.isHeader)
@@ -54,6 +60,7 @@ Text("Step 1 of 3")
 ```
 
 **UIKit:**
+
 ```swift
 sectionLabel.accessibilityTraits = .header
 linkButton.accessibilityTraits = .link
@@ -65,13 +72,14 @@ disabledButton.accessibilityTraits.insert(.notEnabled)
 
 Common traits: `.button` `.link` `.header` `.image` `.adjustable` `.selected` `.notEnabled` `.staticText` `.searchField`
 
-*For the `.adjustable` trait (custom sliders/steppers with increment/decrement actions), `accessibilityRepresentation` for fully custom controls, and `accessibilityRespondsToUserInteraction`, see [accessibility-apis.md](references/accessibility-apis.md).*
+_For the `.adjustable` trait (custom sliders/steppers with increment/decrement actions), `accessibilityRepresentation` for fully custom controls, and `accessibilityRespondsToUserInteraction`, see [accessibility-apis.md](references/accessibility-apis.md)._
 
 ### Value
 
 Use `accessibilityValue` to describe the current state of adjustable or interactive elements — sliders, steppers, toggles, or progress indicators.
 
 **SwiftUI:**
+
 ```swift
 Slider(value: $volume, in: 0...1)
     .accessibilityLabel("Volume")
@@ -79,6 +87,7 @@ Slider(value: $volume, in: 0...1)
 ```
 
 **UIKit:**
+
 ```swift
 volumeSlider.accessibilityLabel = "Volume"
 volumeSlider.accessibilityValue = "\(Int(volumeSlider.value * 100)) percent"
@@ -89,12 +98,14 @@ volumeSlider.accessibilityValue = "\(Int(volumeSlider.value * 100)) percent"
 Decorative images, visual dividers, and purely presentational elements should be hidden from assistive technologies.
 
 **SwiftUI:**
+
 ```swift
 Image("decorative-background").accessibilityHidden(true)
 // For icons paired with a label, hide the icon: Image(...).accessibilityHidden(true)
 ```
 
 **UIKit:**
+
 ```swift
 decorativeImageView.isAccessibilityElement = false
 separatorView.isAccessibilityElement = false
@@ -109,6 +120,7 @@ separatorView.isAccessibilityElement = false
 When multiple views together form one logical unit, combine them so VoiceOver reads them as a single item.
 
 **SwiftUI:**
+
 ```swift
 HStack {
     Image(systemName: "star.fill")
@@ -123,6 +135,7 @@ HStack {
 ```
 
 **UIKit:**
+
 ```swift
 containerView.isAccessibilityElement = true
 containerView.accessibilityLabel = "Highly Rated, 4.8 out of 5"
@@ -138,6 +151,7 @@ Gotcha when combining: if a child `Button` is combined with `.combine`, its labe
 Use `.contain` (not `.combine`) when you want a group label announced on entry but children to stay individually focusable — the right pattern for form sections, radio groups, and card regions.
 
 **SwiftUI:**
+
 ```swift
 VStack {
     Text("Shipping address")
@@ -149,13 +163,14 @@ VStack {
 // VoiceOver announces "Shipping address, group" on entry, then reads each field individually
 ```
 
-Warning: adding `.accessibilityLabel` to a container *without* `.accessibilityElement(children: .contain)` silently overrides every child element's label — this breaks Voice Control's "Tap [name]" command.
+Warning: adding `.accessibilityLabel` to a container _without_ `.accessibilityElement(children: .contain)` silently overrides every child element's label — this breaks Voice Control's "Tap [name]" command.
 
 ### Custom Ordering
 
 When the default left-to-right, top-to-bottom focus order doesn't match logical reading order, override it.
 
 **SwiftUI:**
+
 ```swift
 VStack {
     Text("$29.99")
@@ -166,6 +181,7 @@ VStack {
 ```
 
 **UIKit:** Set `accessibilityElements` on the container to define explicit order:
+
 ```swift
 containerView.accessibilityElements = [titleLabel, priceLabel, addToCartButton]
 ```
@@ -179,6 +195,7 @@ containerView.accessibilityElements = [titleLabel, priceLabel, addToCartButton]
 Post announcements to notify users of assistive technologies about important, non-visual changes — a form submitted, an item added to cart, an error appearing.
 
 **SwiftUI / UIKit (both):**
+
 ```swift
 // iOS 15+
 AccessibilityNotification.Announcement("Item added to cart").post()
@@ -188,6 +205,7 @@ UIAccessibility.post(notification: .announcement, argument: "Item added to cart"
 ```
 
 When posting from a state change, add a short delay so VoiceOver doesn't skip the announcement:
+
 ```swift
 .onChange(of: itemAdded) { _ in
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -196,13 +214,14 @@ When posting from a state change, add a short delay so VoiceOver doesn't skip th
 }
 ```
 
-*For live regions (auto-announcing in-place content updates) and the full notification reference, see [accessibility-apis.md](references/accessibility-apis.md).*
+_For live regions (auto-announcing in-place content updates) and the full notification reference, see [accessibility-apis.md](references/accessibility-apis.md)._
 
 ### Moving Focus
 
 When presenting a new view (modal, bottom sheet, inline expansion), move VoiceOver focus to the right element so the user knows something changed.
 
 **SwiftUI:**
+
 ```swift
 @AccessibilityFocusState private var confirmFocused: Bool
 
@@ -218,6 +237,7 @@ VStack {
 ```
 
 **UIKit:**
+
 ```swift
 UIAccessibility.post(notification: .screenChanged, argument: newViewController.view)
 UIAccessibility.post(notification: .layoutChanged, argument: specificView)
@@ -240,7 +260,7 @@ modalContainerView.accessibilityViewIsModal = true
 UIAccessibility.post(notification: .screenChanged, argument: modalContainerView)
 ```
 
-*For the escape gesture protocol, custom rotor entries, and focus indicators for Keyboard Access, see [accessibility-apis.md](references/accessibility-apis.md).*
+_For the escape gesture protocol, custom rotor entries, and focus indicators for Keyboard Access, see [accessibility-apis.md](references/accessibility-apis.md)._
 
 ### Keyboard Dismiss Focus
 
@@ -270,6 +290,7 @@ TextField("Name", text: $name)
 When an element supports multiple actions (swipe to delete, long-press to share, drag to reorder), expose them as accessibility actions so Switch Control and VoiceOver users can access them without the gesture.
 
 **SwiftUI:**
+
 ```swift
 Text(item.name)
     .accessibilityAction(named: "Delete") { deleteItem(item) }
@@ -278,6 +299,7 @@ Text(item.name)
 ```
 
 **UIKit:**
+
 ```swift
 cell.accessibilityCustomActions = [
     UIAccessibilityCustomAction(name: "Delete") { [weak self] _ in
@@ -286,7 +308,7 @@ cell.accessibilityCustomActions = [
 ]
 ```
 
-*For drag-and-drop accessibility and Switch Control scanning behavior, see [assistive-features.md](references/assistive-features.md).*
+_For drag-and-drop accessibility and Switch Control scanning behavior, see [assistive-features.md](references/assistive-features.md)._
 
 ---
 
@@ -303,6 +325,7 @@ Magic Tap (two-finger double-tap anywhere on screen) toggles the app's primary a
 Text that doesn't scale with the user's preferred font size is one of the most common iOS accessibility failures. Always use text styles; never hard-code font sizes.
 
 **SwiftUI:**
+
 ```swift
 Text("Hello world")
     .font(.headline)        // respects user's size preference
@@ -313,6 +336,7 @@ Image(systemName: "star")
 ```
 
 **UIKit:**
+
 ```swift
 label.font = UIFont.preferredFont(forTextStyle: .body)
 label.adjustsFontForContentSizeCategory = true
@@ -321,13 +345,14 @@ label.adjustsFontForContentSizeCategory = true
 
 Never set a fixed height on a view that contains text. Use `.numberOfLines = 0` on UILabel.
 
-*For text spacing overrides, preventing truncation at accessibility sizes, reflow layouts, and localization, see [visual-adaptations.md](references/visual-adaptations.md).*
+_For text spacing overrides, preventing truncation at accessibility sizes, reflow layouts, and localization, see [visual-adaptations.md](references/visual-adaptations.md)._
 
 ### Reduce Motion
 
 Users with vestibular disorders may have Reduce Motion enabled. Check this before playing animations.
 
 **SwiftUI:**
+
 ```swift
 @Environment(\.accessibilityReduceMotion) var reduceMotion
 
@@ -337,6 +362,7 @@ Circle()
 ```
 
 **UIKit:**
+
 ```swift
 if UIAccessibility.isReduceMotionEnabled {
     view.alpha = isVisible ? 1 : 0
@@ -345,7 +371,7 @@ if UIAccessibility.isReduceMotionEnabled {
 }
 ```
 
-*For Large Content Viewer, Reduce Transparency, Dark Mode, Increased Contrast, Bold Text, Smart Invert, Dim Flashing Lights, and audio/media accessibility, see [visual-adaptations.md](references/visual-adaptations.md).*
+_For Large Content Viewer, Reduce Transparency, Dark Mode, Increased Contrast, Bold Text, Smart Invert, Dim Flashing Lights, and audio/media accessibility, see [visual-adaptations.md](references/visual-adaptations.md)._
 
 ---
 
@@ -356,6 +382,7 @@ if UIAccessibility.isReduceMotionEnabled {
 Every form field needs a visible label and an `accessibilityLabel`. A placeholder alone is not sufficient — it disappears when the user starts typing.
 
 **SwiftUI:**
+
 ```swift
 VStack(alignment: .leading) {
     Text("Email address")
@@ -368,6 +395,7 @@ VStack(alignment: .leading) {
 ```
 
 **UIKit:**
+
 ```swift
 emailTextField.placeholder = "Email address"
 emailTextField.accessibilityLabel = "Email address"
@@ -385,13 +413,14 @@ Button("→") { nextPage() }
     .accessibilityInputLabels(["Next", "Next page", "Forward"])
 ```
 
-*For how Voice Control's "Show Names" and "Show Numbers" modes work, and how to verify your UI, see [assistive-features.md](references/assistive-features.md).*
+_For how Voice Control's "Show Names" and "Show Numbers" modes work, and how to verify your UI, see [assistive-features.md](references/assistive-features.md)._
 
 ### Error Handling
 
-Show the error message visually *and* announce it so VoiceOver users know something is wrong.
+Show the error message visually _and_ announce it so VoiceOver users know something is wrong.
 
 **SwiftUI:**
+
 ```swift
 VStack(alignment: .leading) {
     TextField("Email", text: $email)
@@ -408,6 +437,7 @@ VStack(alignment: .leading) {
 ```
 
 **UIKit:**
+
 ```swift
 func showError(_ message: String) {
     errorLabel.text = message
@@ -416,7 +446,7 @@ func showError(_ message: String) {
 }
 ```
 
-*For keyboard type and content type, tap target sizing, timing adjustments, and accessible authentication, see [input-patterns.md](references/input-patterns.md).*
+_For keyboard type and content type, tap target sizing, timing adjustments, and accessible authentication, see [input-patterns.md](references/input-patterns.md)._
 
 ---
 
@@ -438,7 +468,7 @@ Mark section headers so VoiceOver users can jump between sections with the rotor
 
 **UIKit:** `sectionLabel.accessibilityTraits = .header`
 
-*For screen orientation support, see [visual-adaptations.md](references/visual-adaptations.md).*
+_For screen orientation support, see [visual-adaptations.md](references/visual-adaptations.md)._
 
 ---
 
@@ -454,7 +484,7 @@ UIAccessibility.isGrayscaleEnabled
 UIAccessibility.preferredContentSizeCategory  // current Dynamic Type size
 ```
 
-*For subscribing to runtime change notifications, see [accessibility-apis.md](references/accessibility-apis.md).*
+_For subscribing to runtime change notifications, see [accessibility-apis.md](references/accessibility-apis.md)._
 
 ---
 
@@ -467,7 +497,7 @@ UIAccessibility.preferredContentSizeCategory  // current Dynamic Type size
 - **Dynamic Type**: Test at the largest accessibility size; verify nothing clips or truncates.
 - **Voice Control**: Settings → Accessibility → Voice Control. Use "Show Names" to verify every interactive element has a unique, speakable label.
 
-*For a full testing checklist and how to enable/use VoiceOver, Switch Control, Voice Control, and Keyboard Access, see [assistive-features.md](references/assistive-features.md).*
+_For a full testing checklist and how to enable/use VoiceOver, Switch Control, Voice Control, and Keyboard Access, see [assistive-features.md](references/assistive-features.md)._
 
 ### Automated Testing with XCTest
 
@@ -485,6 +515,7 @@ func testMyScreen() throws {
 ```
 
 Filter known false positives:
+
 ```swift
 try app.performAccessibilityAudit { issue in
     issue.auditType == .contrast
@@ -492,6 +523,7 @@ try app.performAccessibilityAudit { issue in
 ```
 
 Write manual assertions for what the audit misses (duplicate labels, redundant role words, heading traits):
+
 ```swift
 // XCTest IDs go in .accessibilityIdentifier() — VoiceOver never reads them
 XCTAssertFalse(app.buttons["closeButton"].label.isEmpty)
