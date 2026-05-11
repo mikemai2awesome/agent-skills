@@ -40,6 +40,8 @@ closeButton.accessibilityHint = "Dismisses this sheet"
 
 Don't include the element's role in the label — VoiceOver announces it separately. So "Submit button" is wrong; just "Submit" is right.
 
+*For pronunciation overrides and controlling how VoiceOver speaks individual words, see [accessibility-apis.md](references/accessibility-apis.md).*
+
 ### Traits (Role and State)
 
 Traits tell VoiceOver what an element *is* and how to interact with it. UIKit calls them `UIAccessibilityTraits`; SwiftUI uses `AccessibilityTraits`.
@@ -71,6 +73,8 @@ disabledButton.accessibilityTraits.insert(.notEnabled)
 ```
 
 Common traits: `.button`, `.link`, `.header`, `.image`, `.adjustable`, `.selected`, `.notEnabled`, `.staticText`, `.searchField`, `.tabBar`, `.playsSound`, `.startsMediaSession`
+
+*For the `.adjustable` trait (custom sliders/steppers with increment/decrement actions), `accessibilityRepresentation` for fully custom controls, and `accessibilityRespondsToUserInteraction`, see [accessibility-apis.md](references/accessibility-apis.md).*
 
 ### Value
 
@@ -212,6 +216,8 @@ When posting from a state change, add a short delay so VoiceOver doesn't skip th
 
 Wait until the current VoiceOver utterance finishes before posting — or use `UIAccessibility.post(notification: .announcement, argument:)` which queues automatically.
 
+*For live regions (auto-announcing content that updates in place without explicit post calls) and the full list of accessibility notifications, see [accessibility-apis.md](references/accessibility-apis.md).*
+
 ### Moving Focus
 
 When presenting a new view (modal, bottom sheet, inline expansion), move VoiceOver focus to the right element so the user knows something changed.
@@ -269,6 +275,8 @@ VStack { /* modal content */ }
     .accessibilityAction(.escape) { isPresented = false }
 ```
 
+*For building a custom VoiceOver Rotor (letting users jump between headings, links, or your own element categories), and for focus indicators in Keyboard Access, see [accessibility-apis.md](references/accessibility-apis.md).*
+
 ### Keyboard Dismiss Focus
 
 Text fields don't return VoiceOver focus after keyboard dismissal. Use `@AccessibilityFocusState` to send it back explicitly:
@@ -317,6 +325,8 @@ cell.accessibilityCustomActions = [
     }
 ]
 ```
+
+*For making drag-and-drop interactions accessible (drop points, drag sources) and keyboard-based alternatives to drag gestures, see [input-patterns.md](references/input-patterns.md). For Switch Control scanning configuration and how Switch Control users invoke custom actions, see [assistive-features.md](references/assistive-features.md).*
 
 ---
 
@@ -371,6 +381,8 @@ label.font = UIFont.systemFont(ofSize: 16) // won't scale
 ```
 
 Never set a fixed height on a view that contains text — use constraints that allow growth. Use `.numberOfLines = 0` on UILabel.
+
+*For text spacing overrides, preventing truncation at accessibility sizes, reflow behavior, and localization considerations with Dynamic Type, see [visual-adaptations.md](references/visual-adaptations.md).*
 
 ### Large Content Viewer
 
@@ -531,6 +543,8 @@ if UIAccessibility.isBoldTextEnabled {
 
 Using Dynamic Type text styles handles bold text automatically for standard labels.
 
+*For applying bold text to custom-drawn text and canvas-based elements, see [visual-adaptations.md](references/visual-adaptations.md).*
+
 ### Smart Invert
 
 Smart Invert reverses display colors but skips images, media, and standard controls. Photos, maps, and charts need to opt out explicitly — otherwise they look inverted.
@@ -564,6 +578,8 @@ Circle()
     .foregroundStyle(dimFlashingLights ? .gray : flashColor)
     .animation(dimFlashingLights ? nil : flashAnimation, value: isFlashing)
 ```
+
+*For flash frequency thresholds (the three-flashes-per-second rule) and how to audit animated content for seizure risk, see [visual-adaptations.md](references/visual-adaptations.md).*
 
 ---
 
@@ -606,6 +622,8 @@ Button("→") { nextPage() }
     // Voice Control: user can say "Tap Next" or "Tap Forward"
 ```
 
+*For the full list of Voice Control commands users can speak, and how to verify your UI works with "Show Grid" and "Show Numbers" modes, see [assistive-features.md](references/assistive-features.md).*
+
 ### Error Handling
 
 Show the error message visually *and* announce it so VoiceOver users know something is wrong.
@@ -638,6 +656,8 @@ func showError(_ message: String) {
     UIAccessibility.post(notification: .announcement, argument: message)
 }
 ```
+
+*For timing adjustments (giving users more time to complete gestures), motion input alternatives, predictable navigation behavior, and accessible authentication patterns, see [input-patterns.md](references/input-patterns.md).*
 
 ### Keyboard Type and Content Type
 
@@ -766,7 +786,7 @@ NotificationCenter.default.addObserver(
 
 ### Manual Testing
 
-- **VoiceOver**: Settings → Accessibility → VoiceOver. Navigate core flows without looking at the screen. Every element should have a meaningful label, correct role, and logical focus order.
+- **VoiceOver**: Settings → Accessibility → VoiceOver. Navigate core flows without looking at the screen. Every element should have a meaningful label, correct role, and logical focus order. *For a full VoiceOver gesture cheat sheet (swipe directions, rotor use, scrub gestures), see [assistive-features.md](references/assistive-features.md).*
 - **Accessibility Inspector**: Xcode → Open Developer Tool → Accessibility Inspector. Run audits to catch missing labels, small targets, and contrast issues.
 - **Dynamic Type**: Settings → Accessibility → Display & Text Size → Larger Text. Drag to the largest accessibility size; verify nothing clips or truncates.
 - **Reduce Motion**: Settings → Accessibility → Motion → Reduce Motion.
@@ -775,6 +795,8 @@ NotificationCenter.default.addObserver(
 - **Reduce Transparency**: Settings → Accessibility → Display & Text Size → Reduce Transparency.
 - **Smart Invert**: Settings → Accessibility → Display & Text Size → Smart Invert. Verify photos and charts are excluded.
 - **Voice Control**: Settings → Accessibility → Voice Control. Use "Show Names" to verify every interactive element has a unique, speakable label.
+- **Keyboard Access**: Settings → Accessibility → Keyboard → Full Keyboard Access. *For the full shortcut reference and how to verify Tab order, see [assistive-features.md](references/assistive-features.md).*
+- **Switch Control**: Settings → Accessibility → Switch Control. *For scanning configuration and how Switch Control users interact with custom actions, see [assistive-features.md](references/assistive-features.md).*
 
 ### Automated Testing with XCTest
 
@@ -812,13 +834,3 @@ Button("✕") { dismiss() }
     .accessibilityIdentifier("closeButton")   // XCTest uses this
 ```
 
----
-
-## Reference Files
-
-Read these when you need more depth:
-
-- [accessibility-apis.md](references/accessibility-apis.md) — Full reference for less common APIs: live regions, adjustable elements, drag-and-drop accessibility, accessibility language, focus indicators, accessibility notifications, `accessibilityRepresentation` for custom controls, custom VoiceOver Rotor, VoiceOver pronunciation modifiers, `accessibilityRespondsToUserInteraction`
-- [visual-adaptations.md](references/visual-adaptations.md) — Text spacing, text truncation prevention, frequent flash rules, reflow, localization, bold text in depth
-- [input-patterns.md](references/input-patterns.md) — Input gestures, motion input, cancellation, predictable behavior, timing adjustments, authentication, drag-and-drop alternatives
-- [assistive-features.md](references/assistive-features.md) — VoiceOver gestures reference, Switch Control setup, Voice Control commands, Keyboard Access shortcuts
