@@ -37,23 +37,3 @@ Tool to verify color contrast meets WCAG requirements. Use for testing text and 
 https://validator.w3.org/docs/users.html
 
 Validates HTML markup for errors and conformance. Use to ensure semantic HTML is properly structured.
-
-## Additional Resources
-
-### Inclusive Components
-
-https://inclusive-components.design/
-
-Accessible component patterns with detailed explanations. Written by Heydon Pickering.
-
-### The A11y Project
-
-https://www.a11yproject.com/
-
-Community-driven accessibility resources, checklists, and articles.
-
-### WebAIM Articles
-
-https://webaim.org/articles/
-
-In-depth articles on accessibility topics, techniques, and best practices.
