@@ -1,18 +1,33 @@
 ---
 name: frontend-a11y
-description: Write minimal, accessible HTML, CSS, and JavaScript without over-engineering. Always use this skill on every project, for every task that involves writing or reviewing HTML markup, building web components, creating forms, adding interactive elements like buttons, dialogs, accordions, or tabs, or auditing code for accessibility — even when the user doesn't explicitly mention accessibility, and even when working in a framework, CMS, or design system context. This skill is non-negotiable and applies regardless of project type, stack, or deadline. If you're about to reach for ARIA attributes, a dialog library, a focus-trap package, or a headless UI component, use this skill first.
+description: Write minimal, accessible web UI without over-engineering, adapting to whatever stack the project uses — React, Vue, Svelte, Angular, web components, or plain HTML. Use this skill on every project and every task that writes or reviews markup or components, builds forms, adds interactive elements like buttons, dialogs, accordions, or tabs, or audits code for accessibility — even when the user never mentions accessibility, and even inside a framework, CMS, or design system. It's non-negotiable regardless of project type, stack, or deadline. About to reach for ARIA attributes, a dialog library, a focus-trap package, or a headless UI component? Use this skill first.
 ---
 
 # Frontend A11y
 
-Write as little code as possible. Use native HTML elements that are already accessible instead of adding ARIA attributes to generic elements.
+Write as little code as possible. Reach for a native HTML element before an ARIA attribute or a JavaScript library — the browser already ships the accessibility, and every attribute you don't write is one less thing to break.
 
-## Core Principles
+---
 
-1. **Trust the browser** — Native elements have built-in accessibility
-2. **Semantic over ARIA** — Use the right element, not `role` attributes
-3. **Less is more** — Every ARIA attribute you don't write is one less thing to break
-4. **Native first** — Use `<dialog>`, `<details>`, `<button>` before reaching for JavaScript
+## Adapt to the Project's Stack
+
+Every rule here is framework-agnostic. Frameworks compile to HTML, so `<button>` vs `<div role="button">`, contrast ratios, WCAG criteria, and landmark rules are identical whether the source is JSX, a Vue template, Svelte, Angular, or raw HTML. **The HTML/CSS examples below are the canonical source of truth** — the concepts never change, only the syntax.
+
+So don't rewrite this file — take one beat before writing code to fit the output to the project:
+
+1. **Detect the stack.** Check `package.json`, file extensions (`.jsx`/`.tsx`, `.vue`, `.svelte`), and framework config. When unsure, match how existing components in the repo are written.
+2. **Translate the examples.** Re-express each snippet in the project's idioms — attribute names (`class` → `className`, `for` → `htmlFor` in React), event binding, id generation — keeping the semantics identical.
+3. **Mind the footguns.** Frameworks reintroduce hazards plain HTML doesn't have: client-side routing that never moves focus, template escape hatches that enable XSS, component libraries that bury native semantics. When the stack matches a reference file below, **read it first** — it covers only the deltas from the HTML baseline.
+
+| Stack                          | Read                                              |
+| ------------------------------ | ------------------------------------------------- |
+| React / Next.js / Preact       | [react.md](references/react.md)                   |
+| Vue / Nuxt                     | [vue.md](references/vue.md)                       |
+| Svelte / SvelteKit             | [svelte.md](references/svelte.md)                 |
+| Angular                        | [angular.md](references/angular.md)               |
+| Web components / Lit / Stencil | [web-components.md](references/web-components.md) |
+
+Plain HTML, or a stack not listed here? The examples below apply as written.
 
 ---
 
@@ -50,10 +65,10 @@ Landmark elements already have implicit roles. Don't repeat them.
 
 ### Don't Name Landmarks Redundantly
 
-A screen reader already announces a landmark by its **role** — "navigation", "banner", "main", "content info". Repeating that word in the accessible name produces a doubled announcement like "navigation, navigation". A name should _distinguish_ a landmark from its siblings, never restate what it already is.
+A screen reader announces a landmark by its **role** — "navigation", "banner", "main", "content info". Repeating that word in the accessible name doubles the announcement ("navigation, navigation"). A name should _distinguish_ a landmark from its siblings, never restate what it already is.
 
-- A `<nav>`'s `aria-label` must not contain the word "navigation". Name it for _what it navigates_ — "Primary", "Footer", "Breadcrumb" — so the screen reader reads "Primary, navigation".
-- `<header>` (banner), `<main>`, and `<footer>` (contentinfo) don't need an `aria-label` at all. A page has exactly one of each, so there are no siblings to tell apart. Only name a landmark when more than one of the same role coexists (e.g. two `<nav>`s).
+- A `<nav>`'s `aria-label` must not contain "navigation". Name it for _what it navigates_ — "Primary", "Footer", "Breadcrumb" — so the reader says "Primary, navigation".
+- `<header>` (banner), `<main>`, and `<footer>` (contentinfo) need no `aria-label`. A page has one of each, so there are no siblings to disambiguate. Only name a landmark when more than one of the same role coexists (e.g. two `<nav>`s).
 
 ```html
 <!-- Don't — "Main navigation, navigation", and single landmarks labelled with their own role -->
@@ -70,10 +85,10 @@ A screen reader already announces a landmark by its **role** — "navigation", "
 
 ### Name a Region Only When It Has a Real Heading
 
-A `<section>` becomes a landmark (implicit `role="region"`) **only when it has an accessible name**, and that landmark then appears in the screen reader's landmarks menu. Landmarks are navigation shortcuts, so they only help when they mark a genuinely distinct, named region. A page peppered with generically named regions ("Cards", "Updates") is _noise_ that makes the landmarks menu harder to use.
+A `<section>` becomes a landmark (implicit `role="region"`) **only when it has an accessible name**, and it then appears in the screen reader's landmarks menu. Landmarks are navigation shortcuts, so they help only when they mark a genuinely distinct, named region. Generically named regions ("Cards", "Updates") are _noise_ that clutters the menu.
 
-- Add the region only when the block renders a real, visible heading, and name it with `aria-labelledby` pointing at the heading's `id`. The accessible name then _is_ the on-screen text — one source of truth that stays in sync when the copy changes.
-- Don't invent a synthetic `aria-label` just to satisfy a region. If there's no heading, use a plain `<div>` wrapper — same styling, no landmark.
+- Add the region only when the block renders a real, visible heading, and name it with `aria-labelledby` pointing at the heading's `id`. The accessible name then _is_ the on-screen text — one source of truth that stays in sync as copy changes.
+- Never invent a synthetic `aria-label` to satisfy a region. No heading? Use a plain `<div>` wrapper — same styling, no landmark.
 
 ```html
 <!-- Don't — always a landmark, named by a made-up string nobody sees -->
@@ -107,7 +122,7 @@ Replace generic containers with meaningful elements.
 
 ### Set the Button Type
 
-Inside a form, a `<button>` with no `type` defaults to `submit` and will submit the form when clicked. Always set `type` explicitly.
+Inside a form, a `<button>` with no `type` defaults to `submit` and submits on click. Always set `type` explicitly.
 
 ```html
 <!-- Don't — an untyped button submits the form unexpectedly -->
@@ -120,11 +135,11 @@ Inside a form, a `<button>` with no `type` defaults to `submit` and will submit 
 
 ### Never Disable a Button — Use aria-disabled
 
-The native `disabled` attribute removes a `<button>` from the tab order **and** the accessibility tree, so keyboard and screen reader users can't focus it to discover it exists or learn _why_ it's unavailable. That's an avoidable regression.
+The native `disabled` attribute removes a `<button>` from the tab order **and** the accessibility tree, so keyboard and screen reader users can't focus it to discover it exists or learn _why_ it's unavailable — an avoidable regression.
 
-- **Non-submit control that needs an inactive state → `aria-disabled="true"`.** It stays focusable and is announced as "dimmed"/"unavailable"; suppress the action in JavaScript. The canonical case is navigation-style controls like carousel/scroll arrows, where a user must still be able to _find_ the control and perceive it's inactive rather than have it vanish.
-- **Submit button → keep it always active**, with neither `disabled` nor `aria-disabled`. Let the press fire validation so errors are announced, instead of a dead button that never explains what's missing.
-- **Form _fields_ (`<input>`, `<select>`, `<textarea>`) → native `disabled` is still correct.** There it governs whether the value is submitted, a different concern from control interactivity.
+- **Non-submit control needing an inactive state → `aria-disabled="true"`.** It stays focusable, is announced as "dimmed"/"unavailable", and you suppress the action in JavaScript. Canonical case: navigation controls like carousel arrows, where the user must still _find_ the control and perceive it's inactive rather than have it vanish.
+- **Submit button → always active**, with neither `disabled` nor `aria-disabled`. Let the press fire validation so errors are announced, instead of a dead button that never explains what's missing.
+- **Form _fields_ (`<input>`, `<select>`, `<textarea>`) → native `disabled` is correct.** There it governs whether the value is submitted — a different concern from control interactivity.
 
 ```html
 <!-- Submit — always active; let validation surface errors -->
@@ -143,7 +158,7 @@ The native `disabled` attribute removes a `<button>` from the tab order **and** 
 
 ### Keep the Button Name Constant When It Toggles
 
-A toggle button carrying `aria-expanded` already announces its state — "Menu, button, collapsed" → "Menu, button, expanded". The _name_ should describe what the button controls and stay the same in both states. Swapping it to "Open menu" / "Close menu" duplicates the state into the name and can even contradict the announced state.
+A toggle button with `aria-expanded` already announces its state — "Menu, button, collapsed" → "Menu, button, expanded". The _name_ should describe what the button controls and stay constant across both states. Swapping it to "Open menu" / "Close menu" duplicates the state into the name and can even contradict the announced state.
 
 ```html
 <!-- Don't — the name flips with state, fighting aria-expanded -->
@@ -167,9 +182,9 @@ A control whose only content is an icon has no text for a screen reader to annou
 
 ### Describe Images by Content, Not Type
 
-A screen reader already announces an `<img>` as "image" (or "graphic"), so `alt` is for the _content_, not the category. Words like "image", "photo", "graphic", "icon", or "logo" inside `alt` just restate the role the screen reader already announced.
+A screen reader already announces an `<img>` as "image" (or "graphic"), so `alt` is for the _content_, not the category. Words like "image", "photo", "graphic", "icon", or "logo" inside `alt` just restate the role.
 
-- A brand logo's `alt` is the brand name, not "logo". A decorative logo that adds nothing beyond adjacent text should be `alt=""` so it's skipped.
+- A brand logo's `alt` is the brand name, not "logo". A decorative logo that adds nothing beyond adjacent text gets `alt=""` so it's skipped.
 - Describe the subject for content images.
 
 ```html
@@ -184,7 +199,7 @@ A screen reader already announces an `<img>` as "image" (or "graphic"), so `alt`
 
 ### A Linked Image's alt Is the Link's Name
 
-When an `<img>` is the only content of a link (a logo linking home, a card thumbnail), the image's `alt` _is_ the link's accessible name. Putting an `aria-label` on the wrapping `<a>` overrides the image's name and collapses its semantics — the picture effectively disappears. Describe the destination through the `alt` and leave the link unlabelled. Add an `aria-label` to the link only as a _fallback_ when there's genuinely no image to carry the name.
+When an `<img>` is a link's only content (a logo linking home, a card thumbnail), the image's `alt` _is_ the link's accessible name. An `aria-label` on the wrapping `<a>` overrides that name and collapses the image's semantics — the picture effectively disappears. Describe the destination through `alt` and leave the link unlabelled. Add an `aria-label` to the link only as a _fallback_ when there's genuinely no image to carry the name.
 
 ```html
 <!-- Don't — aria-label on the link wipes out the image's name -->
@@ -199,7 +214,7 @@ When an `<img>` is the only content of a link (a logo linking home, a card thumb
 
 ### Visually Hidden Text Is for Names, Not Hints
 
-Use an `visuallyhidden` utility (sometimes named `sr-only`) to give an element a screen-reader-only **accessible name** — e.g. a panel whose only visible header is a logo still needs a heading so it has a name. But `visuallyhidden` text placed _inside_ an interactive control becomes part of that control's name, so it's the wrong tool for a supplementary _hint_ (like "opens in a new tab"). For that, see the next section.
+Use a `visuallyhidden` utility (sometimes `sr-only`) to give an element a screen-reader-only **accessible name** — e.g. a panel whose only visible header is a logo still needs a heading for its name. But `visuallyhidden` text _inside_ an interactive control becomes part of that control's name, so it's the wrong tool for a supplementary _hint_ (like "opens in a new tab") — see the next section.
 
 ```html
 <span class="visuallyhidden">Main navigation</span>
@@ -223,7 +238,7 @@ A control has two distinct accessible strings, and conflating them causes real b
 - **Accessible name** — the short, primary label a user acts on ("Share on Facebook"). Built from visible text, `visuallyhidden` text inside the element, or `aria-label`.
 - **Accessible description** — secondary detail announced _after_ the name and a pause ("opens in a new tab"). Built from `aria-describedby`.
 
-Folding a hint into the name goes wrong three ways: `aria-label` overrides inner content entirely (so an `visuallyhidden` hint is silently dropped when the element also has `aria-label`); it breaks voice control (users say the _name_ to activate a control, and a padded name may no longer match); and it makes every announcement noisy. Keep the name clean and attach the hint with `aria-describedby`.
+Folding a hint into the name breaks three ways: `aria-label` overrides inner content (so a `visuallyhidden` hint is silently dropped when the element also has `aria-label`); it breaks voice control (users say the _name_ to activate a control, and a padded name may no longer match); and it makes every announcement noisy. Keep the name clean and attach the hint with `aria-describedby`.
 
 ```html
 <!-- Don't — an visuallyhidden hint inside the control pollutes the name (and is dropped if aria-label wins) -->
@@ -241,7 +256,7 @@ Folding a hint into the name goes wrong three ways: `aria-label` overrides inner
 <span id="new-tab-hint" hidden>opens in a new tab</span>
 ```
 
-When the same hint applies to many controls (every external link on the page), render the description text **once** in a globally hidden element and point each control at it via a shared `id`, rather than duplicating an `visuallyhidden` span per control. `hidden` is fine here — `aria-describedby` still resolves a hidden target.
+When the same hint applies to many controls (every external link on the page), render the description **once** in a globally hidden element and point each control at it via a shared `id`, rather than duplicating a span per control. `hidden` is fine here — `aria-describedby` still resolves a hidden target.
 
 ### Skip the Title Attribute
 
@@ -259,7 +274,7 @@ The `title` attribute is poorly supported. Only use it on `<iframe>`.
 
 ## Component Patterns
 
-Use native elements that already have the behavior you need. For a widget native HTML can't cover — combobox, tabs, switch — reach for [patterns.md](references/patterns.md), which carries the APG references and the project's preferred approach.
+Use native elements that already have the behavior you need. For a widget native HTML can't cover — combobox, tabs, switch — see [patterns.md](references/patterns.md), which carries the APG references and the project's preferred approach.
 
 ### Accordion
 
@@ -312,7 +327,7 @@ The `showModal()` method automatically:
 - Adds the `::backdrop` pseudo-element
 - Marks content behind as inert
 
-A dialog **must** have an accessible name, so give it a heading and point `aria-labelledby` at that heading (or use `aria-label` if there's no visible heading).
+A dialog **must** have an accessible name: give it a heading and point `aria-labelledby` at it (or use `aria-label` when there's no visible heading).
 
 ### Navigation
 
@@ -335,9 +350,9 @@ Use `<nav>` with `<button>` and `aria-expanded` for dropdowns. When a page has m
 
 ### Skip Link
 
-A skip link lets keyboard and screen reader users jump straight past repeated blocks to the main content ([WCAG 2.2 — 2.4.1 Bypass Blocks](references/wcag.md)). It earns its place when a site **repeats a complex navigation across pages** — a large menu, multi-level dropdowns, a search bar — because without it those users must tab through every one of those controls again on every page load before reaching what they came for. On a page with only a link or two of chrome there's nothing meaningful to bypass, so a skip link adds little.
+A skip link lets keyboard and screen reader users jump past repeated blocks straight to the main content ([WCAG 2.2 — 2.4.1 Bypass Blocks](references/wcag.json)). It earns its place when a site **repeats a complex navigation across pages** — a large menu, multi-level dropdowns, a search bar — because otherwise those users must tab through all of it again on every page load. With only a link or two of chrome there's nothing meaningful to bypass, so it adds little.
 
-Make it the **first focusable element**, point it at the `id` of the `<main>` (or the primary content container), and keep it visually hidden until it receives focus — it must become visible when tabbed to, so sighted keyboard users can see where they've landed.
+Make it the **first focusable element**, point it at the `id` of `<main>` (or the primary content container), and keep it hidden until focused — it must become visible when tabbed to, so sighted keyboard users can see where they've landed.
 
 ```html
 <body>
@@ -362,15 +377,15 @@ Make it the **first focusable element**, point it at the `id` of the `<main>` (o
 }
 ```
 
-Don't hide it with `display: none` or the `.visuallyhidden` pattern — those keep it hidden even on focus, so sighted keyboard users never see the target. It needs to be off-screen but able to animate/return into view.
+Don't hide it with `display: none` or the `.visuallyhidden` pattern — those stay hidden even on focus, so sighted keyboard users never see the target. It needs to be off-screen but able to animate back into view.
 
 ### Alert
 
-For an urgent message use `role="alert"` (assertive); for non-urgent updates use `role="status"` or `aria-live="polite"`. The region must already exist in the DOM before you inject text, and don't hand-add `aria-live`/`aria-atomic` on top of `role="alert"` — they're implied ([WCAG 2.2 — 4.1.3 Status Messages](references/wcag.md)). Markup, the full politeness spectrum, and the firing gotchas: [patterns.md](references/patterns.md).
+For an urgent message use `role="alert"` (assertive); for non-urgent updates use `role="status"` or `aria-live="polite"`. The region must already exist in the DOM before you inject text, and don't hand-add `aria-live`/`aria-atomic` on top of `role="alert"` — they're implied ([WCAG 2.2 — 4.1.3 Status Messages](references/wcag.json)). Markup, the full politeness spectrum, and firing gotchas: [patterns.md](references/patterns.md).
 
 ### Form Errors
 
-Don't announce validation errors with `aria-live` — take the user _to_ the error instead. Tie inline messages to their field with `aria-invalid="true"` + `aria-describedby`, and on submit failure move focus to an error summary (`tabindex="-1"`) at the top of the form. Markup and rationale for both: [patterns.md](references/patterns.md).
+Don't announce validation errors with `aria-live` — take the user _to_ the error instead. Tie inline messages to their field with `aria-invalid="true"` + `aria-describedby`, and on submit failure move focus to an error summary (`tabindex="-1"`) at the top of the form. Markup and rationale: [patterns.md](references/patterns.md).
 
 ### Carousel / Scrollable Content
 
@@ -384,7 +399,7 @@ These CSS choices directly affect accessibility. Full code examples and rational
 
 ### Use Relative Length Units, Not Absolute px
 
-Fixed pixel sizing ignores the user's font-size preference and breaks at 200% zoom and on reflow ([WCAG 2.2 — 1.4.4 Resize Text, 1.4.10 Reflow](references/wcag.md)). Default to `rem` for type/spacing/layout, `em` for values that should scale to their own element, `%`/`ch`/viewport units for fluid layout; reserve `px` for hairline borders and optical nudges.
+Fixed pixel sizing ignores the user's font-size preference and breaks at 200% zoom and on reflow ([WCAG 2.2 — 1.4.4 Resize Text, 1.4.10 Reflow](references/wcag.json)). Default to `rem` for type/spacing/layout, `em` for values that scale to their own element, `%`/`ch`/viewport units for fluid layout; reserve `px` for hairline borders and optical nudges.
 
 ### Use Logical Properties
 
@@ -396,7 +411,7 @@ Style ARIA state directly (`[aria-expanded="true"]`, `[aria-current="page"]`, `[
 
 ### Let the Cursor Signal Interactivity
 
-Give interactive controls `cursor: pointer` and inactive ones `cursor: not-allowed`. Since buttons signal "off" with `aria-disabled` rather than native `disabled` (see "Never Disable a Button"), style that state explicitly. Cursor is a pointer-only supplement — it always rides alongside the real semantics, never replaces them.
+Give interactive controls `cursor: pointer` and inactive ones `cursor: not-allowed`. Since buttons signal "off" with `aria-disabled` rather than native `disabled` (see "Never Disable a Button"), style that state explicitly. Cursor is a pointer-only supplement — it rides alongside the real semantics, never replaces them.
 
 ### Don't Write All Caps in HTML
 
@@ -404,7 +419,7 @@ Write normal case and uppercase with CSS (`text-transform: uppercase`) so screen
 
 ### Meet Color Contrast Requirements
 
-Text must meet [WCAG 2.2 AA minimum contrast ratios](references/wcag.md) — one of the most commonly failed checks. Verify pairings with the [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/). Minimums:
+Text must meet [WCAG 2.2 AA minimum contrast ratios](references/wcag.json) — one of the most commonly failed checks. Verify pairings with the [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/). Minimums:
 
 - **Normal text** (below 18pt / 14pt bold): **4.5:1**
 - **Large text** (18pt+ / 14pt+ bold): **3:1**
@@ -422,27 +437,37 @@ Gate animation behind `@media (prefers-reduced-motion: no-preference)` and glass
 
 ### Fade In Content Safely
 
-Never use `opacity: 0` alone to hide content before a fade-in — screen readers ignore opacity, so the element is announced before sighted users can see it. Gate the hidden state behind a JS-ready class and trigger the animation with an IntersectionObserver (so it fires when a screen reader's virtual cursor scrolls the element into view).
+Never use `opacity: 0` alone to hide content before a fade-in — screen readers ignore opacity, so the element is announced before sighted users can see it. Gate the hidden state behind a JS-ready class and trigger the animation with an IntersectionObserver, so it fires when a screen reader's virtual cursor scrolls the element into view.
 
 ---
 
 ## Local reference specs (`references/`)
 
-Everything you need to cite ships in `references/` as a local, offline source of truth. `wcag.md` and `aria.md` are large verbatim spec dumps — **never read one end to end; grep for the term you need.** `standards.md` is a short index of the canonical online sources, and `patterns.md` holds the component patterns native HTML can't cover.
+Everything you need to cite ships in `references/` as a local, offline source of truth. `wcag.json` is the full WCAG 2.2 spec as structured data — **query it by criterion id, never read it whole.** `aria.md` is a large verbatim spec dump — **never read it end to end; grep for the term you need.** `standards.md` indexes the canonical online sources, and `patterns.md` holds the component patterns native HTML can't cover.
 
-Two things matter when grepping the spec dumps:
+The **per-stack files** (`react.md`, `vue.md`, `svelte.md`, `angular.md`, `web-components.md`) are the other half of "Adapt to the Project's Stack" above — read the one matching the detected framework. Each is short and covers only the deltas from the HTML baseline (attribute translation, id generation, routing focus, template XSS escape hatches, component-library caveats), never the shared rules.
 
-1. **Grep by content keyword, not by guessing a heading.** Search the criterion name, role, or attribute itself (`Contrast (Minimum)`, `aria-expanded`, `Name, Role, Value`) — that always hits. The numbered headings render with an escaped period (`## 1\. Perceivable`, not `## 1. Perceivable`), so matching a heading literally needs `'^## 1\\. '` or just `-i 'perceivable'`.
-2. **Use the line ranges below to scope a search** (e.g. `rg -n 'contrast' references/wcag.md`, then read around the hit, or read a known range directly).
+### Look up a WCAG criterion in `wcag.json`
 
-| File           | Spec (size)                                    | Reach for it when                                                                                                                                                                                        | Key sections (line ranges)                                                                                                                                                                                                                      |
-| -------------- | ---------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `standards.md` | External links index (~1 KB)                   | You need the canonical online source to cite — WCAG Understanding, quickref, WAI-ARIA spec, APG, WebAIM, W3C validator                                                                                   | Read whole; it's short                                                                                                                                                                                                                          |
-| `patterns.md`  | Component patterns (~5 KB)                     | Full markup/rationale for the components the body summarizes — carousel, live regions & alerts, form errors — plus combobox, tabs, switch, and the APG links                                             | Read whole; it's short                                                                                                                                                                                                                          |
-| `css.md`       | CSS a11y patterns (~6 KB)                      | Full code + rationale for any CSS rule the body summarizes — relative units, logical properties, ARIA styling hooks, cursor, contrast palette, focus outlines, reduced motion/transparency, safe fade-in | Read whole; it's short                                                                                                                                                                                                                          |
-| `wcag.md`      | WCAG 2.2 (183 KB) — AA is the project baseline | Checking a success criterion: contrast, focus order, labels, error handling, status messages                                                                                                             | `1. Perceivable` 154–524 · `2. Operable` 525–806 · `3. Understandable` 807–983 · `4. Robust` 984–1013 · `5. Conformance` 1014–1165 · `6. Glossary` 1166–2069 · `7. Input Purposes` 2070–2133. Criteria are `#### Success Criterion X.Y.Z Name`. |
-| `aria.md`      | WAI-ARIA 1.2 (515 KB)                          | Only when you must hand-author ARIA (rare — native elements carry their own roles and states). Confirm a role supports an attribute before adding it                                                     | `4. Using WAI-ARIA` 464–568 · `5. The Roles Model` 569–2804 (role defs from 800) · `6. Supported States & Properties` 2805–4344 (`aria-*` defs from 2916) · `7. Accessibility Tree` 4345–4373 · `8. Implementation in Host Languages` 4374–4472 |
+`wcag.json` is a JSON array of the four principles; each principle nests `guidelines`, and each guideline nests `success_criteria`. Every node carries a `ref_id` (`"1"`, `"1.4"`, `"1.4.3"`), `title`, `description`, and `url`; success criteria also carry `level` (`A`/`AA`/`AAA`), `special_cases`, `notes`, and `references`. Look a criterion up by its `ref_id` rather than by line — pull the exact object with `jq`:
 
-> **`wcag.md` is a partial extraction, not the full Recommendation.** It is missing **Guideline 2.5 Input Modalities** entirely (so **Target Size**, **Dragging Movements**, and **Pointer Gestures** are not in it) plus **2.4.2 Page Titled** and **2.4.6 Headings and Labels**. If a grep for a criterion returns only a glossary or change-log line and no `#### Success Criterion` heading, it's one of these gaps — use the online [WCAG 2.2 quickref](https://www.w3.org/WAI/WCAG22/quickref/) rather than assuming the criterion doesn't apply.
+```bash
+jq '.. | objects | select(.ref_id? == "1.4.3")' references/wcag.json
+```
+
+If you only know the name, grep the title (`'Contrast (Minimum)'`, `'Bypass Blocks'`). It carries every success criterion through Level AAA — including `2.5 Input Modalities`, `2.4.2 Page Titled`, and `2.4.6 Headings and Labels` — so if a `ref_id` isn't in it, the criterion doesn't exist in WCAG 2.2.
+
+### Grep the ARIA spec in `aria.md`
+
+`aria.md` is a verbatim Markdown dump — grep by content keyword, not by guessing a heading. Search the role or attribute itself (`aria-expanded`, `Name, Role, Value`) — that always hits — then read around the hit or a known range from the table below.
+
+| File                                                                     | Spec (size)                                            | Reach for it when                                                                                                                                                                                        | Key sections (line ranges)                                                                                                                                                                                                                      |
+| ------------------------------------------------------------------------ | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `standards.md`                                                           | External links index (~1 KB)                           | You need the canonical online source to cite — WCAG Understanding, quickref, WAI-ARIA spec, APG, WebAIM, W3C validator                                                                                   | Read whole; it's short                                                                                                                                                                                                                          |
+| `react.md` · `vue.md` · `svelte.md` · `angular.md` · `web-components.md` | Per-stack a11y deltas (~2–3 KB each)                   | The project uses that framework — translate the HTML examples into its idioms and avoid its specific footguns (routing focus, template XSS, id/shadow-boundary rules)                                    | Read the one matching the stack, whole; each is short                                                                                                                                                                                           |
+| `patterns.md`                                                            | Component patterns (~5 KB)                             | Full markup/rationale for the components the body summarizes — carousel, live regions & alerts, form errors — plus combobox, tabs, switch, and the APG links                                             | Read whole; it's short                                                                                                                                                                                                                          |
+| `css.md`                                                                 | CSS a11y patterns (~6 KB)                              | Full code + rationale for any CSS rule the body summarizes — relative units, logical properties, ARIA styling hooks, cursor, contrast palette, focus outlines, reduced motion/transparency, safe fade-in | Read whole; it's short                                                                                                                                                                                                                          |
+| `wcag.json`                                                              | WCAG 2.2, structured JSON — AA is the project baseline | Checking a success criterion: contrast, focus order, labels, error handling, status messages                                                                                                             | Array of principles `1`–`4` → `guidelines` → `success_criteria`, every node keyed by `ref_id`. Query by `ref_id` or `title` with `jq`/grep — don't read it whole. Holds every criterion through Level AAA.                                      |
+| `aria.md`                                                                | WAI-ARIA 1.2 (515 KB)                                  | Only when you must hand-author ARIA (rare — native elements carry their own roles and states). Confirm a role supports an attribute before adding it                                                     | `4. Using WAI-ARIA` 464–568 · `5. The Roles Model` 569–2804 (role defs from 800) · `6. Supported States & Properties` 2805–4344 (`aria-*` defs from 2916) · `7. Accessibility Tree` 4345–4373 · `8. Implementation in Host Languages` 4374–4472 |
 
 For tutorial-style guidance and keyboard patterns, the online [WCAG 2.2 Understanding](https://www.w3.org/WAI/WCAG22/Understanding/) and the [ARIA APG](https://www.w3.org/WAI/ARIA/apg/) stay more readable than the raw spec. Verify color pairings with the [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/).

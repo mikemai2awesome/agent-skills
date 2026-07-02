@@ -121,7 +121,7 @@ Write text in normal case and uppercase it with CSS, so screen readers don't spe
 
 ## Color contrast
 
-Text must meet WCAG 2.2 AA minimum contrast ratios (grep `Contrast (Minimum)` in [wcag.md](wcag.md)) — this is one of the most commonly failed accessibility checks. Always choose foreground/background color pairs that clear these thresholds, and verify any pairing you're unsure of with the [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/).
+Text must meet WCAG 2.2 AA minimum contrast ratios (`ref_id` `1.4.3` in [wcag.json](wcag.json)) — this is one of the most commonly failed accessibility checks. Always choose foreground/background color pairs that clear these thresholds, and verify any pairing you're unsure of with the [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/).
 
 - **Normal text** (below 18pt / 14pt bold): **4.5:1** minimum
 - **Large text** (18pt+ / 14pt+ bold): **3:1** minimum

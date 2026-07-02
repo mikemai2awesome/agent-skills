@@ -99,7 +99,7 @@ The two hard rules that make live regions actually fire:
 <p aria-live="polite">3 results found.</p>
 ```
 
-If you're unsure exactly what a state or property does before hand-authoring it, confirm the definition in [aria.md](aria.md) (`aria-*` defs from line 2916); the underlying requirement is WCAG 2.2 — 4.1.3 Status Messages in [wcag.md](wcag.md).
+If you're unsure exactly what a state or property does before hand-authoring it, confirm the definition in [aria.md](aria.md) (`aria-*` defs from line 2916); the underlying requirement is WCAG 2.2 — 4.1.3 Status Messages in [wcag.json](wcag.json) (`ref_id` `4.1.3`).
 
 ## Form errors
 
