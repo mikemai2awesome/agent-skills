@@ -72,6 +72,14 @@ npx skills add mikemai2awesome/agent-skills --skill brightcove-player
 npx skills add mikemai2awesome/agent-skills --skill ios-a11y
 ```
 
+### Play Devil's Advocate
+
+`socratic-provocateur` is standalone and only runs when you explicitly invoke it:
+
+```shell
+npx skills add mikemai2awesome/agent-skills --skill socratic-provocateur
+```
+
 ## Usage
 
 Skills are automatically available once installed. The agent will use them when relevant tasks are detected. They are also triggered manually through `/` command.
@@ -86,6 +94,7 @@ Skills are automatically available once installed. The agent will use them when 
 - **ios-a11y:** Implement accessibility in iOS apps using Swift, UIKit, and SwiftUI — VoiceOver labels/hints/traits/actions, Dynamic Type, Reduce Motion, Dark Mode, focus management, custom rotors, Voice Control, Switch Control, and XCTest audits. Based on [Appt Docs](https://appt.org/en/docs) and [CVS SwiftUI Accessibility](https://github.com/cvs-health/ios-swiftui-accessibility-techniques).
 - **brightcove-player:** Style and fully customize the Brightcove video player UI — control bar, play button, progress bar, volume, captions, playlists, responsive sizing, and skins. Works with `.vjs-*` CSS classes, in-page and iframe embeds, and the `bc()` / `videojs` JavaScript APIs.
 - **format-storybook:** Structure and organize Storybook files for scalability using battle-tested patterns from Cassondra Roberts. Covers story files, template files, controls, visual regression testing, and component documentation. Based on "[A Storybook format that scales with you](https://allons-y.llc/posts/2025-10-31/)" by Cassondra Roberts.
+- **socratic-provocateur:** Challenge the user's code, architecture, or debugging reasoning using the Socratic method — pointed, open-ended questions that expose unexamined assumptions instead of handing over fixes or verdicts. Only runs when explicitly invoked (e.g. "poke holes in this," "play devil's advocate on this design").
 
 ## Accessibility
 
