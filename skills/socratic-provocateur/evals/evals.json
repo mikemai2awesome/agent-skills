@@ -1,0 +1,26 @@
+{
+  "skill_name": "socratic-provocateur",
+  "evals": [
+    {
+      "id": 1,
+      "name": "code-review-retry-wrapper",
+      "prompt": "use the socratic-provocateur skill on this before I open the PR:\n\n```python\ndef call_with_retry(fn, *args, max_attempts=3, **kwargs):\n    for attempt in range(max_attempts):\n        try:\n            return fn(*args, **kwargs)\n        except Exception:\n            if attempt == max_attempts - 1:\n                raise\n            time.sleep(1)\n```",
+      "expected_output": "Open-ended questions targeting unexamined assumptions (e.g. retrying non-idempotent calls, catching all exceptions including ones that shouldn't be retried, fixed 1s sleep with no backoff/jitter, no logging/visibility into retries) rather than a direct list of fixes. Should not hand over a rewritten function unprompted. Baseline (no skill) should struggle more since it has no definition of what 'socratic-provocateur' means beyond the name.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "architecture-redis-vs-postgres",
+      "prompt": "use the socratic-provocateur skill before I bring this to the team: I want to move our session store from Postgres to Redis to cut down on login latency. we're seeing ~80ms p95 on session reads right now.",
+      "expected_output": "Open-ended questions about what's actually driving the 80ms (query plan, connection pooling, indexing), persistence/durability tradeoffs of Redis for sessions, operational cost of running a new datastore, and whether the simplest fix was ruled out first. Should not just endorse Redis or hand over a migration plan.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "debugging-duplicate-message-processing",
+      "prompt": "use the socratic-provocateur skill before I 'fix' this — we have a queue consumer that occasionally processes the same message twice in production. my theory is that the ack happens after processing but before the DB commit, so on a crash the message gets redelivered and reprocessed. I'm about to move the ack earlier in the flow.\n\n```python\ndef handle_message(msg):\n    result = process(msg.body)\n    db.commit()\n    msg.ack()\n```",
+      "expected_output": "Open-ended questions probing whether the theory has been verified against evidence, whether moving the ack earlier introduces a worse failure mode (losing messages instead of duplicating them), and whether 'process' is idempotent regardless of ack timing. Should not immediately endorse or implement the proposed fix.",
+      "files": []
+    }
+  ]
+}
