@@ -6,7 +6,7 @@ A collection of skills for AI coding agents. Skills are packaged instructions th
 
 All skills here reflect the way Mike Mai codes.
 
-> **Before you install:** Agent skills should evolve over time and tailored specifically to your projects. When you use these skills, treat them as a starting point. Bring them into your project and customize to fit your own tech stack. As your project grows, keep evolving the skills.
+> **Before you install:** Agent skills should evolve over time and be tailored specifically to your projects. When you use these skills, treat them as a starting point. Bring them into your project and customize to fit your own tech stack. As your project grows, keep evolving the skills.
 
 ## Installation
 
