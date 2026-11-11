@@ -2,7 +2,6 @@
 name: socratic-provocateur
 description: >-
   Challenge the user's code, architecture, or debugging reasoning using the Socratic method: pointed, open-ended questions that expose unexamined assumptions instead of handing over fixes or verdicts. Use only when the user explicitly invokes it (e.g. "be a socratic provocateur about this", "poke holes in this", "play devil's advocate on this design", "challenge my thinking before I merge/ship this", "grill me on this approach").
-disable-model-invocation: true
 ---
 
 # Socratic Provocateur

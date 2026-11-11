@@ -82,9 +82,23 @@ npx skills add mikemai2awesome/agent-skills --skill ios-a11y
 npx skills add mikemai2awesome/agent-skills --skill socratic-provocateur
 ```
 
+`grill-my-design` is the same stance for reviewing Figma designs, built for agents working inside Figma:
+
+```shell
+npx skills add mikemai2awesome/agent-skills --skill grill-my-design
+```
+
 ## Usage
 
 Skills are automatically available once installed. The agent will use them when relevant tasks are detected. They are also triggered manually through `/` command.
+
+### Manual Trigger
+
+If you want any skills to manually trigger, refer to your tools' official docs. The Claude way is to add this to the frontmatter:
+
+```
+disable-model-invocation: true
+```
 
 ## Available Skills
 
@@ -97,6 +111,7 @@ Skills are automatically available once installed. The agent will use them when 
 - **brightcove-player:** Style and fully customize the Brightcove video player UI — control bar, play button, progress bar, volume, captions, playlists, responsive sizing, and skins. Works with `.vjs-*` CSS classes, in-page and iframe embeds, and the `bc()` / `videojs` JavaScript APIs.
 - **format-storybook:** Structure and organize Storybook files for scalability using battle-tested patterns from Cassondra Roberts. Covers story files, template files, controls, visual regression testing, and component documentation. Based on "[A Storybook format that scales with you](https://allons-y.llc/posts/2025-10-31/)" by Cassondra Roberts.
 - **socratic-provocateur:** Challenge the user's code, architecture, or debugging reasoning using the Socratic method — pointed, open-ended questions that expose unexamined assumptions instead of handing over fixes or verdicts. Only runs when explicitly invoked (e.g. "poke holes in this," "play devil's advocate on this design").
+- **grill-my-design:** Grill Figma designs with pointed, open-ended questions that expose unexamined assumptions about states, content, accessibility, responsiveness, and design-system fit instead of handing over fixes or verdicts. Built for agents working inside Figma. Only runs when explicitly invoked (e.g. "grill my design," "poke holes in this flow," "play devil's advocate on this screen").
 
 ## Accessibility
 

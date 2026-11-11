@@ -1,0 +1,26 @@
+{
+  "skill_name": "grill-my-design",
+  "evals": [
+    {
+      "id": 1,
+      "name": "handoff-checkout-payment-frame",
+      "prompt": "use the grill-my-design skill on my selected frame before handoff. It's 'Checkout / Payment' at 390px: one card-number form with a single default state, a primary 'Pay now' button directly under a promo code field, and a gray 'Have a promo code?' link on white. I think it's ready, just sanity check it.",
+      "expected_output": "Open-ended questions naming specific elements: missing error/declined/loading states, how the total change after a promo is communicated, single-breakpoint design, low-contrast link relying on color alone. Should not hand over a list of fixes or edit the file.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "design-system-card-component",
+      "prompt": "use the grill-my-design skill before I publish this 'Card / Article' component to the library. It has a 16:9 image, a title (2 lines, fixed height), a hard-coded #1A1A1A body color, and a variant property 'hasImage' true/false. Designed with the title 'Spring Product Launch Recap'.",
+      "expected_output": "Open-ended questions about longest realistic titles with a fixed height, hard-coded color vs tokens, what the hasImage=false variant does to layout, real content vs placeholder, and how developers will know which props are intended. Should not just endorse or rebuild the component.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "flow-onboarding-challenge-assumptions",
+      "prompt": "grill my design on this onboarding flow in Figma before I show stakeholders — 5 frames: welcome, permissions ask for notifications and location, pick interests, create account, home. My theory is that asking for permissions up front gets higher opt-in because people are most motivated right after download. I'm about to lock it.",
+      "expected_output": "Open-ended questions probing evidence for the up-front permission theory, what the user knows at that moment, the denied-permission path (no frame for it), why account creation comes after personalization, and what the home screen looks like with no permissions. Should not immediately endorse or redesign the flow.",
+      "files": []
+    }
+  ]
+}
